@@ -148,8 +148,8 @@ function showCategories() {
 
 // Список товаров
 async function showProducts(cat) {
-    showView('products');
     state.currentCategory = cat;
+    showView('products');
     await loadProducts();
 }
 
