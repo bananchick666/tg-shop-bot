@@ -87,7 +87,7 @@ function showView(name) {
     backBtn.style.visibility = name === 'categories' ? 'hidden' : 'visible';
 
     switch (name) {
-        case 'categories': title.textContent = '🛍 Flashmarket'; break;
+        case 'categories': title.textContent = '🛍 Shop'; break;
         case 'products': title.textContent = state.currentCategory === 'shoes' ? '👟 Обувь' : '📱 Техника'; break;
         case 'product': title.textContent = state.currentProduct?.brand || 'Товар'; break;
         case 'cart': title.textContent = '🛒 Корзина'; break;

@@ -97,7 +97,7 @@ app.post('/api/checkout', (req, res) => {
 // ===== БОТ =====
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const adminChatId = process.env.ADMIN_CHAT_ID;
-const WEBAPP_URL = process.env.WEBAPP_URL || 'https://your-app.onrender.com';
+const WEBAPP_URL = process.env.WEBAPP_URL || 'https://tg-shop-bot-aw6u.onrender.com';
 
 const bot = new TelegramBot(token, { polling: true });
 
