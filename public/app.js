@@ -240,6 +240,8 @@ async function showProductDetail(id) {
 function renderDetail() {
     const p = state.currentProduct;
     const c = convertPrice(p.price);
+    const isShoes = state.currentCategory === 'shoes';
+
     let html = `
         <div class="detail-gallery">
             <div class="detail-image-wrapper">
@@ -258,14 +260,26 @@ function renderDetail() {
             <div class="detail-condition">${p.condition || ''}</div>
             <div class="detail-description">${p.description}</div>`;
 
-    if (p.size) {
+    // Размер показываем только для обуви
+    if (isShoes && p.size) {
         html += `<div class="detail-section-title">Размер</div>
             <div style="font-size:16px;font-weight:600;margin-bottom:16px;">${p.size}</div>`;
     }
 
+    // Цвета (для техники)
     if (p.colors && p.colors.length) {
         html += `<div class="detail-section-title">Цвет</div>
             <div class="color-grid">${p.colors.map(cl => `<button class="color-btn${cl === state.selectedColor ? ' selected' : ''}" onclick="selColor('${cl}')">${cl}</button>`).join('')}</div>`;
+    }
+
+    // Характеристики для техники
+    if (!isShoes && p.specs) {
+        html += `<div class="detail-section-title">Характеристики</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;line-height:1.6;">`;
+        for (let key in p.specs) {
+            html += `${key}: ${p.specs[key]}<br>`;
+        }
+        html += `</div>`;
     }
 
     html += `
@@ -301,13 +315,21 @@ function selColor(c) {
 }
 
 // Корзина
-function addFromDetail() { addToCart(state.currentProduct, state.selectedColor); }
+function addFromDetail() {
+    const p = state.currentProduct;
+    const isShoes = state.currentCategory === 'shoes';
+    addToCart(p, isShoes ? p.size : null, state.selectedColor);
+}
 
-function addToCart(p, color) {
+function addToCart(p, size, color) {
     const item = {
-        id: p.id, name: p.name, price: p.price,
-        size: p.size || null, color: color || null,
-        image: p.images?.[0] || '', category: state.currentCategory
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        size: size || null,
+        color: color || null,
+        image: p.images?.[0] || '',
+        category: state.currentCategory
     };
     if (!state.cart.find(i => i.id === item.id && i.size === item.size && i.color === item.color)) {
         state.cart.push(item);
@@ -350,7 +372,7 @@ function renderCart() {
                 <img class="cart-item-image" src="${it.image}" alt="${it.name}">
                 <div class="cart-item-info">
                     <div class="cart-item-name">${it.name}</div>
-                    <div class="cart-item-meta">${it.size ? 'Размер ' + it.size : ''}${it.color ? ' | ' + it.color : ''}</div>
+                    <div class="cart-item-meta">${it.size ? 'Размер ' + it.size : ''}${it.color ? (it.size ? ' | ' : '') + it.color : ''}</div>
                     <div class="cart-item-price">${formatPrice(it.price)}</div>
                 </div>
                 <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>

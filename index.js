@@ -17,24 +17,18 @@ const token = process.env.TELEGRAM_BOT_TOKEN;
 const adminChatId = process.env.ADMIN_CHAT_ID;
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://tg-shop-bot-r1xh.onrender.com';
 const PORT = process.env.PORT || 3000;
-
-// Webhook URL
 const WEBHOOK_URL = WEBAPP_URL + '/webhook';
 
 console.log('🔑 Токен:', token ? 'ЕСТЬ' : 'НЕТ');
 console.log('📩 Admin Chat ID:', adminChatId || 'НЕ УКАЗАН');
 console.log('🌐 URL:', WEBAPP_URL);
-console.log('🪝 Webhook:', WEBHOOK_URL);
 
-// Создаём бота с webhook
 const bot = new TelegramBot(token);
 
-// Устанавливаем webhook
 bot.setWebHook(WEBHOOK_URL)
   .then(() => console.log('✅ Webhook установлен'))
   .catch(e => console.error('❌ Ошибка webhook:', e.message));
 
-// Принимаем обновления от Telegram
 app.post('/webhook', (req, res) => {
   bot.processUpdate(req.body);
   res.sendStatus(200);
@@ -84,7 +78,6 @@ app.get('/api/currency-rates', (req, res) => {
   res.json(products.currency_rates);
 });
 
-// Оформление заказа через API
 app.post('/api/checkout', async (req, res) => {
   const order = req.body;
   console.log('🆕 ЗАКАЗ через API:', order.telegramUsername);
@@ -109,8 +102,12 @@ app.post('/api/checkout', async (req, res) => {
 
 function formatAdminMessage(order) {
   const items = order.items.map((item, i) =>
-    (i + 1) + '. ' + escapeHTML(item.name) + ' | Размер: ' + (item.size || '—') + ' | Цена: ' + item.price + ' BYN'
+    (i + 1) + '. ' + escapeHTML(item.name) +
+    (item.size ? ' | Размер: ' + escapeHTML(String(item.size)) : '') +
+    (item.color ? ' | Цвет: ' + escapeHTML(item.color) : '') +
+    ' | Цена: ' + item.price + ' BYN'
   ).join('\n');
+
   const disc = order.discount > 0 ? '\n💰 Скидка: -' + order.discount + '%' : '';
   const del = order.delivery === 'pickup' ? '\n🚶 Самовывоз (Гомель)' : '\n🚚 Доставка';
   let info = '\n💬 @' + escapeHTML(order.telegramUsername || '—');
@@ -128,7 +125,7 @@ function formatUserMessage(order) {
   return '✅ <b>ЗАКАЗ ОФОРМЛЕН!</b>\n\n📦 <b>Товары:</b>\n' + items + '\n' + disc + del + '\n\n💵 <b>Итого: ' + order.total + ' BYN</b>\n\nСкоро с вами свяжутся!\nКонтакты: @bananchick666 / @glbklch';
 }
 
-// Команды бота
+// Команды
 bot.setMyCommands([{ command: '/start', description: 'Главное меню' }]);
 
 bot.onText(/\/start/, (msg) => {
@@ -156,32 +153,28 @@ bot.on('callback_query', async (query) => {
   await bot.answerCallbackQuery(query.id);
 });
 
-// Получение данных из Mini App
 bot.on('message', async (msg) => {
   if (msg.web_app_data) {
     const chatId = msg.chat.id;
     console.log('📱 WebApp данные от:', chatId);
-    
+
     try {
       const data = JSON.parse(msg.web_app_data.data);
       if (data.action === 'order') {
         const order = data.order;
         console.log('📱 Заказ:', order.telegramUsername, '| Сумма:', order.total);
 
-        // Подтверждение пользователю
         await bot.sendMessage(chatId, formatUserMessage(order), {
           parse_mode: 'HTML',
           reply_markup: { inline_keyboard: [[{ text: '🛍 Продолжить покупки', web_app: { url: WEBAPP_URL } }]] }
         });
 
-        // Сохраняем
         const ordersFile = path.join(__dirname, 'data', 'orders.json');
         let orders = [];
         try { orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')); } catch (e) {}
         orders.push({ ...order, date: new Date().toISOString(), orderId: Date.now() });
         fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
 
-        // Отправляем админу
         if (adminChatId) {
           try {
             await bot.sendMessage(adminChatId, formatAdminMessage(order), { parse_mode: 'HTML' });
