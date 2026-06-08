@@ -1,0 +1,385 @@
+{
+  "shoes": [
+    {
+      "id": 1,
+      "name": "NIKE INITIATOR",
+      "description": "Состояние отличное. Небольшая коцка на заднике.",
+      "price": 140,
+      "size": [42],
+      "sizeNote": "26,5 см",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "Отличное (коцка на заднике)",
+      "images": [
+        "images/nike_initiator_1.jpg",
+        "images/nike_initiator_2.jpg",
+         "images/nike_initiator_3.jpg",
+        "images/nike_initiator_4.jpg",
+         "images/nike_initiator_5.jpg",
+        "images/nike_initiator_6.jpg"
+        
+      ],
+      "inStock": true
+    },
+    {
+      "id": 2,
+      "name": "Adidas Samba",
+      "description": "Состояние 8,5/10. Классическая модель в отличном состоянии.",
+      "price": 140,
+      "size": [42, 43],
+      "sizeNote": "42-43",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "8,5/10",
+      "images": [
+        "images/adidas_samba_1.jpg",
+        "images/adidas_samba_2.jpg",
+        "images/adidas_samba_3.jpg",
+        "images/adidas_samba_4.jpg",
+        "images/adidas_samba_5.jpg",
+        "images/adidas_samba_6.jpg",
+        "images/adidas_samba_7.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 3,
+      "name": "Nike Shox TL Chili Pepper",
+      "description": "Состояние новое. Нет бокса. Размер 41 (26 см).",
+      "price": 400,
+      "size": [41],
+      "sizeNote": "26 см",
+      "color": "Chili Pepper",
+      "brand": "Nike",
+      "condition": "Новое (нет бокса)",
+      "images": [
+        "images/nike_shox_chili_1.jpg",
+        "images/nike_shox_chili_2.jpg",
+        "images/nike_shox_chili_3.jpg",
+        "images/nike_shox_chili_4.jpg",
+        "images/nike_shox_chili_5.jpg",
+        "images/nike_shox_chili_6.jpg"
+        
+      ],
+      "inStock": true
+    },
+    {
+      "id": 4,
+      "name": "Кеды Vans",
+      "description": "Состояние хорошее. Размер 40-41.",
+      "price": 70,
+      "size": [40, 41],
+      "sizeNote": "40-41",
+      "color": "В ассортименте",
+      "brand": "Vans",
+      "condition": "Хорошее",
+      "images": [
+        "images/vans_1.jpg",
+        "images/vans_2.jpg",
+        "images/vans_3.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 5,
+      "name": "Nike Air Max 90",
+      "description": "Состояние хорошее. Размер 40-40,5.",
+      "price": 120,
+      "size": [40],
+      "sizeNote": "40-40,5",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "Хорошее",
+      "images": [
+        "images/nike_am90_1.jpg",
+        "images/nike_am90_2.jpg",
+        "images/nike_am90_3.jpg",
+        "images/nike_am90_4.jpg",
+        "images/nike_am90_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 6,
+      "name": "Бутсы Adidas F50",
+      "description": "Состояние хорошее. Размер 38.",
+      "price": 40,
+      "size": [38],
+      "sizeNote": "38",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "Хорошее",
+      "images": [
+        "images/adidas_f50_1.jpg",
+        "images/adidas_f50_2.jpg",
+        "images/adidas_f50_3.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 7,
+      "name": "Nike Dunk High One Game",
+      "description": "Состояние отличное. Размер 44-45.",
+      "price": 220,
+      "size": [44, 45],
+      "sizeNote": "44-45",
+      "color": "One Game",
+      "brand": "Nike",
+      "condition": "Отличное",
+      "images": [
+        "images/nike_dunk_high_1.jpg",
+        "images/nike_dunk_high_2.jpg",
+        "images/nike_dunk_high_3.jpg",
+        "images/nike_dunk_high_4.jpg",
+        "images/nike_dunk_high_5.jpg",
+        "images/nike_dunk_high_6.jpg",
+        "images/nike_dunk_high_7.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 8,
+      "name": "Nike Air Max 90 Exotic Animal Pack",
+      "description": "Состояние хорошее, с боксом. Размер 42 (26,5 см).",
+      "price": 145,
+      "size": [42],
+      "sizeNote": "26,5 см",
+      "color": "Exotic Animal Pack",
+      "brand": "Nike",
+      "condition": "Хорошее (с боксом)",
+      "images": [
+        "images/nike_am90_exotic_1.jpg",
+        "images/nike_am90_exotic_2.jpg",
+        "images/nike_am90_exotic_3.jpg",
+         "images/nike_am90_exotic_4.jpg",
+        "images/nike_am90_exotic_5.jpg",
+        "images/nike_am90_exotic_6.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 9,
+      "name": "ADIDAS NIZZA",
+      "description": "Состояние отличное. Размер 44-45.",
+      "price": 145,
+      "size": [44, 45],
+      "sizeNote": "44-45",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "Отличное",
+      "images": [
+        "images/adidas_nizza_1.jpg",
+        "images/adidas_nizza_2.jpg",
+         "images/adidas_nizza_3.jpg",
+        "images/adidas_nizza_4.jpg",
+        "images/adidas_nizza_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 10,
+      "name": "ADIDAS SPEZIAL",
+      "description": "Состояние 8,5/10. Размер 45-46.",
+      "price": 135,
+      "size": [45, 46],
+      "sizeNote": "45-46",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "8,5/10",
+      "images": [
+        "images/adidas_spezial_1.jpg",
+        "images/adidas_spezial_2.jpg",
+        "images/adidas_spezial_3.jpg",
+        "images/adidas_spezial_4.jpg",
+         "images/adidas_spezial_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 11,
+      "name": "Nike Air Max 98 Chinese New Year",
+      "description": "Состояние 9,6/10. Размер 41 (26 см).",
+      "price": 230,
+      "size": [41],
+      "sizeNote": "26 см",
+      "color": "Chinese New Year",
+      "brand": "Nike",
+      "condition": "9,6/10",
+      "images": [
+        "images/nike_am98_cny_1.jpg",
+        "images/nike_am98_cny_2.jpg",
+        "images/nike_am98_cny_3.jpg",
+        "images/nike_am98_cny_4.jpg",
+        "images/nike_am98_cny_5.jpg",
+        "images/nike_am98_cny_6.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 12,
+      "name": "Nike Air Max 1 Aure Blue Midnight-Navy",
+      "description": "Состояние 10/10 (новые). Размер 42-42,5 (27 см).",
+      "price": 300,
+      "size": [42],
+      "sizeNote": "27 см",
+      "color": "Blue Midnight-Navy",
+      "brand": "Nike",
+      "condition": "10/10 (новые)",
+      "images": [
+        "images/nike_am1_blue_1.jpg"
+        
+      ],
+      "inStock": true
+    },
+    {
+      "id": 13,
+      "name": "Nike Air Max 95 Overbranding Black",
+      "description": "Состояние хорошее. Размер 43 (27,5 см).",
+      "price": 160,
+      "size": [43],
+      "sizeNote": "27,5 см",
+      "color": "Black",
+      "brand": "Nike",
+      "condition": "Хорошее",
+      "images": [
+        "images/nike_am95_black_1.jpg",
+        "images/nike_am95_black_2.jpg",
+        "images/nike_am95_black_3.jpg",
+        "images/nike_am95_black_4.jpg",
+        "images/nike_am95_black_5.jpg",
+        "images/nike_am95_black_6.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 14,
+      "name": "Nike Air Max 95 Have a Nike Day",
+      "description": "Состояние хорошее. Размер 42 (26,5 см).",
+      "price": 170,
+      "size": [42],
+      "sizeNote": "26,5 см",
+      "color": "Have a Nike Day",
+      "brand": "Nike",
+      "condition": "Хорошее",
+      "images": [
+        "images/nike_am95_nikeday_1.jpg",
+        "images/nike_am95_nikeday_2.jpg",
+        "images/nike_am95_nikeday_3.jpg",
+        "images/nike_am95_nikeday_4.jpg",
+        "images/nike_am95_nikeday_5.jpg",
+        "images/nike_am95_nikeday_6.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 15,
+      "name": "Nike Air Max TN Triple Black",
+      "description": "Состояние 7,5/10. Размер 44-45 (28,5 см).",
+      "price": 110,
+      "size": [44, 45],
+      "sizeNote": "28,5 см",
+      "color": "Triple Black",
+      "brand": "Nike",
+      "condition": "7,5/10",
+      "images": [
+        "images/nike_tn_black_1.jpg",
+        "images/nike_tn_black_2.jpg",
+        "images/nike_tn_black_3.jpg",
+        "images/nike_tn_black_4.jpg",
+        "images/nike_tn_black_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 16,
+      "name": "Nike Dunk Air Jumbo",
+      "description": "Состояние 8/10. Размер 42 (26,5 см).",
+      "price": 90,
+      "size": [42],
+      "sizeNote": "26,5 см",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "8/10",
+      "images": [
+        "images/nike_dunk_jumbo_1.jpg",
+        "images/nike_dunk_jumbo_2.jpg",
+        "images/nike_dunk_jumbo_3.jpg",
+        "images/nike_dunk_jumbo_4.jpg",
+        "images/nike_dunk_jumbo_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 17,
+      "name": "New Balance 801",
+      "description": "Состояние хорошее. Размер 41 (26 см).",
+      "price": 140,
+      "size": [41],
+      "sizeNote": "26 см",
+      "color": "В ассортименте",
+      "brand": "New Balance",
+      "condition": "Хорошее",
+      "images": [
+        "images/newbalance_801_1.jpg",
+        "images/newbalance_801_2.jpg",
+        "images/newbalance_801_3.jpg",
+        "images/newbalance_801_4.jpg"
+      ],
+      "inStock": true
+    }
+  ],
+  "tech": [
+    {
+      "id": 18,
+      "name": "Наушники EarPods (Type-C)",
+      "description": "Состояние новое. Полная комплектация. Качество 1:1.",
+      "price": 20,
+      "category": "Наушники",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "connection": "Type-C",
+        "quality": "1:1",
+        "package": "Полная комплектация"
+      },
+      "images": [
+        "images/earpods_type_c_1.jpg",
+        "images/earpods_type_c_2.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 19,
+      "name": "Геймпад SONY DUALLSHOCK 4",
+      "description": "Состояние новое. Полная комплектация. Качество 1:1. Доступны расцветки: белый, черный, зеленый, прозрачно-серый.",
+      "price": 40,
+      "category": "Геймпады",
+      "brand": "Sony (1:1)",
+      "condition": "Новое",
+      "colors": ["Белый", "Черный", "Зеленый", "Прозрачно-серый"],
+      "specs": {
+        "quality": "1:1",
+        "package": "Полная комплектация",
+        "wireless": true
+      },
+      "images": [
+        "images/dualshock4_white_1.jpg",
+        "images/dualshock4_black_1.jpg",
+        "images/dualshock4_green_1.jpg",
+        "images/dualshock4_transparent_1.jpg"
+      ],
+      "inStock": true
+    }
+  ],
+  "promocodes": {
+    "SALE10": 10,
+    "FRESHTACH": 20,
+    "FLASHMARKET": 30,
+    "QWERTY":40,
+    "SUPERSALE50":50
+  },
+  "currency_rates": {
+    "USD": 3.25,
+    "RUB": 28.5
+}
+}
