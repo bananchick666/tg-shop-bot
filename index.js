@@ -187,16 +187,17 @@ bot.on('callback_query', async (query) => {
 bot.on('message', async (msg) => {
   if (msg.web_app_data) {
     const chatId = msg.chat.id;
+    console.log('📱 Получены данные из WebApp от:', chatId);
     
     try {
       const data = JSON.parse(msg.web_app_data.data);
-      
       if (data.action === 'order') {
         const order = data.order;
+        console.log('📱 Заказ из WebApp:', JSON.stringify(order, null, 2));
         
-        const userSummary = formatOrderForUser(order);
-        
-        await bot.sendMessage(chatId, userSummary, {
+        // Отправляем подтверждение пользователю
+        const userMsg = formatUserMessage(order);
+        await bot.sendMessage(chatId, userMsg, {
           parse_mode: 'HTML',
           reply_markup: {
             inline_keyboard: [
@@ -205,23 +206,32 @@ bot.on('message', async (msg) => {
             ]
           }
         });
-        
+        console.log('✅ Подтверждение отправлено пользователю');
+
+        // Сохраняем заказ
+        const ordersFile = path.join(__dirname, 'data', 'orders.json');
+        let orders = [];
+        try { orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')); } catch (e) {}
+        orders.push({ ...order, date: new Date().toISOString(), orderId: Date.now() });
+        fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
+        console.log('💾 Заказ сохранён');
+
+        // Отправляем админу
         if (adminChatId) {
-          const adminSummary = formatOrderForAdmin(order);
-          
-          await bot.sendMessage(adminChatId, adminSummary, {
-            parse_mode: 'HTML',
-            reply_markup: {
-              inline_keyboard: [
-                [{ text: '✏️ Написать покупателю', url: 'https://t.me/' + escapeHTML(order.telegramUsername) }]
-              ]
-            }
-          });
+          try {
+            const adminMsg = formatAdminMessage(order);
+            console.log('📤 Отправляю админу на ID:', adminChatId);
+            const result = await bot.sendMessage(adminChatId, adminMsg, { parse_mode: 'HTML' });
+            console.log('✅ Уведомление админу отправлено! Message ID:', result.message_id);
+          } catch (e) {
+            console.error('❌ Ошибка отправки админу:', e.message);
+          }
+        } else {
+          console.log('⚠️ ADMIN_CHAT_ID не указан');
         }
       }
-    } catch (error) {
-      console.error('Ошибка обработки заказа:', error.message);
-      await bot.sendMessage(chatId, '❌ Произошла ошибка при оформлении заказа. Попробуйте ещё раз.');
+    } catch (e) {
+      console.error('❌ WebApp error:', e.message);
     }
   }
 });
