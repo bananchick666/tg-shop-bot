@@ -13,7 +13,6 @@ const state = {
     promocodeCode: '',
     currencyRates: { USD: 3.25, RUB: 28.5 },
     deliveryType: null,
-    selectedSize: null,
     selectedColor: null,
     viewHistory: ['categories'],
     detailImageIndex: 0,
@@ -87,11 +86,21 @@ function showView(name) {
     backBtn.style.visibility = name === 'categories' ? 'hidden' : 'visible';
 
     switch (name) {
-        case 'categories': title.textContent = '🛍 Shop'; break;
-        case 'products': title.textContent = state.currentCategory === 'shoes' ? '👟 Обувь' : '📱 Техника'; break;
-        case 'product': title.textContent = state.currentProduct?.brand || 'Товар'; break;
-        case 'cart': title.textContent = '🛒 Корзина'; break;
-        case 'checkout': title.textContent = '📋 Оформление'; break;
+        case 'categories':
+            title.textContent = 'Shop';
+            break;
+        case 'products':
+            title.textContent = state.currentCategory === 'shoes' ? 'Обувь и одежда' : 'Техника и аксессуары';
+            break;
+        case 'product':
+            title.textContent = state.currentProduct ? (state.currentProduct.brand || 'Товар') : 'Товар';
+            break;
+        case 'cart':
+            title.textContent = 'Корзина';
+            break;
+        case 'checkout':
+            title.textContent = 'Оформление';
+            break;
     }
 
     if (state.viewHistory[state.viewHistory.length - 1] !== name) {
@@ -121,7 +130,7 @@ function showCategories() {
             <div class="category-card" onclick="showProducts('shoes')">
                 <div class="category-icon">👟</div>
                 <div class="category-info">
-                    <div class="category-name">Обувь</div>
+                    <div class="category-name">Обувь и одежда</div>
                     <div class="category-desc">Кроссовки, кеды, бутсы</div>
                 </div>
                 <div class="category-arrow">›</div>
@@ -129,7 +138,7 @@ function showCategories() {
             <div class="category-card" onclick="showProducts('tech')">
                 <div class="category-icon">🎧</div>
                 <div class="category-info">
-                    <div class="category-name">Техника</div>
+                    <div class="category-name">Техника и аксессуары</div>
                     <div class="category-desc">Наушники, геймпады</div>
                 </div>
                 <div class="category-arrow">›</div>
@@ -146,10 +155,8 @@ async function showProducts(cat) {
 
 async function loadProducts() {
     const sortS = document.getElementById('sortSelect')?.value;
-    const sizeS = document.getElementById('sizeSelect')?.value;
     const params = {};
     if (sortS) { const [s, o] = sortS.split('_'); params.sort = s; params.order = o; }
-    if (sizeS) params.size = sizeS;
 
     try {
         const products = await API.getProducts(state.currentCategory, params);
@@ -162,28 +169,20 @@ async function loadProducts() {
 }
 
 function renderGrid(products) {
-    const isShoes = state.currentCategory === 'shoes';
-    const sizes = [38, 39, 40, 41, 42, 43, 44, 45, 46];
-
     document.getElementById('view-products').innerHTML = `
         <div class="filters-bar">
             <select class="filter-select" id="sortSelect" onchange="loadProducts()">
-                <option value="">🔽 Сортировка</option>
+                <option value="">Сортировка</option>
                 <option value="price_asc">Цена: по возрастанию</option>
                 <option value="price_desc">Цена: по убыванию</option>
             </select>
-            ${isShoes ? `
-            <select class="filter-select" id="sizeSelect" onchange="loadProducts()">
-                <option value="">📏 Все размеры</option>
-                ${sizes.map(s => `<option value="${s}">Размер ${s}</option>`).join('')}
-            </select>` : ''}
         </div>
         <div class="products-grid">
             ${products.length ? products.map(p => {
                 const c = convertPrice(p.price);
                 return `
                 <div class="product-card">
-                    <div class="product-image-container" id="cg-${p.id}">
+                    <div class="product-image-container">
                         <img class="product-image" src="${p.images[0]}" alt="${p.name}" data-pid="${p.id}" data-idx="0"
                              onerror="this.style.background='#f0f0f0'">
                         ${p.images.length > 1 ? `
@@ -205,7 +204,7 @@ function renderGrid(products) {
             }).join('') : '<div class="empty-state">Товары не найдены</div>'}
         </div>`;
 
-    // Галерея в ленте
+    // Галерея
     document.querySelectorAll('[data-a]').forEach(el => {
         el.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -232,7 +231,6 @@ async function showProductDetail(id) {
         if (!p) return;
         state.currentProduct = p;
         state.detailImageIndex = 0;
-        state.selectedSize = p.size ? p.size[0] : null;
         state.selectedColor = p.colors ? p.colors[0] : null;
         showView('product');
         renderDetail();
@@ -260,14 +258,13 @@ function renderDetail() {
             <div class="detail-condition">${p.condition || ''}</div>
             <div class="detail-description">${p.description}</div>`;
 
-    if (p.size && p.size.length) {
-        html += `<div class="detail-section-title">📏 Размер</div>
-            <div class="size-grid">${p.size.map(s => `<button class="size-btn${s === state.selectedSize ? ' selected' : ''}" onclick="selSize(${s})">${s}</button>`).join('')}</div>`;
-        if (p.sizeNote) html += `<div class="size-note">${p.sizeNote}</div>`;
+    if (p.size) {
+        html += `<div class="detail-section-title">Размер</div>
+            <div style="font-size:16px;font-weight:600;margin-bottom:16px;">${p.size}</div>`;
     }
 
     if (p.colors && p.colors.length) {
-        html += `<div class="detail-section-title">🎨 Цвет</div>
+        html += `<div class="detail-section-title">Цвет</div>
             <div class="color-grid">${p.colors.map(cl => `<button class="color-btn${cl === state.selectedColor ? ' selected' : ''}" onclick="selColor('${cl}')">${cl}</button>`).join('')}</div>`;
     }
 
@@ -276,7 +273,7 @@ function renderDetail() {
                 <span class="detail-price-main">${formatPrice(p.price)}</span>
                 <span class="detail-price-converted">≈ $${c.usd}<br>≈ ${c.rub} ₽</span>
             </div>
-            <button class="btn-primary" onclick="addFromDetail()">🛒 Добавить в корзину</button>
+            <button class="btn-primary" onclick="addFromDetail()">Добавить в корзину</button>
         </div>`;
 
     document.getElementById('view-product').innerHTML = html;
@@ -298,29 +295,25 @@ function updateDImg() {
     if (img) img.src = state.currentProduct.images[state.detailImageIndex];
     document.querySelectorAll('.detail-dot').forEach((d, i) => d.classList.toggle('active', i === state.detailImageIndex));
 }
-function selSize(s) {
-    state.selectedSize = s;
-    document.querySelectorAll('.size-btn').forEach(b => b.classList.toggle('selected', parseInt(b.textContent) === s));
-}
 function selColor(c) {
     state.selectedColor = c;
     document.querySelectorAll('.color-btn').forEach(b => b.classList.toggle('selected', b.textContent === c));
 }
 
 // Корзина
-function addFromDetail() { addToCart(state.currentProduct, state.selectedSize, state.selectedColor); }
+function addFromDetail() { addToCart(state.currentProduct, state.selectedColor); }
 
-function addToCart(p, size, color) {
+function addToCart(p, color) {
     const item = {
         id: p.id, name: p.name, price: p.price,
-        size: size || null, color: color || null,
+        size: p.size || null, color: color || null,
         image: p.images?.[0] || '', category: state.currentCategory
     };
     if (!state.cart.find(i => i.id === item.id && i.size === item.size && i.color === item.color)) {
         state.cart.push(item);
         saveCart();
         updateBadge();
-        toast('✅ Добавлено в корзину');
+        toast('Добавлено в корзину');
     } else {
         toast('Уже в корзине');
     }
@@ -342,16 +335,16 @@ function getTotal() {
 function showCart() { showView('cart'); renderCart(); }
 
 function renderCart() {
-    const c = document.getElementById('view-cart');
+    const ct = document.getElementById('view-cart');
     if (!state.cart.length) {
-        c.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div class="cart-empty-text">Корзина пуста</div><div class="cart-empty-sub">Добавьте товары из каталога</div></div>';
+        ct.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div class="cart-empty-text">Корзина пуста</div><div class="cart-empty-sub">Добавьте товары из каталога</div></div>';
         return;
     }
     const sub = state.cart.reduce((a, i) => a + i.price, 0);
     const total = getTotal();
     const disc = sub - total;
 
-    c.innerHTML = `
+    ct.innerHTML = `
         <div class="cart-items">${state.cart.map((it, i) => `
             <div class="cart-item">
                 <img class="cart-item-image" src="${it.image}" alt="${it.name}">
@@ -363,7 +356,7 @@ function renderCart() {
                 <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
             </div>`).join('')}</div>
         <div class="promo-section">
-            <div class="promo-label">🎫 Промокод</div>
+            <div class="promo-label">Промокод</div>
             <div class="promo-input-row">
                 <input class="promo-input" id="pi" type="text" placeholder="Введите код" value="${state.promocodeCode}">
                 <button class="btn-promo" onclick="applyPromo()">Применить</button>
@@ -375,7 +368,7 @@ function renderCart() {
             ${disc > 0 ? `<div class="summary-row summary-discount"><span>Скидка (${state.promocodeDiscount}%)</span><span>−${formatPrice(disc)}</span></div>` : ''}
             <div class="summary-row total"><span>Итого</span><span>${formatPrice(total)}</span></div>
         </div>
-        <button class="btn-checkout" onclick="startCheckout()">📦 Оформить заказ</button>`;
+        <button class="btn-checkout" onclick="startCheckout()">Оформить заказ</button>`;
 }
 
 async function applyPromo() {
@@ -388,13 +381,11 @@ async function applyPromo() {
         state.promocodeDiscount = r.discount;
         state.promocodeCode = code;
         msg.className = 'promo-message success';
-        msg.textContent = '✅ Скидка ' + r.discount + '% применена';
+        msg.textContent = 'Скидка ' + r.discount + '% применена';
         renderCart();
     } else {
-        state.promocodeDiscount = 0;
-        state.promocodeCode = '';
-        msg.className = 'promo-message error';
-        msg.textContent = '❌ Недействительный промокод';
+        state.promocodeDiscount = 0; state.promocodeCode = '';
+        msg.className = 'promo-message error'; msg.textContent = 'Недействительный промокод';
     }
 }
 
@@ -411,7 +402,7 @@ function renderCheckout() {
     document.getElementById('view-checkout').innerHTML = `
         <div class="checkout-form">
             <div class="checkout-title">Оформление заказа</div>
-            <div class="checkout-subtitle">Сумма заказа: <strong>${formatPrice(total)}</strong></div>
+            <div class="checkout-subtitle">Сумма: <strong>${formatPrice(total)}</strong></div>
             <div class="delivery-options">
                 <div class="delivery-option${state.deliveryType === 'pickup' ? ' selected' : ''}" onclick="selDel('pickup')">
                     <div class="delivery-option-icon">🚶</div>
@@ -438,49 +429,28 @@ function formFields() {
         return `
             <div class="form-section">
                 <div class="form-group">
-                    <label class="form-label">💬 Telegram username</label>
+                    <label class="form-label">Telegram username</label>
                     <input class="form-input" id="tu" type="text" placeholder="@username" value="${u}">
-                    <div class="form-hint">Для связи с вами</div>
                 </div>
             </div>
-            <button class="btn-submit" onclick="submitOrder()">✅ Подтвердить заказ</button>`;
+            <button class="btn-submit" onclick="submitOrder()">Подтвердить заказ</button>`;
     }
 
     return `
         <div class="form-section">
-            <div class="form-group">
-                <label class="form-label">👤 Фамилия</label>
-                <input class="form-input" id="ln" type="text" placeholder="Иванов">
-            </div>
-            <div class="form-group">
-                <label class="form-label">👤 Имя</label>
-                <input class="form-input" id="fn" type="text" placeholder="Иван" value="${fn}">
-            </div>
-            <div class="form-group">
-                <label class="form-label">👤 Отчество</label>
-                <input class="form-input" id="mn" type="text" placeholder="Иванович">
-            </div>
-            <div class="form-group">
-                <label class="form-label">📱 Телефон</label>
-                <input class="form-input" id="ph" type="tel" placeholder="+375 XX XXX-XX-XX">
-            </div>
-            <div class="form-group">
-                <label class="form-label">📍 Адрес Европочты</label>
-                <input class="form-input" id="ep" type="text" placeholder="Город, отделение №">
-            </div>
-            <div class="form-group">
-                <label class="form-label">💬 Telegram username</label>
-                <input class="form-input" id="tu" type="text" placeholder="@username" value="${u}">
-                <div class="form-hint">Для связи с вами</div>
-            </div>
+            <div class="form-group"><label class="form-label">Фамилия</label><input class="form-input" id="ln" type="text" placeholder="Иванов"></div>
+            <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="fn" type="text" placeholder="Иван" value="${fn}"></div>
+            <div class="form-group"><label class="form-label">Отчество</label><input class="form-input" id="mn" type="text" placeholder="Иванович"></div>
+            <div class="form-group"><label class="form-label">Телефон</label><input class="form-input" id="ph" type="tel" placeholder="+375 XX XXX-XX-XX"></div>
+            <div class="form-group"><label class="form-label">Адрес Европочты</label><input class="form-input" id="ep" type="text" placeholder="Город, отделение"></div>
+            <div class="form-group"><label class="form-label">Telegram username</label><input class="form-input" id="tu" type="text" placeholder="@username" value="${u}"></div>
         </div>
-        <button class="btn-submit" onclick="submitOrder()">✅ Подтвердить заказ</button>`;
+        <button class="btn-submit" onclick="submitOrder()">Подтвердить заказ</button>`;
 }
 
 async function submitOrder() {
     const isP = state.deliveryType === 'pickup';
     const tgU = (document.getElementById('tu')?.value || '').trim().replace('@', '');
-
     if (!tgU) { toast('Введите Telegram username'); return; }
     if (!isP) {
         if (!document.getElementById('fn')?.value.trim()) { toast('Введите имя'); return; }
@@ -490,11 +460,8 @@ async function submitOrder() {
 
     const order = {
         items: state.cart.map(i => ({ name: i.name, price: i.price, size: i.size, color: i.color })),
-        total: getTotal(),
-        discount: state.promocodeDiscount,
-        promocode: state.promocodeCode,
-        delivery: state.deliveryType,
-        telegramUsername: tgU,
+        total: getTotal(), discount: state.promocodeDiscount, promocode: state.promocodeCode,
+        delivery: state.deliveryType, telegramUsername: tgU,
         firstName: isP ? '' : (document.getElementById('fn')?.value || '').trim(),
         lastName: isP ? '' : (document.getElementById('ln')?.value || '').trim(),
         middleName: isP ? '' : (document.getElementById('mn')?.value || '').trim(),
@@ -502,35 +469,25 @@ async function submitOrder() {
         europostAddress: isP ? '' : (document.getElementById('ep')?.value || '').trim()
     };
 
-    // Отправка через Telegram WebApp
-    if (tg.sendData) {
-        tg.sendData(JSON.stringify({ action: 'order', order }));
-    }
+    if (tg.sendData) tg.sendData(JSON.stringify({ action: 'order', order }));
+    try { await API.submitOrder(order); } catch (e) {}
 
-    // Отправка на сервер (дублирование)
-    try { await API.submitOrder(order); } catch (e) { console.error(e); }
-
-    // Очистка
-    state.cart = [];
-    state.promocodeDiscount = 0;
-    state.promocodeCode = '';
-    saveCart();
-    updateBadge();
+    state.cart = []; state.promocodeDiscount = 0; state.promocodeCode = '';
+    saveCart(); updateBadge();
 
     document.getElementById('view-checkout').innerHTML = `
         <div class="checkout-form" style="text-align:center;">
             <div style="font-size:48px;margin-bottom:12px;">✅</div>
             <div class="checkout-title">Заказ оформлен!</div>
             <div class="checkout-subtitle">Скоро с вами свяжутся</div>
-            <button class="btn-primary" onclick="showCategories()" style="margin-top:16px;">🛍 Вернуться в каталог</button>
+            <button class="btn-primary" onclick="showCategories()" style="margin-top:16px;">В каталог</button>
         </div>`;
-
     setTimeout(() => tg.close(), 2500);
 }
 
 // Инициализация
 async function init() {
-    try { state.currencyRates = await API.getRates(); } catch (e) { }
+    try { state.currencyRates = await API.getRates(); } catch (e) {}
     updateBadge();
     showCategories();
     document.getElementById('backBtn').addEventListener('click', goBack);
@@ -539,5 +496,4 @@ async function init() {
         showCart();
     });
 }
-
 document.addEventListener('DOMContentLoaded', init);
