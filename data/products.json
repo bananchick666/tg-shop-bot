@@ -548,19 +548,11 @@
   ],
    
   "promocodes": {
-    "SALE10": 10,
-    "FRESHTACH": 20,
-    "FLASHMARKET": 30,
-    "QWERTY":40,
-    "SUPERSALE50":50,
-    
     "SALE20": 20,
     "WELCOME": 15,
     "SHOES5": 5,
     "WHEEL10": 10,
     "WHEEL20": 20
-
-    
   },
   "currency_rates": {
     "USD": 3.25,
