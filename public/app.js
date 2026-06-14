@@ -163,11 +163,38 @@ async function showProducts(cat) {
 
 async function loadProducts() {
     const sortS = document.getElementById('sortSelect')?.value;
+    const brandS = document.getElementById('brandSelect')?.value;
+    const sizeS = document.getElementById('sizeSelect')?.value;
+    const condS = document.getElementById('conditionSelect')?.value;
+    const priceS = document.getElementById('priceRange')?.value;
+
     const params = {};
     if (sortS) { const [s, o] = sortS.split('_'); params.sort = s; params.order = o; }
+    if (brandS) params.brand = brandS;
+    if (sizeS) params.size = sizeS;
+    if (priceS) {
+        const [min, max] = priceS.split('-');
+        params.minPrice = min;
+        params.maxPrice = max;
+    }
 
     try {
-        const products = await API.getProducts(state.currentCategory, params);
+        let products = await API.getProducts(state.currentCategory, params);
+        
+        // Фильтр по состоянию (на клиенте)
+        if (condS) {
+            products = products.filter(p => {
+                const c = (p.condition || '').toLowerCase();
+                switch (condS) {
+                    case 'new': return c.includes('новое') || c.includes('10/10');
+                    case 'excellent': return c.includes('отличное') || c.includes('9');
+                    case 'good': return c.includes('хорошее') || c.includes('8');
+                    case 'fair': return c.includes('7') || c.includes('6') || c.includes('5');
+                    default: return true;
+                }
+            });
+        }
+
         state.allProducts = products;
         renderGrid(products);
     } catch (e) {
@@ -177,14 +204,55 @@ async function loadProducts() {
 }
 
 function renderGrid(products) {
+    const isShoes = state.currentCategory === 'shoes';
+    
+    // Собираем все бренды для фильтра
+    const brands = [...new Set(products.map(p => p.brand).filter(Boolean))];
+    
     document.getElementById('view-products').innerHTML = `
         <div class="filters-bar">
             <select class="filter-select" id="sortSelect" onchange="loadProducts()">
-                <option value="">Сортировка</option>
+                <option value="">🔽 Сортировка</option>
                 <option value="price_asc">Цена: по возрастанию</option>
                 <option value="price_desc">Цена: по убыванию</option>
+                <option value="name_asc">Название: А-Я</option>
+                <option value="name_desc">Название: Я-А</option>
+            </select>
+            <select class="filter-select" id="brandSelect" onchange="loadProducts()">
+                <option value="">🏷 Все бренды</option>
+                ${brands.map(b => `<option value="${b}">${b}</option>`).join('')}
+            </select>
+            ${isShoes ? `
+            <select class="filter-select" id="sizeSelect" onchange="loadProducts()">
+                <option value="">📏 Все размеры</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+            </select>
+            <select class="filter-select" id="conditionSelect" onchange="loadProducts()">
+                <option value="">⭐ Состояние</option>
+                <option value="new">Новое / 10/10</option>
+                <option value="excellent">Отличное / 9+</option>
+                <option value="good">Хорошее / 8+</option>
+                <option value="fair">7.5 и ниже</option>
+            </select>
+            ` : ''}
+            <select class="filter-select" id="priceRange" onchange="loadProducts()">
+                <option value="">💵 Цена</option>
+                <option value="0-50">До 50 BYN</option>
+                <option value="50-100">50-100 BYN</option>
+                <option value="100-150">100-150 BYN</option>
+                <option value="150-200">150-200 BYN</option>
+                <option value="200-999">200+ BYN</option>
             </select>
         </div>
+        <div class="active-filters" id="activeFilters" style="display:none;"></div>
         <div class="products-grid">
             ${products.length ? products.map(p => {
                 const c = convertPrice(p.price);
@@ -211,6 +279,9 @@ function renderGrid(products) {
                 </div>`;
             }).join('') : '<div class="empty-state">Товары не найдены</div>'}
         </div>`;
+
+    // Показываем активные фильтры
+    showActiveFilters();
 
     // Галерея
     document.querySelectorAll('[data-a]').forEach(el => {
@@ -631,6 +702,44 @@ function spinWheel() {
             canvas.style.transition = 'none';
         }, 4200);
     });
+}
+function showActiveFilters() {
+    const container = document.getElementById('activeFilters');
+    if (!container) return;
+    
+    const filters = [];
+    const brandS = document.getElementById('brandSelect');
+    const sizeS = document.getElementById('sizeSelect');
+    const condS = document.getElementById('conditionSelect');
+    const priceS = document.getElementById('priceRange');
+
+    if (brandS?.value) filters.push({ label: 'Бренд: ' + brandS.value, id: 'brandSelect' });
+    if (sizeS?.value) filters.push({ label: 'Размер: ' + sizeS.value, id: 'sizeSelect' });
+    if (condS?.value) {
+        const labels = { new: 'Новое', excellent: 'Отличное', good: 'Хорошее', fair: '7.5 и ниже' };
+        filters.push({ label: 'Состояние: ' + (labels[condS.value] || condS.value), id: 'conditionSelect' });
+    }
+    if (priceS?.value) {
+        const [min, max] = priceS.value.split('-');
+        filters.push({ label: `Цена: ${min}-${max} BYN`, id: 'priceRange' });
+    }
+
+    if (filters.length > 0) {
+        container.style.display = 'flex';
+        container.innerHTML = filters.map(f => 
+            `<span class="filter-tag" onclick="clearFilter('${f.id}')">${f.label} ✕</span>`
+        ).join('');
+    } else {
+        container.style.display = 'none';
+    }
+}
+
+function clearFilter(filterId) {
+    const el = document.getElementById(filterId);
+    if (el) {
+        el.value = '';
+        loadProducts();
+    }
 }
 // Инициализация
 async function init() {
