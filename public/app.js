@@ -127,11 +127,19 @@ function showCategories() {
     state.viewHistory = ['categories'];
     document.getElementById('view-categories').innerHTML = `
         <div class="categories-grid">
+            <div class="category-card" onclick="showWheel()">
+                <div class="category-icon">🎡</div>
+                <div class="category-info">
+                    <div class="category-name">Колесо фортуны</div>
+                    <div class="category-desc">Крутите раз в день и получайте скидки</div>
+                </div>
+                <div class="category-arrow">›</div>
+            </div>
             <div class="category-card" onclick="showProducts('shoes')">
                 <div class="category-icon">👟</div>
                 <div class="category-info">
                     <div class="category-name">Обувь и одежда</div>
-                    <div class="category-desc">Кроссовки, кеды, бутсы</div>
+                    <div class="category-desc">Кроссовки, кеды, бутсы и другое</div>
                 </div>
                 <div class="category-arrow">›</div>
             </div>
@@ -139,7 +147,7 @@ function showCategories() {
                 <div class="category-icon">🎧</div>
                 <div class="category-info">
                     <div class="category-name">Техника и аксессуары</div>
-                    <div class="category-desc">Наушники, геймпады</div>
+                    <div class="category-desc">Наушники, геймпады и другое</div>
                 </div>
                 <div class="category-arrow">›</div>
             </div>
@@ -506,7 +514,124 @@ async function submitOrder() {
         </div>`;
     setTimeout(() => tg.close(), 2500);
 }
+// Колесо фортуны
+function showWheel() {
+    showView('wheel');
+    document.getElementById('headerTitle').textContent = 'Колесо фортуны';
+    renderWheel();
+}
 
+function renderWheel() {
+    const userId = tg.initDataUnsafe?.user?.id || 'guest';
+
+    fetch(`/api/wheel/check?userId=${userId}`)
+        .then(r => r.json())
+        .then(data => {
+            const container = document.getElementById('view-wheel');
+
+            if (!data.canSpin) {
+                const next = new Date(data.nextSpin);
+                const hours = Math.floor((next - new Date()) / 1000 / 60 / 60);
+                container.innerHTML = `
+                    <div class="wheel-container">
+                        <div class="wheel-title">🎡 Колесо фортуны</div>
+                        <div class="wheel-subtitle">Вы уже крутили сегодня</div>
+                        <div class="wheel-timer">Следующая попытка через ~${hours} ч.</div>
+                        <button class="wheel-btn" onclick="showCategories()">В каталог</button>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="wheel-container">
+                    <div class="wheel-title">🎡 Колесо фортуны</div>
+                    <div class="wheel-subtitle">Крутите раз в день и получайте скидки!</div>
+                    <div class="wheel-wrapper">
+                        <div class="wheel-pointer"></div>
+                        <canvas class="wheel-canvas" id="wheelCanvas" width="300" height="300"></canvas>
+                    </div>
+                    <button class="wheel-btn" id="spinBtn" onclick="spinWheel()">Крутить</button>
+                    <div class="wheel-result" id="wheelResult"></div>
+                </div>`;
+
+            drawWheel();
+        });
+}
+
+function drawWheel() {
+    const canvas = document.getElementById('wheelCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const centerX = 150, centerY = 150, radius = 140;
+    const sectors = ['10%', '😔', '20%', '😔', '10%', '😔', '20%', '😔'];
+    const colors = ['#e8f5e9', '#fff', '#c8e6c9', '#fff', '#e8f5e9', '#fff', '#c8e6c9', '#fff'];
+    const angle = (2 * Math.PI) / sectors.length;
+
+    sectors.forEach((label, i) => {
+        const startAngle = i * angle - Math.PI / 2;
+        const endAngle = (i + 1) * angle - Math.PI / 2;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.closePath();
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+        ctx.strokeStyle = '#ddd';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Текст
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(startAngle + angle / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#111';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.fillText(label, radius - 20, 6);
+        ctx.restore();
+    });
+}
+
+function spinWheel() {
+    const userId = tg.initDataUnsafe?.user?.id || 'guest';
+    const btn = document.getElementById('spinBtn');
+    const resultDiv = document.getElementById('wheelResult');
+    btn.disabled = true;
+    resultDiv.style.display = 'none';
+
+    fetch('/api/wheel/spin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.error) {
+            btn.disabled = false;
+            return;
+        }
+
+        const canvas = document.getElementById('wheelCanvas');
+        // Сектор data.sectorIndex
+        const sectorAngle = 360 / 8;
+        const targetAngle = 360 * 5 + (360 - data.sectorIndex * sectorAngle - sectorAngle / 2);
+        canvas.style.transform = `rotate(${targetAngle}deg)`;
+
+        setTimeout(() => {
+            if (data.discount > 0) {
+                resultDiv.className = 'wheel-result win';
+                resultDiv.innerHTML = `🎉 Вы выиграли скидку <b>${data.discount}%</b>!<br>Промокод: <b>${data.promocode}</b>`;
+            } else {
+                resultDiv.className = 'wheel-result lose';
+                resultDiv.textContent = '😔 Повезёт в следующий раз!';
+            }
+            btn.disabled = true;
+            btn.textContent = 'Готово';
+            canvas.style.transition = 'none';
+        }, 4200);
+    });
+}
 // Инициализация
 async function init() {
     try { state.currencyRates = await API.getRates(); } catch (e) {}

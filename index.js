@@ -189,7 +189,81 @@ bot.on('message', async (msg) => {
     }
   }
 });
+// Колесо фортуны
+const wheelDataFile = path.join(__dirname, 'data', 'wheel_users.json');
 
+function getWheelData() {
+  try {
+    return JSON.parse(fs.readFileSync(wheelDataFile, 'utf8'));
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveWheelData(data) {
+  fs.writeFileSync(wheelDataFile, JSON.stringify(data, null, 2));
+}
+
+app.get('/api/wheel/check', (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) return res.json({ canSpin: false });
+
+  const data = getWheelData();
+  const today = new Date().toDateString();
+  const lastSpin = data[userId];
+
+  if (lastSpin === today) {
+    res.json({ canSpin: false, nextSpin: getTomorrow() });
+  } else {
+    res.json({ canSpin: true });
+  }
+});
+
+app.post('/api/wheel/spin', (req, res) => {
+  const userId = req.body.userId;
+  if (!userId) return res.json({ error: 'no userId' });
+
+  const data = getWheelData();
+  const today = new Date().toDateString();
+
+  if (data[userId] === today) {
+    return res.json({ error: 'already spun' });
+  }
+
+  // 8 секторов: индексы 1,3,5,7 — скидки
+  const sectors = [
+    { label: '10%', discount: 10 },
+    { label: 'Пусто', discount: 0 },
+    { label: '20%', discount: 20 },
+    { label: 'Пусто', discount: 0 },
+    { label: '10%', discount: 10 },
+    { label: 'Пусто', discount: 0 },
+    { label: '20%', discount: 20 },
+    { label: 'Пусто', discount: 0 },
+  ];
+
+  // Случайный сектор
+  const sectorIndex = Math.floor(Math.random() * 8);
+  const result = sectors[sectorIndex];
+
+  // Сохраняем дату
+  data[userId] = today;
+  saveWheelData(data);
+
+  res.json({
+    sectorIndex,
+    discount: result.discount,
+    label: result.label,
+    promocode: result.discount > 0 ? 'WHEEL' + result.discount : null
+  });
+});
+
+function getTomorrow() {
+  const t = new Date();
+  t.setDate(t.getDate() + 1);
+  t.setHours(0, 0, 0, 0);
+  return t.toISOString();
+}
 app.listen(PORT, () => {
   console.log('✅ Сервер запущен на порту ' + PORT);
 });

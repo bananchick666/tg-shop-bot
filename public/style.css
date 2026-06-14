@@ -256,5 +256,94 @@ body {
     background: var(--text); color: #fff; padding: 10px 20px;
     border-radius: 4px; font-size: 13px; font-weight: 500; z-index: 200;
 }
+/* Колесо фортуны */
+.wheel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px;
+    gap: 20px;
+}
+
+.wheel-title {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.wheel-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.wheel-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.wheel-canvas {
+    width: 300px;
+    height: 300px;
+    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    z-index: 10;
+}
+
+.wheel-btn {
+    padding: 14px 40px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+}
+
+.wheel-btn:active { background: #333; }
+.wheel-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.wheel-result {
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 15px;
+    display: none;
+}
+
+.wheel-result.win {
+    display: block;
+    background: #e8f5e9;
+    color: var(--success);
+}
+
+.wheel-result.lose {
+    display: block;
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.wheel-timer {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
 
 @media (min-width: 481px) { .products-grid { grid-template-columns: 1fr 1fr 1fr; } }

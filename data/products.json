@@ -46,7 +46,7 @@
       "id": 3,
       "name": "Nike Shox TL Chili Pepper",
       "description": "Состояние новое. Нет бокса. Размер 41 (26 см).",
-      "price": 400,
+      "price": 370,
       "size": [41],
       "sizeNote": "26 см",
       "color": "Chili Pepper",
@@ -326,11 +326,186 @@
         "images/newbalance_801_4.jpg"
       ],
       "inStock": true
+    },
+     {
+      "id": 18,
+      "name": "Nike Air Jordan 1 Olivie Toe",
+      "description": "Состояние 8/10 (пятки). Размер 40,5-41.",
+      "price": 75,
+      "size": [41],
+      "sizeNote": "40,5-41",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "8/10",
+      "images": [
+        "images/nike_air_jordan_olivie_toe_1.jpg",
+        "images/nike_air_jordan_olivie_toe_2.jpg",
+        "images/nike_air_jordan_olivie_toe_3.jpg",
+        "images/nike_air_jordan_olivie_toe_4.jpg",
+        "images/nike_air_jordan_olivie_toe_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 19,
+      "name": "Nike React Element",
+      "description": "Состояние хорошее (нет стелек). Размер 42.",
+      "price": 160,
+      "size": [42],
+      "sizeNote": "42",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "хорошее",
+      "images": [
+        "images/nike_react_element_1.jpg",
+        "images/nike_react_element_2.jpg",
+        "images/nike_react_element_3.jpg",
+        "images/nike_react_element_4.jpg",
+        "images/nike_react_element_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 20,
+      "name": "Nike air jordan 11",
+      "description": "9/10. Размер 43.",
+      "price": 250,
+      "size": [43],
+      "sizeNote": "43",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "9/10",
+      "images": [
+        "images/nike_air_jordan11_1.jpg",
+        "images/nike_air_jordan11_2.jpg",
+        "images/nike_air_jordan11_3.jpg",
+        "images/nike_air_jordan11_4.jpg"
+        
+      ],
+      "inStock": true
+    },
+    {
+      "id": 21,
+      "name": "Timberland boots",
+      "description": "9/10. Размер 37-38.",
+      "price": 80,
+      "size": [38],
+      "sizeNote": "37-38",
+      "color": "В ассортименте",
+      "brand": "Timberland",
+      "condition": "9/10",
+      "images": [
+        "images/timberland_boots_1.jpg",
+        "images/timberland_boots_2.jpg",
+        "images/timberland_boots_3.jpg",
+        "images/timberland_boots_4.jpg"
+        
+      ],
+      "inStock": true
+    },
+    {
+      "id": 22,
+      "name": "Nike Dunk Panda (girls)",
+      "description": "9/10. Размер 36-37.",
+      "price": 90,
+      "size": [37],
+      "sizeNote": "36-37",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "9/10",
+      "images": [
+        "images/nike_dunk_panda_1.jpg",
+        "images/nike_dunk_panda_2.jpg",
+        "images/nike_dunk_panda_3.jpg",
+        "images/nike_dunk_panda_4.jpg",
+        "images/nike_dunk_panda_5.jpg",
+        "images/nike_dunk_panda_6.jpg"
+        
+      ],
+      "inStock": true
+    },
+    {
+      "id": 23,
+      "name": "Nike Air Max 95 Premium Volt Glow",
+      "description": "отличное. Размер 42.",
+      "price": 180,
+      "size": [42],
+      "sizeNote": "42",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "отличное",
+      "images": [
+        "images/nike_air_max95_ptemium_volt_glow42_1.jpg",
+        "images/nike_air_max95_ptemium_volt_glow42_2.jpg",
+        "images/nike_air_max95_ptemium_volt_glow42_3.jpg",
+        "images/nike_air_max95_ptemium_volt_glow42_4.jpg",
+        "images/nike_air_max95_ptemium_volt_glow42_5.jpg"
+        
+        
+      ],
+      "inStock": true
+    },
+     {
+      "id": 24,
+      "name": "Nike Air Max 95 Premium Volt Glow",
+      "description": "отличное. Размер 42,5.",
+      "price": 240,
+      "size": [42],
+      "sizeNote": "42,5",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "отличное",
+      "images": [
+        "images/nike_air_max95_ptemium_volt_glow425_1.jpg",
+        "images/nike_air_max95_ptemium_volt_glow425_2.jpg",
+        "images/nike_air_max95_ptemium_volt_glow425_3.jpg",
+        "images/nike_air_max95_ptemium_volt_glow425_4.jpg",
+        "images/nike_air_max95_ptemium_volt_glow425_5.jpg"
+        
+        
+      ],
+      "inStock": true
+    },
+     {
+      "id": 25,
+      "name": "Nike Air Max 95 Premium Volt Glow",
+      "description": "отличное. Размер 44.",
+      "price": 220,
+      "size": [44],
+      "sizeNote": "44",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "отличное",
+      "images": [
+        "images/nike_air_max95_ptemium_volt_glow44_1.jpg",
+        "images/nike_air_max95_ptemium_volt_glow44_2.jpg",
+        "images/nike_air_max95_ptemium_volt_glow44_3.jpg",
+        "images/nike_air_max95_ptemium_volt_glow44_4.jpg",
+        "images/nike_air_max95_ptemium_volt_glow44_5.jpg"
+        
+        
+      ],
+      "inStock": true
+    },
+    {
+      "id": 26,
+      "name": "Шорты nike loose fit ",
+      "description": "Состояние 8,5/10. Размер L",
+      "price": 35,
+      "brand": "Nike",
+      "condition": "8,5/10",
+      "size": [48],
+      "sizeNote": "L",
+      "color": "В ассортименте",
+      "images": [
+        "images/nike_loose_fit_1.jpg"
+      ],
+      "inStock": true
     }
   ],
   "tech": [
     {
-      "id": 18,
+      "id": 27,
       "name": "Наушники EarPods (Type-C)",
       "description": "Состояние новое. Полная комплектация. Качество 1:1.",
       "price": 20,
@@ -349,7 +524,7 @@
       "inStock": true
     },
     {
-      "id": 19,
+      "id": 28,
       "name": "Геймпад SONY DUALLSHOCK 4",
       "description": "Состояние новое. Полная комплектация. Качество 1:1. Доступны расцветки: белый, черный, зеленый, прозрачно-серый.",
       "price": 40,
@@ -371,12 +546,21 @@
       "inStock": true
     }
   ],
+   
   "promocodes": {
     "SALE10": 10,
     "FRESHTACH": 20,
     "FLASHMARKET": 30,
     "QWERTY":40,
-    "SUPERSALE50":50
+    "SUPERSALE50":50,
+    
+    "SALE20": 20,
+    "WELCOME": 15,
+    "SHOES5": 5,
+    "WHEEL10": 10,
+    "WHEEL20": 20
+
+    
   },
   "currency_rates": {
     "USD": 3.25,
