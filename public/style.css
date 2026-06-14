@@ -372,13 +372,7 @@ body {
     opacity: 0.7;
 }
 
-/* Адаптация фильтров */
-@media (max-width: 360px) {
-    .filters-bar {
-        flex-wrap: wrap;
-    }
-    .filter-select {
-        min-width: calc(50% - 6px);
-    }
+@media (min-width: 481px) {
+    .products-grid { grid-template-columns: 1fr 1fr 1fr; }
 }
 @media (min-width: 481px) { .products-grid { grid-template-columns: 1fr 1fr 1fr; } }

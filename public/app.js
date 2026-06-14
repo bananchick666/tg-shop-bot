@@ -665,43 +665,61 @@ function drawWheel() {
 }
 
 function spinWheel() {
-    const userId = tg.initDataUnsafe?.user?.id || 'guest';
     const btn = document.getElementById('spinBtn');
     const resultDiv = document.getElementById('wheelResult');
+    
+    if (!canSpinWheel()) {
+        resultDiv.className = 'wheel-result lose';
+        resultDiv.style.display = 'block';
+        resultDiv.textContent = 'Вы уже крутили сегодня';
+        return;
+    }
+
     btn.disabled = true;
     resultDiv.style.display = 'none';
 
-    fetch('/api/wheel/spin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId })
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.error) {
-            btn.disabled = false;
-            return;
+    const results = [
+        { discount: 10, label: '10%', promocode: 'WHEEL10' },
+        { discount: 0, label: 'Пусто', promocode: null },
+        { discount: 20, label: '20%', promocode: 'WHEEL20' },
+        { discount: 0, label: 'Пусто', promocode: null },
+        { discount: 10, label: '10%', promocode: 'WHEEL10' },
+        { discount: 0, label: 'Пусто', promocode: null },
+        { discount: 20, label: '20%', promocode: 'WHEEL20' },
+        { discount: 0, label: 'Пусто', promocode: null },
+    ];
+
+    const sectorIndex = Math.floor(Math.random() * 8);
+    const result = results[sectorIndex];
+
+    // Сохраняем дату
+    setWheelSpinDate();
+
+    // Крутим
+    const canvas = document.getElementById('wheelCanvas');
+    const sectorAngle = 360 / 8;
+    const spins = 5;
+    const targetAngle = 360 * spins + (360 - sectorIndex * sectorAngle - sectorAngle / 2);
+    canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+    canvas.style.transform = `rotate(${targetAngle}deg)`;
+
+    setTimeout(() => {
+        resultDiv.style.display = 'block';
+        if (result.discount > 0) {
+            resultDiv.className = 'wheel-result win';
+            resultDiv.innerHTML = `🎉 Вы выиграли скидку <b>${result.discount}%</b>!<br>Промокод: <b>${result.promocode}</b><br><small>Уже применён к корзине</small>`;
+            
+            // АВТОМАТИЧЕСКИ ПРИМЕНЯЕМ ПРОМОКОД
+            state.promocodeDiscount = result.discount;
+            state.promocodeCode = result.promocode;
+            saveCart();
+            toast('🎉 Промокод ' + result.promocode + ' на ' + result.discount + '% применён!');
+        } else {
+            resultDiv.className = 'wheel-result lose';
+            resultDiv.textContent = '😔 Повезёт в следующий раз! Приходите завтра';
         }
-
-        const canvas = document.getElementById('wheelCanvas');
-        // Сектор data.sectorIndex
-        const sectorAngle = 360 / 8;
-        const targetAngle = 360 * 5 + (360 - data.sectorIndex * sectorAngle - sectorAngle / 2);
-        canvas.style.transform = `rotate(${targetAngle}deg)`;
-
-        setTimeout(() => {
-            if (data.discount > 0) {
-                resultDiv.className = 'wheel-result win';
-                resultDiv.innerHTML = `🎉 Вы выиграли скидку <b>${data.discount}%</b>!<br>Промокод: <b>${data.promocode}</b>`;
-            } else {
-                resultDiv.className = 'wheel-result lose';
-                resultDiv.textContent = '😔 Повезёт в следующий раз!';
-            }
-            btn.disabled = true;
-            btn.textContent = 'Готово';
-            canvas.style.transition = 'none';
-        }, 4200);
-    });
+        btn.textContent = 'Готово';
+    }, 4200);
 }
 function showActiveFilters() {
     const container = document.getElementById('activeFilters');
