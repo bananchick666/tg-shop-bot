@@ -361,6 +361,39 @@ body {
     border-radius: 4px; font-size: 13px; font-weight: 500; z-index: 200;
 }
 
+/* Нет в наличии */
+.product-card.out-of-stock {
+    opacity: 0.55;
+    filter: grayscale(100%);
+}
+.product-card.out-of-stock .product-image-container::after {
+    content: 'Нет в наличии';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+.out-of-stock-badge {
+    display: inline-block;
+    background: #eee;
+    color: #999;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
 @media (min-width: 481px) {
     .products-grid { grid-template-columns: 1fr 1fr 1fr; }
 }

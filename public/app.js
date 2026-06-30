@@ -194,7 +194,7 @@ function renderGrid(products) {
             ${products.length ? products.map(p => {
                 const c = convertPrice(p.price);
                 return `
-                <div class="product-card">
+                <div class="product-card${!p.inStock ? ' out-of-stock' : ''}">
                     <div class="product-image-container">
                         <img class="product-image" src="${p.images[0]}" data-pid="${p.id}" data-idx="0" onerror="this.style.background='#f0f0f0'">
                         ${p.images.length > 1 ? `
@@ -208,7 +208,7 @@ function renderGrid(products) {
                     <div class="product-info" onclick="showProductDetail(${p.id})">
                         <div class="product-brand">${p.brand||''}</div>
                         <div class="product-name">${p.name}</div>
-                        <div class="product-condition">${p.condition||''}</div>
+                        <div class="product-condition">${p.condition||''}${!p.inStock ? '<span class="out-of-stock-badge">Нет в наличии</span>' : ''}</div>
                         <div class="product-price">${formatPrice(p.price)}</div>
                         <div class="product-price-other">≈ $${c.usd} / ${c.rub} ₽</div>
                     </div>
@@ -296,7 +296,7 @@ function renderDetail() {
     if (p.colors?.length) html += `<div class="detail-section-title">Цвет</div><div class="color-grid">${p.colors.map(cl => `<button class="color-btn${cl===state.selectedColor?' selected':''}" onclick="selColor('${cl}')">${cl}</button>`).join('')}</div>`;
 
     html += `<div class="detail-price-block"><span class="detail-price-main">${formatPrice(p.price)}</span><span class="detail-price-converted">≈ $${c.usd}<br>≈ ${c.rub} ₽</span></div>
-        <button class="btn-primary" onclick="addFromDetail()">Добавить в корзину</button></div>`;
+        <button class="btn-primary" ${!p.inStock ? 'disabled' : ''} onclick="addFromDetail()">${p.inStock ? 'Добавить в корзину' : 'Нет в наличии'}</button></div>`;
     document.getElementById('view-product').innerHTML = html;
 }
 
@@ -307,7 +307,11 @@ function updateDImg() { const img = document.getElementById('dimg'); if (img) im
 function selColor(c) { state.selectedColor = c; document.querySelectorAll('.color-btn').forEach(b => b.classList.toggle('selected', b.textContent === c)); }
 
 // Корзина
-function addFromDetail() { const p = state.currentProduct; addToCart(p, state.currentCategory === 'shoes' ? p.size : null, state.selectedColor); }
+function addFromDetail() {
+    const p = state.currentProduct;
+    if (!p.inStock) { toast('Товара нет в наличии'); return; }
+    addToCart(p, state.currentCategory === 'shoes' ? p.size : null, state.selectedColor);
+}
 function addToCart(p, size, color) {
     const item = { id: p.id, name: p.name, price: p.price, size: size || null, color: color || null, image: p.images?.[0] || '' };
     if (!state.cart.find(i => i.id === item.id && i.size === item.size && i.color === item.color)) { state.cart.push(item); saveCart(); updateBadge(); toast('Добавлено в корзину'); }
