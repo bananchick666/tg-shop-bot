@@ -19,7 +19,7 @@
         "images/nike_initiator_6.jpg"
         
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 2,
@@ -46,7 +46,7 @@
       "id": 3,
       "name": "Nike Shox TL Chili Pepper",
       "description": "Состояние новое. Нет бокса. Размер 41 (26 см).",
-      "price": 370,
+      "price": 360,
       "size": [41],
       "sizeNote": "26 см",
       "color": "Chili Pepper",
@@ -174,7 +174,7 @@
         "images/adidas_nizza_4.jpg",
         "images/adidas_nizza_5.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 10,
@@ -350,7 +350,7 @@
       "id": 19,
       "name": "Nike React Element",
       "description": "Состояние хорошее (нет стелек). Размер 42.",
-      "price": 160,
+      "price": 110,
       "size": [42],
       "sizeNote": "42",
       "color": "В ассортименте",
@@ -422,12 +422,12 @@
         "images/nike_dunk_panda_6.jpg"
         
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 23,
       "name": "Nike Air Max 95 Premium Volt Glow",
-      "description": "отличное. Размер 42.",
+      "description": "Состояние отличное. Размер 42.",
       "price": 180,
       "size": [42],
       "sizeNote": "42",
@@ -448,7 +448,7 @@
      {
       "id": 24,
       "name": "Nike Air Max 95 Premium Volt Glow",
-      "description": "отличное. Размер 42,5.",
+      "description": "Состояние отличное. Размер 42,5.",
       "price": 240,
       "size": [42],
       "sizeNote": "42,5",
@@ -469,7 +469,7 @@
      {
       "id": 25,
       "name": "Nike Air Max 95 Premium Volt Glow",
-      "description": "отличное. Размер 44.",
+      "description": "Состояние отличное. Размер 44.",
       "price": 220,
       "size": [44],
       "sizeNote": "44",
@@ -491,7 +491,7 @@
       "id": 26,
       "name": "Шорты nike loose fit ",
       "description": "Состояние 8,5/10. Размер L",
-      "price": 35,
+      "price": 20,
       "brand": "Nike",
       "condition": "8,5/10",
       "size": [48],
@@ -501,11 +501,155 @@
         "images/nike_loose_fit_1.jpg"
       ],
       "inStock": true
+    },
+
+    {
+      "id": 34,
+      "name": "Adidas Court Star slim",
+      "description": "Состояние хорошее. Размер 40.",
+      "price": 75,
+      "size": [40],
+      "sizeNote": "40",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "хорошее",
+      "images": [
+        "images/adidas_court_star_slim_1.jpg",
+        "images/adidas_court_star_slim_2.jpg",
+        "images/adidas_court_star_slim_3.jpg",
+        "images/adidas_court_star_slim_4.jpg",
+        "images/adidas_court_star_slim_5.jpg"
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 35,
+      "name": "Nike Dunk Safari ",
+      "description": "Состояние хорошее. Размер 42-43.",
+      "price": 165,
+      "size": [42],
+      "sizeNote": "42-43",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "хорошее",
+      "images": [
+        "images/nike_dunk_safari_1.jpg",
+        "images/nike_dunk_safari_2.jpg",
+        "images/nike_dunk_safari_3.jpg",
+        "images/nike_dunk_safari_4.jpg",
+        "images/nike_dunk_safari_5.jpg"
+       
+      ],
+      "inStock": false
     }
   ],
+
   "tech": [
     {
       "id": 27,
+      "name": "Power Adapter 20W",
+      "description": "Мощность 20 Вт. Type-C коннектор. Компактный адаптер для быстрой зарядки.",
+      "price": 20,
+      "category": "Зарядные устройства",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "Мощность": "20 Вт",
+        "Разъём": "Type-C"
+      },
+      "images": [
+        "images/power_adapter_1.jpg",
+        "images/power_adapter_2.jpg",
+        "images/power_adapter_3.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 28,
+      "name": "AirPods Pro 2 (бюджетная версия)",
+      "description": "Комплект: кабель Type-C, зарядный кейс, упаковка. Bluetooth подключение.",
+      "price": 20,
+      "category": "Наушники",
+      "brand": "Apple (бюджет)",
+      "condition": "Новое",
+      "specs": {
+        "Комплект": "Кабель, кейс, упаковка",
+        "Подключение": "Bluetooth"
+      },
+      "images": [
+        "images/airpods_budget_1.jpg",
+        "images/airpods_budget_2.jpg",
+        "images/airpods_budget_3.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 29,
+      "name": "MagSafe Charger",
+      "description": "Мощность до 25 Вт (зависит от блока питания). Type-C коннектор. Беспроводная зарядка.",
+      "price": 25,
+      "category": "Зарядные устройства",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "Мощность": "до 25 Вт",
+        "Разъём": "Type-C",
+        "Тип": "Беспроводная"
+      },
+      "images": [
+        "images/magsafe_charger_1.jpg",
+        "images/magsafe_charger_2.jpg",
+        "images/magsafe_charger_3.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 30,
+      "name": "MagSafe Battery Pack",
+      "description": "АКБ 5000 mAh. Мощность зарядки 5-9 Вт. Type-C коннектор. Реверсивная зарядка.",
+      "price": 30,
+      "category": "Аксессуары",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "Ёмкость": "5000 mAh",
+        "Мощность": "5-9 Вт",
+        "Разъём": "Type-C",
+        "Особенность": "Реверсивная зарядка"
+      },
+      "images": [
+        "images/magsafe_battery_1.jpg",
+        "images/magsafe_battery_2.jpg",
+         "images/magsafe_battery_3.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 31,
+      "name": "AirPods Pro 2",
+      "description": "Комплект: кабель Type-C, доп. вкладыши, инструкция, упаковка, зарядный кейс. Bluetooth, шумоподавление, прозрачность, сенсорное управление, пространственное аудио.",
+      "price": 35,
+      "category": "Наушники",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "Подключение": "Bluetooth",
+        "Шумоподавление": "Активное",
+        "Управление": "Сенсорное",
+        "Аудио": "Пространственное"
+      },
+      "images": [
+        "images/airpods_pro2_1.jpg",
+        "images/airpods_pro2_2.jpg",
+        "images/airpods_pro2_3.jpg",
+        "images/airpods_pro2_4.jpg",
+        "images/airpods_pro2_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 32,
       "name": "Наушники EarPods (Type-C)",
       "description": "Состояние новое. Полная комплектация. Качество 1:1.",
       "price": 20,
@@ -513,9 +657,9 @@
       "brand": "Apple (1:1)",
       "condition": "Новое",
       "specs": {
-        "connection": "Type-C",
-        "quality": "1:1",
-        "package": "Полная комплектация"
+        "Подключение": "Type-C",
+        "Качество": "1:1",
+        "Комплектация": "Полная"
       },
       "images": [
         "images/earpods_type_c_1.jpg",
@@ -524,7 +668,7 @@
       "inStock": true
     },
     {
-      "id": 28,
+      "id": 33,
       "name": "Геймпад SONY DUALLSHOCK 4",
       "description": "Состояние новое. Полная комплектация. Качество 1:1. Доступны расцветки: белый, черный, зеленый, прозрачно-серый.",
       "price": 40,
@@ -533,9 +677,9 @@
       "condition": "Новое",
       "colors": ["Белый", "Черный", "Зеленый", "Прозрачно-серый"],
       "specs": {
-        "quality": "1:1",
-        "package": "Полная комплектация",
-        "wireless": true
+        "Качество": "1:1",
+        "Комплектация": "Полная",
+        "Беспроводной": "Да"
       },
       "images": [
         "images/dualshock4_white_1.jpg",
@@ -548,9 +692,6 @@
   ],
    
   "promocodes": {
-    "SALE20": 20,
-    "WELCOME": 15,
-    "SHOES5": 5,
     "WHEEL10": 10,
     "WHEEL20": 20
   },

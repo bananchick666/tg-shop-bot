@@ -89,12 +89,12 @@ function showCategories() {
             </div>
             <div class="category-card" onclick="showProducts('shoes')">
                 <div class="category-icon">👟</div>
-                <div class="category-info"><div class="category-name">Обувь и одежда</div><div class="category-desc">Кроссовки, кеды, бутсы</div></div>
+                <div class="category-info"><div class="category-name">Обувь и одежда</div><div class="category-desc">Кроссовки, кеды, бутсы и другое</div></div>
                 <div class="category-arrow">›</div>
             </div>
             <div class="category-card" onclick="showProducts('tech')">
                 <div class="category-icon">🎧</div>
-                <div class="category-info"><div class="category-name">Техника и аксессуары</div><div class="category-desc">Наушники, геймпады</div></div>
+                <div class="category-info"><div class="category-name">Техника и аксессуары</div><div class="category-desc">Наушники, геймпады и другое</div></div>
                 <div class="category-arrow">›</div>
             </div>
         </div>`;
