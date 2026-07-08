@@ -542,7 +542,330 @@
        
       ],
       "inStock": false
+    },
+
+    {
+      "id": 36,
+      "name": "Stone island hoodie Blue",
+      "description": "Состояние хорошее. Размер L.",
+      "price": 370,
+      "size": [48],
+      "sizeNote": "L",
+      "color": "В ассортименте",
+      "brand": "Stone island",
+      "condition": "хорошее",
+      "images": [
+        "images/stone_island_hoodie_1.jpg",
+        "images/stone_island_hoodie_2.jpg",
+        "images/stone_island_hoodie_3.jpg",
+        "images/stone_island_hoodie_4.jpg",
+        "images/stone_island_hoodie_5.jpg"
+        
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 37,
+      "name": "Stone island hoodie Black",
+      "description": "Состояние 8,5/10(нет патча). Размер XL.",
+      "price": 270,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "Stone island",
+      "condition": "8,5/10(нет патча)",
+      "images": [
+        "images/stone_island_hoodie_black_1.jpg"
+        
+        
+      ],
+      "inStock": true
+    },
+     {
+      "id": 38,
+      "name": "Nike Tech Fleece Blue",
+      "description": "Состояние хорошее. Размер M.",
+      "price": 90,
+      "size": [46],
+      "sizeNote": "M",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "хорошее",
+      "images": [
+        "images/nike_tech_fleece_1.jpg",
+         "images/nike_tech_fleece_2.jpg",
+          "images/nike_tech_fleece_3.jpg"
+        
+        
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 39,
+      "name": "Carhartt Hoodie Green",
+      "description": "Состояние 8,5/10. Размер S/M.",
+      "price": 55,
+      "size": [44],
+      "sizeNote": "S/M",
+      "color": "В ассортименте",
+      "brand": "Carhartt",
+      "condition": "8,5/10",
+      "images": [
+        "images/carhartt_hoodie_green_1.jpg"
+        
+        
+        
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 40,
+      "name": "2 Pac vintage tee big logo",
+      "description": "Состояние хорошее. Размер M/L.",
+      "price": 50,
+      "size": [46],
+      "sizeNote": "M/L",
+      "color": "В ассортименте",
+      "brand": "2 Pac",
+      "condition": "хорошее",
+      "images": [
+        "images/2pac_vintage_tee_biglogo_1.jpg"
+        
+        
+        
+        
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 41,
+      "name": "2 Pac vintage tee box logo",
+      "description": "Состояние хорошее. Размер M/L.",
+      "price": 50,
+      "size": [46],
+      "sizeNote": "M/L",
+      "color": "В ассортименте",
+      "brand": "2 Pac",
+      "condition": "хорошее",
+      "images": [
+        "images/2pac_vintage_tee_boxlogo_1.jpg",
+        "images/2pac_vintage_tee_boxlogo_2.jpg"
+      
+        
+        
+        
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 42,
+      "name": "Armani Jeans vintage",
+      "description": "Состояние 9/10. Размер M.",
+      "price": 70,
+      "size": [46],
+      "sizeNote": "M",
+      "color": "В ассортименте",
+      "brand": "Armani",
+      "condition": "9/10",
+      "images": [
+        "images/armani_vintage_jeans_1.jpg",
+        "images/armani_vintage_jeans_2.jpg",
+        "images/armani_vintage_jeans_3.jpg",
+        "images/armani_vintage_jeans_4.jpg"
+        
+      
+        
+        
+        
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 43,
+      "name": "Nike Air Max 1 Neon",
+      "description": "Состояние хорошее. Размер 41.",
+      "price": 90,
+      "size": [41],
+      "sizeNote": "41",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "хорошее",
+      "images": [
+        "images/nike_air_max_neon_1.jpg",
+        "images/nike_air_max_neon_2.jpg",
+        "images/nike_air_max_neon_3.jpg",
+        "images/nike_air_max_neon_4.jpg",
+        "images/nike_air_max_neon_5.jpg",
+        "images/nike_air_max_neon_6.jpg"
+        
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 44,
+      "name": "Nike Air Zoom Pegasus 36",
+      "description": "Состояние хорошее. Размер 41.",
+      "price": 150,
+      "size": [41],
+      "sizeNote": "41",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "хорошее",
+      "images": [
+        "images/nike_air_zoom_pegasus36_1.jpg",
+        "images/nike_air_zoom_pegasus36_2.jpg",
+        "images/nike_air_zoom_pegasus36_3.jpg",
+        "images/nike_air_zoom_pegasus36_4.jpg",
+        "images/nike_air_zoom_pegasus36_5.jpg"
+        
+        
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 45,
+      "name": "Nike Air Force 1 React",
+      "description": "Состояние 8,5/10. Размер 45.",
+      "price": 130,
+      "size": [45],
+      "sizeNote": "45",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "8,5/10",
+      "images": [
+        "images/nike_air_force1_react_1.jpg",
+        "images/nike_air_force1_react_2.jpg",
+        "images/nike_air_force1_react_3.jpg",
+        "images/nike_air_force1_react_4.jpg",
+        "images/nike_air_force1_react_5.jpg",
+        "images/nike_air_force1_react_6.jpg"
+        
+        
+        
+       
+      ],
+      "inStock": true
+    },
+
+     {
+      "id": 46,
+      "name": "Nike Zoom Pegasus 32",
+      "description": "Состояние хорошее. Размер 40-41.",
+      "price": 150,
+      "size": [41],
+      "sizeNote": "40-41",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "хорошее",
+      "images": [
+        "images/nike_air_zoom_pegasus32_1.jpg",
+        "images/nike_air_zoom_pegasus32_2.jpg",
+        "images/nike_air_zoom_pegasus32_3.jpg",
+        "images/nike_air_zoom_pegasus32_4.jpg",
+        "images/nike_air_zoom_pegasus32_5.jpg"
+        
+        
+        
+        
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 47,
+      "name": "Adidas Nizza Platform",
+      "description": "Состояние 8,5/10. Размер 40.",
+      "price": 140,
+      "size": [40],
+      "sizeNote": "40",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "8,5/10",
+      "images": [
+        "images/adidas_nizza_platform_1.jpg",
+        "images/adidas_nizza_platform_2.jpg",
+        "images/adidas_nizza_platform_3.jpg",
+        "images/adidas_nizza_platform_4.jpg",
+        "images/adidas_nizza_platform_5.jpg",
+        "images/adidas_nizza_platform_6.jpg"
+        
+        
+        
+        
+        
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 48,
+      "name": "Adidas neo",
+      "description": "Состояние 8,5/10. Размер 39-40.",
+      "price": 130,
+      "size": [40],
+      "sizeNote": "39-40",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "8,5/10",
+      "images": [
+        "images/adidas_neo_1.jpg",
+        "images/adidas_neo_2.jpg",
+        "images/adidas_neo_3.jpg",
+        "images/adidas_neo_4.jpg",
+        "images/adidas_neo_5.jpg",
+        "images/adidas_neo_6.jpg"
+        
+        
+        
+        
+        
+        
+       
+      ],
+      "inStock": true
+    },
+
+     {
+      "id": 49,
+      "name": "Nike React Vision",
+      "description": "Состояние хорошее. Размер 44(28 см).",
+      "price": 160,
+      "size": [44],
+      "sizeNote": "44(28 см)",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "хорошее",
+      "images": [
+        "images/nike_react_vision_1.jpg",
+        "images/nike_react_vision_2.jpg",
+        "images/nike_react_vision_3.jpg",
+        "images/nike_react_vision_4.jpg",
+        "images/nike_react_vision_5.jpg",
+        "images/nike_react_vision_6.jpg"
+        
+        
+        
+        
+        
+        
+        
+       
+      ],
+      "inStock": true
     }
+
   ],
 
   "tech": [
@@ -550,7 +873,7 @@
       "id": 27,
       "name": "Power Adapter 20W",
       "description": "Мощность 20 Вт. Type-C коннектор. Компактный адаптер для быстрой зарядки.",
-      "price": 20,
+      "price": 15,
       "category": "Зарядные устройства",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -569,7 +892,7 @@
       "id": 28,
       "name": "AirPods Pro 2 (бюджетная версия)",
       "description": "Комплект: кабель Type-C, зарядный кейс, упаковка. Bluetooth подключение.",
-      "price": 20,
+      "price": 15,
       "category": "Наушники",
       "brand": "Apple (бюджет)",
       "condition": "Новое",
@@ -588,7 +911,7 @@
       "id": 29,
       "name": "MagSafe Charger",
       "description": "Мощность до 25 Вт (зависит от блока питания). Type-C коннектор. Беспроводная зарядка.",
-      "price": 25,
+      "price": 20,
       "category": "Зарядные устройства",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -608,7 +931,7 @@
       "id": 30,
       "name": "MagSafe Battery Pack",
       "description": "АКБ 5000 mAh. Мощность зарядки 5-9 Вт. Type-C коннектор. Реверсивная зарядка.",
-      "price": 30,
+      "price": 25,
       "category": "Аксессуары",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -623,13 +946,13 @@
         "images/magsafe_battery_2.jpg",
          "images/magsafe_battery_3.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 31,
       "name": "AirPods Pro 2",
       "description": "Комплект: кабель Type-C, доп. вкладыши, инструкция, упаковка, зарядный кейс. Bluetooth, шумоподавление, прозрачность, сенсорное управление, пространственное аудио.",
-      "price": 35,
+      "price": 30,
       "category": "Наушники",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -652,7 +975,7 @@
       "id": 32,
       "name": "Наушники EarPods (Type-C)",
       "description": "Состояние новое. Полная комплектация. Качество 1:1.",
-      "price": 20,
+      "price": 15,
       "category": "Наушники",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -671,7 +994,7 @@
       "id": 33,
       "name": "Геймпад SONY DUALLSHOCK 4",
       "description": "Состояние новое. Полная комплектация. Качество 1:1. Доступны расцветки: белый, черный, зеленый, прозрачно-серый.",
-      "price": 40,
+      "price": 30,
       "category": "Геймпады",
       "brand": "Sony (1:1)",
       "condition": "Новое",
