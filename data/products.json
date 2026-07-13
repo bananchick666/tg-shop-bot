@@ -135,7 +135,7 @@
         "images/nike_dunk_high_6.jpg",
         "images/nike_dunk_high_7.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 8,
@@ -633,8 +633,7 @@
       "condition": "хорошее",
       "images": [
         "images/2pac_vintage_tee_biglogo_1.jpg"
-        
-        
+
         
         
       ],
@@ -654,9 +653,7 @@
       "images": [
         "images/2pac_vintage_tee_boxlogo_1.jpg",
         "images/2pac_vintage_tee_boxlogo_2.jpg"
-      
-        
-        
+  
         
       ],
       "inStock": true
@@ -677,11 +674,7 @@
         "images/armani_vintage_jeans_2.jpg",
         "images/armani_vintage_jeans_3.jpg",
         "images/armani_vintage_jeans_4.jpg"
-        
-      
-        
-        
-        
+  
       ],
       "inStock": true
     },
@@ -703,10 +696,9 @@
         "images/nike_air_max_neon_4.jpg",
         "images/nike_air_max_neon_5.jpg",
         "images/nike_air_max_neon_6.jpg"
-        
-       
+
       ],
-      "inStock": true
+      "inStock": false
     },
 
     {
@@ -725,9 +717,7 @@
         "images/nike_air_zoom_pegasus36_3.jpg",
         "images/nike_air_zoom_pegasus36_4.jpg",
         "images/nike_air_zoom_pegasus36_5.jpg"
-        
-        
-       
+   
       ],
       "inStock": true
     },
@@ -749,10 +739,7 @@
         "images/nike_air_force1_react_4.jpg",
         "images/nike_air_force1_react_5.jpg",
         "images/nike_air_force1_react_6.jpg"
-        
-        
-        
-       
+   
       ],
       "inStock": true
     },
@@ -773,11 +760,7 @@
         "images/nike_air_zoom_pegasus32_3.jpg",
         "images/nike_air_zoom_pegasus32_4.jpg",
         "images/nike_air_zoom_pegasus32_5.jpg"
-        
-        
-        
-        
-       
+
       ],
       "inStock": true
     },
@@ -799,12 +782,7 @@
         "images/adidas_nizza_platform_4.jpg",
         "images/adidas_nizza_platform_5.jpg",
         "images/adidas_nizza_platform_6.jpg"
-        
-        
-        
-        
-        
-       
+    
       ],
       "inStock": true
     },
@@ -826,13 +804,7 @@
         "images/adidas_neo_4.jpg",
         "images/adidas_neo_5.jpg",
         "images/adidas_neo_6.jpg"
-        
-        
-        
-        
-        
-        
-       
+  
       ],
       "inStock": true
     },
@@ -854,14 +826,29 @@
         "images/nike_react_vision_4.jpg",
         "images/nike_react_vision_5.jpg",
         "images/nike_react_vision_6.jpg"
+    
+      ],
+      "inStock": true
+    },
+      {
+      "id": 50,
+      "name": "Adidas Stan Smith * Raf Simons",
+      "description": "Состояние 8/10. Размер 38-39.",
+      "price": 120,
+      "size": [39],
+      "sizeNote": "38-39",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "8/10",
+      "images": [
+        "images/adidas_stan_smith_raf_simons_1.jpg",
+        "images/adidas_stan_smith_raf_simons_2.jpg",
+        "images/adidas_stan_smith_raf_simons_3.jpg",
+        "images/adidas_stan_smith_raf_simons_4.jpg",
+        "images/adidas_stan_smith_raf_simons_5.jpg",
+        "images/adidas_stan_smith_raf_simons_6.jpg"
         
-        
-        
-        
-        
-        
-        
-       
+      
       ],
       "inStock": true
     }
@@ -873,7 +860,7 @@
       "id": 27,
       "name": "Power Adapter 20W",
       "description": "Мощность 20 Вт. Type-C коннектор. Компактный адаптер для быстрой зарядки.",
-      "price": 15,
+      "price": 20,
       "category": "Зарядные устройства",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -892,7 +879,7 @@
       "id": 28,
       "name": "AirPods Pro 2 (бюджетная версия)",
       "description": "Комплект: кабель Type-C, зарядный кейс, упаковка. Bluetooth подключение.",
-      "price": 15,
+      "price": 20,
       "category": "Наушники",
       "brand": "Apple (бюджет)",
       "condition": "Новое",
@@ -905,7 +892,7 @@
         "images/airpods_budget_2.jpg",
         "images/airpods_budget_3.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 29,
@@ -931,7 +918,7 @@
       "id": 30,
       "name": "MagSafe Battery Pack",
       "description": "АКБ 5000 mAh. Мощность зарядки 5-9 Вт. Type-C коннектор. Реверсивная зарядка.",
-      "price": 25,
+      "price": 30,
       "category": "Аксессуары",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -952,7 +939,7 @@
       "id": 31,
       "name": "AirPods Pro 2",
       "description": "Комплект: кабель Type-C, доп. вкладыши, инструкция, упаковка, зарядный кейс. Bluetooth, шумоподавление, прозрачность, сенсорное управление, пространственное аудио.",
-      "price": 30,
+      "price": 35,
       "category": "Наушники",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -969,13 +956,13 @@
         "images/airpods_pro2_4.jpg",
         "images/airpods_pro2_5.jpg"
       ],
-      "inStock": false
+      "inStock": true
     },
     {
       "id": 32,
       "name": "Наушники EarPods (Type-C)",
       "description": "Состояние новое. Полная комплектация. Качество 1:1.",
-      "price": 15,
+      "price": 20,
       "category": "Наушники",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -990,11 +977,52 @@
       ],
       "inStock": true
     },
+
+     {
+      "id": 51,
+      "name": "Наушники EarPods (Lightning)",
+      "description": "Состояние новое. Полная комплектация. Качество 1:1.",
+      "price": 20,
+      "category": "Наушники",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "Подключение": "Lightning",
+        "Качество": "1:1",
+        "Комплектация": "Полная"
+      },
+      "images": [
+        "images/earpods_Lightning_1.jpg",
+        "images/earpods_Lightning_2.jpg"
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 52,
+      "name": "AirPods Max (бюджетная версия)",
+      "description": "Комплект: кабель Type-C, чехол, упаковка. Bluetooth подключение.",
+      "price": 50,
+      "category": "Наушники",
+      "brand": "Apple (бюджет)",
+      "condition": "Новое",
+      "specs": {
+        "Комплект": "Кабель, чехол, упаковка",
+        "Подключение": "Bluetooth"
+      },
+      "images": [
+        "images/airpods_max_budget_1.jpg",
+        "images/airpods_max_budget_2.jpg"
+        
+      ],
+      "inStock": false
+    },
+
     {
       "id": 33,
       "name": "Геймпад SONY DUALLSHOCK 4",
       "description": "Состояние новое. Полная комплектация. Качество 1:1. Доступны расцветки: белый, черный, зеленый, прозрачно-серый.",
-      "price": 30,
+      "price": 35,
       "category": "Геймпады",
       "brand": "Sony (1:1)",
       "condition": "Новое",
