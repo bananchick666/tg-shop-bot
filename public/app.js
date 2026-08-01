@@ -20,6 +20,14 @@ const state = {
     allFilters: {}
 };
 
+// Получить цену товара (учитывает духи)
+function getPrice(p) {
+    if (p.price_full) {
+        return state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full;
+    }
+    return p.price || 0;
+}
+
 const API = {
     async getProducts(cat, params = {}) {
         const q = new URLSearchParams(params).toString();
@@ -56,10 +64,10 @@ function showView(name) {
     switch (name) {
         case 'categories': document.getElementById('headerTitle').textContent = 'Shop'; break;
         case 'products':
-    if (state.currentCategory === 'shoes') document.getElementById('headerTitle').textContent = 'Обувь и одежда';
-    else if (state.currentCategory === 'perfume') document.getElementById('headerTitle').textContent = 'Духи';
-    else document.getElementById('headerTitle').textContent = 'Техника и аксессуары';
-    break;
+            if (state.currentCategory === 'shoes') document.getElementById('headerTitle').textContent = 'Обувь и одежда';
+            else if (state.currentCategory === 'perfume') document.getElementById('headerTitle').textContent = 'Духи';
+            else document.getElementById('headerTitle').textContent = 'Техника и аксессуары';
+            break;
         case 'product': document.getElementById('headerTitle').textContent = state.currentProduct ? (state.currentProduct.brand || 'Товар') : 'Товар'; break;
         case 'cart': document.getElementById('headerTitle').textContent = 'Корзина'; break;
         case 'checkout': document.getElementById('headerTitle').textContent = 'Оформление'; break;
@@ -81,7 +89,6 @@ function goBack() {
     }
 }
 
-// Категории
 function showCategories() {
     showView('categories');
     state.currentCategory = null; state.viewHistory = ['categories'];
@@ -103,14 +110,13 @@ function showCategories() {
                 <div class="category-arrow">›</div>
             </div>
             <div class="category-card" onclick="showProducts('perfume')">
-    <div class="category-icon">🧴</div>
-    <div class="category-info"><div class="category-name">Духи</div><div class="category-desc">Оригинальные ароматы</div></div>
-    <div class="category-arrow">›</div>
-</div>
+                <div class="category-icon">🧴</div>
+                <div class="category-info"><div class="category-name">Духи</div><div class="category-desc">Оригинальные ароматы</div></div>
+                <div class="category-arrow">›</div>
+            </div>
         </div>`;
 }
 
-// Товары
 async function showProducts(cat) {
     state.currentCategory = cat;
     state.allFilters = {};
@@ -131,35 +137,21 @@ async function loadProducts() {
 function applyFiltersAndRender() {
     let products = [...state.allProducts];
     const f = state.allFilters;
-
-    // Сортировка
-    if (f.sort === 'price_asc') products.sort((a, b) => a.price - b.price);
-    if (f.sort === 'price_desc') products.sort((a, b) => b.price - a.price);
-    if (f.sort === 'name_asc') products.sort((a, b) => a.name.localeCompare(b.name));
-    if (f.sort === 'name_desc') products.sort((a, b) => b.name.localeCompare(a.name));
-
-    // Бренд
+    if (f.sort === 'price_asc') products.sort((a, b) => getPrice(a) - getPrice(b));
+    if (f.sort === 'price_desc') products.sort((a, b) => getPrice(b) - getPrice(a));
     if (f.brand) products = products.filter(p => p.brand === f.brand);
-
-    // Размер (только обувь)
-    if (f.size) products = products.filter(p => p.size && p.size.includes(f.size));
-
-    // Состояние (только обувь)
+    if (f.size) products = products.filter(p => p.size && String(p.size).includes(f.size));
     if (f.condition) {
         products = products.filter(p => {
             const c = (p.condition || '').toLowerCase();
             if (f.condition === 'new') return c.includes('новое') || c.includes('10/10');
             if (f.condition === 'excellent') return c.includes('отличное') || c.includes('9');
             if (f.condition === 'good') return c.includes('хорошее') || c.includes('8');
-            if (f.condition === 'fair') return c.includes('7') || c.includes('6');
             return true;
         });
     }
-
-    // Цена
-    if (f.priceMin) products = products.filter(p => p.price >= parseInt(f.priceMin));
-    if (f.priceMax && f.priceMax !== '999') products = products.filter(p => p.price <= parseInt(f.priceMax));
-
+    if (f.priceMin) products = products.filter(p => getPrice(p) >= parseInt(f.priceMin));
+    if (f.priceMax && f.priceMax !== '999') products = products.filter(p => getPrice(p) <= parseInt(f.priceMax));
     renderGrid(products);
 }
 
@@ -202,11 +194,12 @@ function renderGrid(products) {
         </div>
         <div class="products-grid">
             ${products.length ? products.map(p => {
-                const c = convertPrice(p.price);
+                const price = getPrice(p);
+                const c = convertPrice(price);
                 return `
                 <div class="product-card${!p.inStock ? ' out-of-stock' : ''}">
                     <div class="product-image-container">
-                        <img class="product-image" src="${p.images[0]}" data-pid="${p.id}" data-idx="0" onerror="this.style.background='#f0f0f0'">
+                        <img class="product-image" src="${p.images[0]}" onerror="this.style.background='#f0f0f0';this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/></svg>'">
                         ${p.images.length > 1 ? `
                         <div class="gallery-touch-left" data-a="prev" data-pid="${p.id}"></div>
                         <div class="gallery-touch-right" data-a="next" data-pid="${p.id}"></div>
@@ -219,58 +212,25 @@ function renderGrid(products) {
                         <div class="product-brand">${p.brand||''}</div>
                         <div class="product-name">${p.name}</div>
                         <div class="product-condition">${p.condition||''}${!p.inStock ? '<span class="out-of-stock-badge">Нет в наличии</span>' : ''}</div>
-                        <div class="product-price">${formatPrice(p.price)}</div>
+                        <div class="product-price">${formatPrice(price)}</div>
                         <div class="product-price-other">≈ $${c.usd} / ${c.rub} ₽</div>
                     </div>
                 </div>`;
             }).join('') : '<div class="empty-state">Товары не найдены</div>'}
         </div>`;
-
-    // Галерея
-    document.querySelectorAll('[data-a]').forEach(el => {
-        el.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const pid = parseInt(this.dataset.pid);
-            const product = state.allProducts.find(p => p.id === pid);
-            if (!product || !product.images || product.images.length < 2) return;
-            const img = document.querySelector(`img[data-pid="${pid}"]`);
-            const dots = document.querySelectorAll(`.image-dot[data-pid="${pid}"]`);
-            let idx = parseInt(img.dataset.idx);
-            idx = this.dataset.a === 'next' ? (idx + 1) % product.images.length : (idx - 1 + product.images.length) % product.images.length;
-            img.src = product.images[idx];
-            img.dataset.idx = idx;
-            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        });
-    });
 }
 
 function setFilter(key, value) {
-    if (!value) {
-        delete state.allFilters[key];
-    } else {
-        state.allFilters[key] = value;
-    }
+    if (!value) { delete state.allFilters[key]; } else { state.allFilters[key] = value; }
     applyFiltersAndRender();
 }
-
 function handlePriceFilter(value) {
-    if (!value) {
-        delete state.allFilters.priceMin;
-        delete state.allFilters.priceMax;
-    } else {
-        const [min, max] = value.split('-');
-        state.allFilters.priceMin = min;
-        state.allFilters.priceMax = max;
-    }
+    if (!value) { delete state.allFilters.priceMin; delete state.allFilters.priceMax; }
+    else { const [min, max] = value.split('-'); state.allFilters.priceMin = min; state.allFilters.priceMax = max; }
     applyFiltersAndRender();
 }
+function resetAllFilters() { state.allFilters = {}; applyFiltersAndRender(); }
 
-function resetAllFilters() {
-    state.allFilters = {};
-    applyFiltersAndRender();
-}
-
-// Детали
 async function showProductDetail(id) {
     try {
         const p = await API.getProduct(id);
@@ -278,6 +238,7 @@ async function showProductDetail(id) {
         state.currentProduct = p;
         state.detailImageIndex = 0;
         state.selectedColor = p.colors ? p.colors[0] : null;
+        state.selectedPerfumeType = p.price_full ? 'full' : null;
         showView('product');
         renderDetail();
     } catch (e) { toast('Ошибка загрузки'); }
@@ -286,16 +247,12 @@ async function showProductDetail(id) {
 function renderDetail() {
     const p = state.currentProduct;
     const isShoes = state.currentCategory === 'shoes';
-
-    // Определяем цену
-    const price = state.currentCategory === 'perfume' && p.price_full
-        ? (state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full)
-        : p.price;
+    const price = getPrice(p);
     const c = convertPrice(price);
 
     let html = `
         <div class="detail-gallery">
-            <div class="detail-image-wrapper"><img class="detail-image" src="${p.images[state.detailImageIndex]}" id="dimg"></div>
+            <div class="detail-image-wrapper"><img class="detail-image" src="${p.images[state.detailImageIndex]}" id="dimg" onerror="this.style.background='#f0f0f0';this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/></svg>'"></div>
             ${p.images.length > 1 ? `
             <button class="detail-nav-btn detail-nav-prev" onclick="dPrev()">‹</button>
             <button class="detail-nav-btn detail-nav-next" onclick="dNext()">›</button>
@@ -307,9 +264,7 @@ function renderDetail() {
             <div class="detail-condition">${p.condition||''}</div>
             <div class="detail-description">${p.description}</div>`;
 
-    // Выбор флакон/разлив для духов
     if (state.currentCategory === 'perfume' && p.price_full) {
-        state.selectedPerfumeType = state.selectedPerfumeType || 'full';
         html += `<div class="detail-section-title">Тип</div>
             <div class="color-grid">
                 <button class="color-btn${state.selectedPerfumeType === 'full' ? ' selected' : ''}" onclick="selPerfumeType('full')">Флакон — ${formatPrice(p.price_full)}</button>
@@ -317,34 +272,31 @@ function renderDetail() {
             </div>`;
     }
 
-    if (isShoes && p.size) html += `<div class="detail-section-title">Размер</div><div style="font-size:16px;font-weight:600;margin-bottom:16px;">${p.size}</div>`;
+    if (isShoes && p.size) html += `<div class="detail-section-title">Размер</div><div style="font-size:16px;font-weight:600;margin-bottom:16px;">${Array.isArray(p.size) ? p.size.join('-') : p.size}</div>`;
     if (p.colors?.length) html += `<div class="detail-section-title">Цвет</div><div class="color-grid">${p.colors.map(cl => `<button class="color-btn${cl===state.selectedColor?' selected':''}" onclick="selColor('${cl}')">${cl}</button>`).join('')}</div>`;
 
     html += `<div class="detail-price-block"><span class="detail-price-main">${formatPrice(price)}</span><span class="detail-price-converted">≈ $${c.usd}<br>≈ ${c.rub} ₽</span></div>
         <button class="btn-primary" ${!p.inStock ? 'disabled' : ''} onclick="addFromDetail()">${p.inStock ? 'Добавить в корзину' : 'Нет в наличии'}</button></div>`;
     document.getElementById('view-product').innerHTML = html;
 }
+
 function selPerfumeType(type) {
     state.selectedPerfumeType = type;
-    document.querySelectorAll('.color-btn').forEach(b => b.classList.toggle('selected', b.textContent.includes(type === 'full' ? 'Флакон' : 'Разлив')));
     renderDetail();
 }
 function dPrev() { const p = state.currentProduct; state.detailImageIndex = (state.detailImageIndex - 1 + p.images.length) % p.images.length; updateDImg(); }
 function dNext() { const p = state.currentProduct; state.detailImageIndex = (state.detailImageIndex + 1) % p.images.length; updateDImg(); }
 function dSet(i) { state.detailImageIndex = i; updateDImg(); }
-function updateDImg() { const img = document.getElementById('dimg'); if (img) img.src = state.currentProduct.images[state.detailImageIndex]; document.querySelectorAll('.detail-dot').forEach((d, i) => d.classList.toggle('active', i === state.detailImageIndex)); }
+function updateDImg() { const img = document.getElementById('dimg'); if (img) img.src = state.currentProduct.images[state.detailImageIndex]; }
 function selColor(c) { state.selectedColor = c; document.querySelectorAll('.color-btn').forEach(b => b.classList.toggle('selected', b.textContent === c)); }
 
-// Корзина
 function addFromDetail() {
     const p = state.currentProduct;
     if (!p.inStock) { toast('Товара нет в наличии'); return; }
-    const price = state.currentCategory === 'perfume' && p.price_full
-        ? (state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full)
-        : p.price;
+    const price = getPrice(p);
     const size = state.currentCategory === 'perfume'
         ? (state.selectedPerfumeType === 'sample' ? 'Разлив 10 мл' : 'Флакон')
-        : (state.currentCategory === 'shoes' ? p.size : null);
+        : (state.currentCategory === 'shoes' ? (Array.isArray(p.size) ? p.size.join('-') : p.size) : null);
     addToCart({ ...p, price }, size, state.selectedColor);
 }
 function addToCart(p, size, color) {
@@ -362,14 +314,13 @@ function renderCart() {
     const ct = document.getElementById('view-cart');
     if (!state.cart.length) { ct.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div class="cart-empty-text">Корзина пуста</div></div>'; return; }
     const sub = state.cart.reduce((a, i) => a + i.price, 0), total = getTotal(), disc = sub - total;
-    ct.innerHTML = `<div class="cart-items">${state.cart.map((it, i) => `<div class="cart-item"><img class="cart-item-image" src="${it.image}"><div class="cart-item-info"><div class="cart-item-name">${it.name}</div><div class="cart-item-meta">${it.size?'Размер '+it.size:''}${it.color?(it.size?' | ':'')+it.color:''}</div><div class="cart-item-price">${formatPrice(it.price)}</div></div><button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button></div>`).join('')}</div>
+    ct.innerHTML = `<div class="cart-items">${state.cart.map((it, i) => `<div class="cart-item"><img class="cart-item-image" src="${it.image}"><div class="cart-item-info"><div class="cart-item-name">${it.name}</div><div class="cart-item-meta">${it.size||''}${it.color?(it.size?' | ':'')+it.color:''}</div><div class="cart-item-price">${formatPrice(it.price)}</div></div><button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button></div>`).join('')}</div>
     <div class="promo-section"><div class="promo-label">Промокод</div><div class="promo-input-row"><input class="promo-input" id="pi" type="text" value="${state.promocodeCode}"><button class="btn-promo" onclick="applyPromo()">Применить</button></div><div class="promo-message" id="pm"></div></div>
     <div class="cart-summary"><div class="summary-row"><span>Товары</span><span>${formatPrice(sub)}</span></div>${disc>0?`<div class="summary-row summary-discount"><span>Скидка ${state.promocodeDiscount}%</span><span>−${formatPrice(disc)}</span></div>`:''}<div class="summary-row total"><span>Итого</span><span>${formatPrice(total)}</span></div></div>
     <button class="btn-checkout" onclick="startCheckout()">Оформить заказ</button>`;
 }
 async function applyPromo() { const input = document.getElementById('pi'), msg = document.getElementById('pm'), code = input.value.trim().toUpperCase(); if (!code) { msg.className = 'promo-message error'; msg.textContent = 'Введите промокод'; return; } const r = await API.validatePromo(code); if (r.valid) { state.promocodeDiscount = r.discount; state.promocodeCode = code; msg.className = 'promo-message success'; msg.textContent = 'Скидка ' + r.discount + '%'; renderCart(); } else { state.promocodeDiscount = 0; state.promocodeCode = ''; msg.className = 'promo-message error'; msg.textContent = 'Недействителен'; } }
 
-// Оформление
 function startCheckout() { if (!state.cart.length) { toast('Корзина пуста'); return; } showView('checkout'); state.deliveryType = null; renderCheckout(); }
 function renderCheckout() {
     document.getElementById('view-checkout').innerHTML = `<div class="checkout-form"><div class="checkout-title">Оформление</div><div class="checkout-subtitle">Сумма: <strong>${formatPrice(getTotal())}</strong></div>
@@ -414,31 +365,8 @@ function renderWheel() {
     c.innerHTML = `<div class="wheel-container"><div class="wheel-title">🎡 Колесо фортуны</div><div class="wheel-subtitle">Крутите раз в день!</div><div class="wheel-wrapper"><div class="wheel-pointer"></div><canvas class="wheel-canvas" id="wheelCanvas" width="300" height="300"></canvas></div><button class="wheel-btn" id="spinBtn" onclick="spinWheel()">🎰 Крутить</button><div class="wheel-result" id="wheelResult"></div></div>`;
     drawWheel();
 }
-function drawWheel() { const cv = document.getElementById('wheelCanvas'); if (!cv) return; const ctx = cv.getContext('2d'), cx=150, cy=150, r=140; 
-const sec = [
-    {l:'5%',c:'#e8f5e9',t:'#2e7d32'},
-    {l:'😔',c:'#f5f5f5',t:'#999'},
-    {l:'10%',c:'#c8e6c9',t:'#1b5e20'},
-    {l:'😔',c:'#f5f5f5',t:'#999'},
-    {l:'5%',c:'#e8f5e9',t:'#2e7d32'},
-    {l:'😔',c:'#f5f5f5',t:'#999'},
-    {l:'10%',c:'#c8e6c9',t:'#1b5e20'},
-    {l:'😔',c:'#f5f5f5',t:'#999'}
-];
-const a = 2*Math.PI/sec.length; sec.forEach((s,i)=>{const sa=i*a-Math.PI/2,ea=(i+1)*a-Math.PI/2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath(); ctx.fillStyle=s.c; ctx.fill(); ctx.strokeStyle='#e0e0e0'; ctx.lineWidth=2; ctx.stroke(); ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+a/2); ctx.textAlign='right'; ctx.fillStyle=s.t; ctx.font='bold 16px sans-serif'; ctx.fillText(s.l,r-20,6); ctx.restore(); }); }
-function spinWheel() { const btn=document.getElementById('spinBtn'),rd=document.getElementById('wheelResult'); if(!canSpinWheel()){rd.style.display='block';rd.className='wheel-result lose';rd.textContent='Уже крутили';return;} btn.disabled=true;rd.style.display='none';setWheelSpinDate(); 
-const results = [
-    { discount: 5, label: '5%', promo: 'WHEEL5' },
-    { discount: 0, label: 'Пусто', promo: null },
-    { discount: 10, label: '10%', promo: 'WHEEL10' },
-    { discount: 0, label: 'Пусто', promo: null },
-    { discount: 5, label: '5%', promo: 'WHEEL5' },
-    { discount: 0, label: 'Пусто', promo: null },
-    { discount: 10, label: '10%', promo: 'WHEEL10' },
-    { discount: 0, label: 'Пусто', promo: null }
-];
-const idx=Math.floor(Math.random()*8),re=results[idx],sa=360/8,ta=360*5+(360-idx*sa-sa/2); const cv=document.getElementById('wheelCanvas'); cv.style.transition='transform 4s cubic-bezier(0.17,0.67,0.12,0.99)'; cv.style.transform=`rotate(${ta}deg)`; setTimeout(()=>{rd.style.display='block'; if(re.d>0){rd.className='wheel-result win';rd.innerHTML=`🎉 Скидка <b>${re.d}%</b>!<br>Промокод: <b>${re.p}</b><br><small>Применён к корзине</small>`; state.promocodeDiscount=re.d; state.promocodeCode=re.p; saveCart(); toast('🎉 Промокод '+re.p+' на '+re.d+'%');} else {rd.className='wheel-result lose';rd.textContent='😔 Не повезло. Завтра!';} btn.textContent='Готово';},4200); }
+function drawWheel() { const cv = document.getElementById('wheelCanvas'); if (!cv) return; const ctx = cv.getContext('2d'), cx=150, cy=150, r=140; const sec = [{l:'5%',c:'#e8f5e9',t:'#2e7d32'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'10%',c:'#c8e6c9',t:'#1b5e20'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'5%',c:'#e8f5e9',t:'#2e7d32'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'10%',c:'#c8e6c9',t:'#1b5e20'},{l:'😔',c:'#f5f5f5',t:'#999'}]; const a = 2*Math.PI/sec.length; sec.forEach((s,i)=>{const sa=i*a-Math.PI/2,ea=(i+1)*a-Math.PI/2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath(); ctx.fillStyle=s.c; ctx.fill(); ctx.strokeStyle='#e0e0e0'; ctx.lineWidth=2; ctx.stroke(); ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+a/2); ctx.textAlign='right'; ctx.fillStyle=s.t; ctx.font='bold 16px sans-serif'; ctx.fillText(s.l,r-20,6); ctx.restore(); }); }
+function spinWheel() { const btn=document.getElementById('spinBtn'),rd=document.getElementById('wheelResult'); if(!canSpinWheel()){rd.style.display='block';rd.className='wheel-result lose';rd.textContent='Уже крутили';return;} btn.disabled=true;rd.style.display='none';setWheelSpinDate(); const results = [{d:5,l:'5%',p:'WHEEL5'},{d:0,l:'Пусто',p:null},{d:10,l:'10%',p:'WHEEL10'},{d:0,l:'Пусто',p:null},{d:5,l:'5%',p:'WHEEL5'},{d:0,l:'Пусто',p:null},{d:10,l:'10%',p:'WHEEL10'},{d:0,l:'Пусто',p:null}]; const idx=Math.floor(Math.random()*8),re=results[idx],sa=360/8,ta=360*5+(360-idx*sa-sa/2); const cv=document.getElementById('wheelCanvas'); cv.style.transition='transform 4s cubic-bezier(0.17,0.67,0.12,0.99)'; cv.style.transform=`rotate(${ta}deg)`; setTimeout(()=>{rd.style.display='block'; if(re.d>0){rd.className='wheel-result win';rd.innerHTML=`🎉 Скидка <b>${re.d}%</b>!<br>Промокод: <b>${re.p}</b><br><small>Применён к корзине</small>`; state.promocodeDiscount=re.d; state.promocodeCode=re.p; saveCart(); toast('🎉 Промокод '+re.p+' на '+re.d+'%');} else {rd.className='wheel-result lose';rd.textContent='😔 Не повезло. Завтра!';} btn.textContent='Готово';},4200); }
 
-// Старт
 async function init() { try { state.currencyRates = await API.getRates(); } catch (e) {} updateBadge(); showCategories(); document.getElementById('backBtn').addEventListener('click', goBack); document.getElementById('cartBtn').addEventListener('click', () => { state.viewHistory.push(state.currentView); showCart(); }); }
 document.addEventListener('DOMContentLoaded', init);
