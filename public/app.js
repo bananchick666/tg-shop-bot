@@ -285,8 +285,13 @@ async function showProductDetail(id) {
 
 function renderDetail() {
     const p = state.currentProduct;
-    const c = convertPrice(p.price);
     const isShoes = state.currentCategory === 'shoes';
+
+    // Определяем цену
+    const price = state.currentCategory === 'perfume' && p.price_full
+        ? (state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full)
+        : p.price;
+    const c = convertPrice(price);
 
     let html = `
         <div class="detail-gallery">
@@ -302,23 +307,18 @@ function renderDetail() {
             <div class="detail-condition">${p.condition||''}</div>
             <div class="detail-description">${p.description}</div>`;
 
-// Выбор флакон/разлив для духов
-if (state.currentCategory === 'perfume' && p.price_full) {
-    html += `<div class="detail-section-title">Тип</div>
-        <div class="color-grid">
-            <button class="color-btn${state.selectedPerfumeType === 'full' ? ' selected' : ''}" onclick="selPerfumeType('full')">Флакон — ${formatPrice(p.price_full)}</button>
-            <button class="color-btn${state.selectedPerfumeType === 'sample' ? ' selected' : ''}" onclick="selPerfumeType('sample')">Разлив 10 мл — ${formatPrice(p.price_sample)}</button>
-        </div>`;
-    state.selectedPerfumeType = state.selectedPerfumeType || 'full';
+    // Выбор флакон/разлив для духов
+    if (state.currentCategory === 'perfume' && p.price_full) {
+        state.selectedPerfumeType = state.selectedPerfumeType || 'full';
+        html += `<div class="detail-section-title">Тип</div>
+            <div class="color-grid">
+                <button class="color-btn${state.selectedPerfumeType === 'full' ? ' selected' : ''}" onclick="selPerfumeType('full')">Флакон — ${formatPrice(p.price_full)}</button>
+                <button class="color-btn${state.selectedPerfumeType === 'sample' ? ' selected' : ''}" onclick="selPerfumeType('sample')">Разлив 10 мл — ${formatPrice(p.price_sample)}</button>
+            </div>`;
+    }
 
-}
     if (isShoes && p.size) html += `<div class="detail-section-title">Размер</div><div style="font-size:16px;font-weight:600;margin-bottom:16px;">${p.size}</div>`;
     if (p.colors?.length) html += `<div class="detail-section-title">Цвет</div><div class="color-grid">${p.colors.map(cl => `<button class="color-btn${cl===state.selectedColor?' selected':''}" onclick="selColor('${cl}')">${cl}</button>`).join('')}</div>`;
-
-       const price = state.currentCategory === 'perfume' && p.price_full
-        ? (state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full)
-        : p.price;
-    const c = convertPrice(price);
 
     html += `<div class="detail-price-block"><span class="detail-price-main">${formatPrice(price)}</span><span class="detail-price-converted">≈ $${c.usd}<br>≈ ${c.rub} ₽</span></div>
         <button class="btn-primary" ${!p.inStock ? 'disabled' : ''} onclick="addFromDetail()">${p.inStock ? 'Добавить в корзину' : 'Нет в наличии'}</button></div>`;
