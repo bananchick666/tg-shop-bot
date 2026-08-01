@@ -7,6 +7,7 @@ const state = {
     currentView: 'categories',
     currentCategory: null,
     currentProduct: null,
+    selectedPerfumeType: null,
     cart: JSON.parse(localStorage.getItem('cart') || '[]'),
     promocodeDiscount: 0,
     promocodeCode: '',
@@ -54,7 +55,11 @@ function showView(name) {
     document.getElementById('backBtn').style.visibility = name === 'categories' ? 'hidden' : 'visible';
     switch (name) {
         case 'categories': document.getElementById('headerTitle').textContent = 'Shop'; break;
-        case 'products': document.getElementById('headerTitle').textContent = state.currentCategory === 'shoes' ? 'Обувь и одежда' : 'Техника и аксессуары'; break;
+        case 'products':
+    if (state.currentCategory === 'shoes') document.getElementById('headerTitle').textContent = 'Обувь и одежда';
+    else if (state.currentCategory === 'perfume') document.getElementById('headerTitle').textContent = 'Духи';
+    else document.getElementById('headerTitle').textContent = 'Техника и аксессуары';
+    break;
         case 'product': document.getElementById('headerTitle').textContent = state.currentProduct ? (state.currentProduct.brand || 'Товар') : 'Товар'; break;
         case 'cart': document.getElementById('headerTitle').textContent = 'Корзина'; break;
         case 'checkout': document.getElementById('headerTitle').textContent = 'Оформление'; break;
@@ -97,6 +102,11 @@ function showCategories() {
                 <div class="category-info"><div class="category-name">Техника и аксессуары</div><div class="category-desc">Наушники, геймпады и другое</div></div>
                 <div class="category-arrow">›</div>
             </div>
+            <div class="category-card" onclick="showProducts('perfume')">
+    <div class="category-icon">🧴</div>
+    <div class="category-info"><div class="category-name">Духи</div><div class="category-desc">Оригинальные ароматы</div></div>
+    <div class="category-arrow">›</div>
+</div>
         </div>`;
 }
 
@@ -292,14 +302,33 @@ function renderDetail() {
             <div class="detail-condition">${p.condition||''}</div>
             <div class="detail-description">${p.description}</div>`;
 
+// Выбор флакон/разлив для духов
+if (state.currentCategory === 'perfume' && p.price_full) {
+    html += `<div class="detail-section-title">Тип</div>
+        <div class="color-grid">
+            <button class="color-btn${state.selectedPerfumeType === 'full' ? ' selected' : ''}" onclick="selPerfumeType('full')">Флакон — ${formatPrice(p.price_full)}</button>
+            <button class="color-btn${state.selectedPerfumeType === 'sample' ? ' selected' : ''}" onclick="selPerfumeType('sample')">Разлив 10 мл — ${formatPrice(p.price_sample)}</button>
+        </div>`;
+    state.selectedPerfumeType = state.selectedPerfumeType || 'full';
+
+}
     if (isShoes && p.size) html += `<div class="detail-section-title">Размер</div><div style="font-size:16px;font-weight:600;margin-bottom:16px;">${p.size}</div>`;
     if (p.colors?.length) html += `<div class="detail-section-title">Цвет</div><div class="color-grid">${p.colors.map(cl => `<button class="color-btn${cl===state.selectedColor?' selected':''}" onclick="selColor('${cl}')">${cl}</button>`).join('')}</div>`;
 
-    html += `<div class="detail-price-block"><span class="detail-price-main">${formatPrice(p.price)}</span><span class="detail-price-converted">≈ $${c.usd}<br>≈ ${c.rub} ₽</span></div>
+       const price = state.currentCategory === 'perfume' && p.price_full
+        ? (state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full)
+        : p.price;
+    const c = convertPrice(price);
+
+    html += `<div class="detail-price-block"><span class="detail-price-main">${formatPrice(price)}</span><span class="detail-price-converted">≈ $${c.usd}<br>≈ ${c.rub} ₽</span></div>
         <button class="btn-primary" ${!p.inStock ? 'disabled' : ''} onclick="addFromDetail()">${p.inStock ? 'Добавить в корзину' : 'Нет в наличии'}</button></div>`;
     document.getElementById('view-product').innerHTML = html;
 }
-
+function selPerfumeType(type) {
+    state.selectedPerfumeType = type;
+    document.querySelectorAll('.color-btn').forEach(b => b.classList.toggle('selected', b.textContent.includes(type === 'full' ? 'Флакон' : 'Разлив')));
+    renderDetail();
+}
 function dPrev() { const p = state.currentProduct; state.detailImageIndex = (state.detailImageIndex - 1 + p.images.length) % p.images.length; updateDImg(); }
 function dNext() { const p = state.currentProduct; state.detailImageIndex = (state.detailImageIndex + 1) % p.images.length; updateDImg(); }
 function dSet(i) { state.detailImageIndex = i; updateDImg(); }
@@ -310,7 +339,13 @@ function selColor(c) { state.selectedColor = c; document.querySelectorAll('.colo
 function addFromDetail() {
     const p = state.currentProduct;
     if (!p.inStock) { toast('Товара нет в наличии'); return; }
-    addToCart(p, state.currentCategory === 'shoes' ? p.size : null, state.selectedColor);
+    const price = state.currentCategory === 'perfume' && p.price_full
+        ? (state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full)
+        : p.price;
+    const size = state.currentCategory === 'perfume'
+        ? (state.selectedPerfumeType === 'sample' ? 'Разлив 10 мл' : 'Флакон')
+        : (state.currentCategory === 'shoes' ? p.size : null);
+    addToCart({ ...p, price }, size, state.selectedColor);
 }
 function addToCart(p, size, color) {
     const item = { id: p.id, name: p.name, price: p.price, size: size || null, color: color || null, image: p.images?.[0] || '' };
@@ -379,8 +414,30 @@ function renderWheel() {
     c.innerHTML = `<div class="wheel-container"><div class="wheel-title">🎡 Колесо фортуны</div><div class="wheel-subtitle">Крутите раз в день!</div><div class="wheel-wrapper"><div class="wheel-pointer"></div><canvas class="wheel-canvas" id="wheelCanvas" width="300" height="300"></canvas></div><button class="wheel-btn" id="spinBtn" onclick="spinWheel()">🎰 Крутить</button><div class="wheel-result" id="wheelResult"></div></div>`;
     drawWheel();
 }
-function drawWheel() { const cv = document.getElementById('wheelCanvas'); if (!cv) return; const ctx = cv.getContext('2d'), cx=150, cy=150, r=140; const sec = [{l:'10%',c:'#e8f5e9',t:'#2e7d32'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'20%',c:'#c8e6c9',t:'#1b5e20'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'10%',c:'#e8f5e9',t:'#2e7d32'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'20%',c:'#c8e6c9',t:'#1b5e20'},{l:'😔',c:'#f5f5f5',t:'#999'}]; const a = 2*Math.PI/sec.length; sec.forEach((s,i)=>{const sa=i*a-Math.PI/2,ea=(i+1)*a-Math.PI/2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath(); ctx.fillStyle=s.c; ctx.fill(); ctx.strokeStyle='#e0e0e0'; ctx.lineWidth=2; ctx.stroke(); ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+a/2); ctx.textAlign='right'; ctx.fillStyle=s.t; ctx.font='bold 16px sans-serif'; ctx.fillText(s.l,r-20,6); ctx.restore(); }); }
-function spinWheel() { const btn=document.getElementById('spinBtn'),rd=document.getElementById('wheelResult'); if(!canSpinWheel()){rd.style.display='block';rd.className='wheel-result lose';rd.textContent='Уже крутили';return;} btn.disabled=true;rd.style.display='none';setWheelSpinDate(); const res=[{d:10,l:'10%',p:'WHEEL10'},{d:0,l:'Пусто',p:null},{d:20,l:'20%',p:'WHEEL20'},{d:0,l:'Пусто',p:null},{d:10,l:'10%',p:'WHEEL10'},{d:0,l:'Пусто',p:null},{d:20,l:'20%',p:'WHEEL20'},{d:0,l:'Пусто',p:null}]; const idx=Math.floor(Math.random()*8),re=res[idx],sa=360/8,ta=360*5+(360-idx*sa-sa/2); const cv=document.getElementById('wheelCanvas'); cv.style.transition='transform 4s cubic-bezier(0.17,0.67,0.12,0.99)'; cv.style.transform=`rotate(${ta}deg)`; setTimeout(()=>{rd.style.display='block'; if(re.d>0){rd.className='wheel-result win';rd.innerHTML=`🎉 Скидка <b>${re.d}%</b>!<br>Промокод: <b>${re.p}</b><br><small>Применён к корзине</small>`; state.promocodeDiscount=re.d; state.promocodeCode=re.p; saveCart(); toast('🎉 Промокод '+re.p+' на '+re.d+'%');} else {rd.className='wheel-result lose';rd.textContent='😔 Не повезло. Завтра!';} btn.textContent='Готово';},4200); }
+function drawWheel() { const cv = document.getElementById('wheelCanvas'); if (!cv) return; const ctx = cv.getContext('2d'), cx=150, cy=150, r=140; 
+const sec = [
+    {l:'5%',c:'#e8f5e9',t:'#2e7d32'},
+    {l:'😔',c:'#f5f5f5',t:'#999'},
+    {l:'10%',c:'#c8e6c9',t:'#1b5e20'},
+    {l:'😔',c:'#f5f5f5',t:'#999'},
+    {l:'5%',c:'#e8f5e9',t:'#2e7d32'},
+    {l:'😔',c:'#f5f5f5',t:'#999'},
+    {l:'10%',c:'#c8e6c9',t:'#1b5e20'},
+    {l:'😔',c:'#f5f5f5',t:'#999'}
+];
+const a = 2*Math.PI/sec.length; sec.forEach((s,i)=>{const sa=i*a-Math.PI/2,ea=(i+1)*a-Math.PI/2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath(); ctx.fillStyle=s.c; ctx.fill(); ctx.strokeStyle='#e0e0e0'; ctx.lineWidth=2; ctx.stroke(); ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+a/2); ctx.textAlign='right'; ctx.fillStyle=s.t; ctx.font='bold 16px sans-serif'; ctx.fillText(s.l,r-20,6); ctx.restore(); }); }
+function spinWheel() { const btn=document.getElementById('spinBtn'),rd=document.getElementById('wheelResult'); if(!canSpinWheel()){rd.style.display='block';rd.className='wheel-result lose';rd.textContent='Уже крутили';return;} btn.disabled=true;rd.style.display='none';setWheelSpinDate(); 
+const results = [
+    { discount: 5, label: '5%', promo: 'WHEEL5' },
+    { discount: 0, label: 'Пусто', promo: null },
+    { discount: 10, label: '10%', promo: 'WHEEL10' },
+    { discount: 0, label: 'Пусто', promo: null },
+    { discount: 5, label: '5%', promo: 'WHEEL5' },
+    { discount: 0, label: 'Пусто', promo: null },
+    { discount: 10, label: '10%', promo: 'WHEEL10' },
+    { discount: 0, label: 'Пусто', promo: null }
+];
+const idx=Math.floor(Math.random()*8),re=res[idx],sa=360/8,ta=360*5+(360-idx*sa-sa/2); const cv=document.getElementById('wheelCanvas'); cv.style.transition='transform 4s cubic-bezier(0.17,0.67,0.12,0.99)'; cv.style.transform=`rotate(${ta}deg)`; setTimeout(()=>{rd.style.display='block'; if(re.d>0){rd.className='wheel-result win';rd.innerHTML=`🎉 Скидка <b>${re.d}%</b>!<br>Промокод: <b>${re.p}</b><br><small>Применён к корзине</small>`; state.promocodeDiscount=re.d; state.promocodeCode=re.p; saveCart(); toast('🎉 Промокод '+re.p+' на '+re.d+'%');} else {rd.className='wheel-result lose';rd.textContent='😔 Не повезло. Завтра!';} btn.textContent='Готово';},4200); }
 
 // Старт
 async function init() { try { state.currencyRates = await API.getRates(); } catch (e) {} updateBadge(); showCategories(); document.getElementById('backBtn').addEventListener('click', goBack); document.getElementById('cartBtn').addEventListener('click', () => { state.viewHistory.push(state.currentView); showCart(); }); }
