@@ -995,7 +995,7 @@
         "images/earpods_Lightning_1.jpg",
         "images/earpods_Lightning_2.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
 
     {
@@ -1161,7 +1161,7 @@
         "images/kilian_black_1.jpg"
         
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 61,
