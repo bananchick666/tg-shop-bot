@@ -40,7 +40,7 @@
         "images/adidas_samba_6.jpg",
         "images/adidas_samba_7.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 3,
@@ -155,7 +155,7 @@
         "images/nike_am90_exotic_5.jpg",
         "images/nike_am90_exotic_6.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 9,
@@ -193,7 +193,7 @@
         "images/adidas_spezial_4.jpg",
          "images/adidas_spezial_5.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 11,
@@ -249,7 +249,7 @@
         "images/nike_am95_black_5.jpg",
         "images/nike_am95_black_6.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 14,
@@ -269,7 +269,7 @@
         "images/nike_am95_nikeday_5.jpg",
         "images/nike_am95_nikeday_6.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 15,
@@ -344,7 +344,7 @@
         "images/nike_air_jordan_olivie_toe_4.jpg",
         "images/nike_air_jordan_olivie_toe_5.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 19,
@@ -485,7 +485,7 @@
         
         
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 26,
@@ -562,7 +562,7 @@
         "images/stone_island_hoodie_5.jpg"
         
       ],
-      "inStock": true
+      "inStock": false
     },
 
     {
@@ -580,7 +580,7 @@
         
         
       ],
-      "inStock": true
+      "inStock": false
     },
      {
       "id": 38,
@@ -850,6 +850,157 @@
         
       
       ],
+      "inStock": false
+    },
+
+    {
+      "id": 64,
+      "name": "Avangard Boots",
+      "description": "good condition. Размер 41-42.",
+      "price": 100,
+      "size": [42],
+      "sizeNote": "41-42",
+      "color": "В ассортименте",
+      "brand": "Avangard",
+      "condition": "good condition",
+      "images": [
+        "images/avangard_boots_1.jpg",
+        "images/avangard_boots_2.jpg",
+        "images/avangard_boots_3.jpg",
+        "images/avangard_boots_4.jpg",
+        "images/avangard_boots_5.jpg"
+        
+        
+      
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 65,
+      "name": "Adidas Superstar",
+      "description": "good condition. Размер 43.",
+      "price": 130,
+      "size": [43],
+      "sizeNote": "43",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "good condition",
+      "images": [
+        "images/adidas_superstar_1.jpg",
+        "images/adidas_superstar_2.jpg",
+        "images/adidas_superstar_3.jpg",
+        "images/adidas_superstar_4.jpg",
+        "images/adidas_superstar_5.jpg"
+        
+        
+        
+      
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 66,
+      "name": "Nike DN",
+      "description": "new. Размер 45(29 см).",
+      "price": 300,
+      "size": [45],
+      "sizeNote": "45(29 см)",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "new",
+      "images": [
+        "images/nike_dn_1.jpg",
+        "images/nike_dn_2.jpg",
+        "images/nike_dn_3.jpg",
+        "images/nike_dn_4.jpg",
+        "images/nike_dn_5.jpg"
+        
+        
+        
+        
+      
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 67,
+      "name": "Куртка Питерский щит «ДОКЕР»",
+      "description": "отличное состояние. Размер XL.",
+      "price": 300,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "Питерский шит",
+      "condition": "отличное состояние",
+      "images": [
+        "images/piter_shit_1.jpg",
+        "images/piter_shit_2.jpg",
+        "images/piter_shit_3.jpg"
+        
+        
+        
+        
+        
+      
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 68,
+      "name": "Nike Air Force 1",
+      "description": "отличное состояние. Размер 45,5-46.",
+      "price": 180,
+      "size": [46],
+      "sizeNote": "45,5-46",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "отличное состояние",
+      "images": [
+        "images/nike_force_1.jpg",
+        "images/nike_force_2.jpg",
+        "images/nike_force_3.jpg",
+        "images/nike_force_4.jpg",
+        "images/nike_force_5.jpg"
+        
+        
+        
+        
+        
+        
+      
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 69,
+      "name": "New Balance 574",
+      "description": "хорошее состояние(есть нюансы). Размер 47(31 см).",
+      "price": 100,
+      "size": [47],
+      "sizeNote": "47(31 см)",
+      "color": "В ассортименте",
+      "brand": "New Balance",
+      "condition": "хорошее состояние(есть нюансы)",
+      "images": [
+        "images/new_balance_574_1.jpg",
+        "images/new_balance_574_2.jpg",
+        "images/new_balance_574_3.jpg",
+        "images/new_balance_574_4.jpg",
+        "images/new_balance_574_5.jpg"
+        
+        
+        
+        
+        
+        
+        
+      
+      ],
       "inStock": true
     }
 
@@ -956,7 +1107,7 @@
         "images/airpods_pro2_4.jpg",
         "images/airpods_pro2_5.jpg"
       ],
-      "inStock": false
+      "inStock": true
     },
     {
       "id": 32,
@@ -1086,7 +1237,7 @@
         "images/byredo_1.jpg"
         
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 56,
