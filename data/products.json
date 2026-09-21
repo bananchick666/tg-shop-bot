@@ -1024,7 +1024,7 @@
         "images/power_adapter_2.jpg",
         "images/power_adapter_3.jpg"
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 28,
@@ -1069,7 +1069,7 @@
       "id": 30,
       "name": "MagSafe Battery Pack",
       "description": "АКБ 5000 mAh. Мощность зарядки 5-9 Вт. Type-C коннектор. Реверсивная зарядка.",
-      "price": 30,
+      "price": 35,
       "category": "Аксессуары",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -1084,13 +1084,13 @@
         "images/magsafe_battery_2.jpg",
          "images/magsafe_battery_3.jpg"
       ],
-      "inStock": false
+      "inStock": true
     },
     {
       "id": 31,
       "name": "AirPods Pro 2",
       "description": "Комплект: кабель Type-C, доп. вкладыши, инструкция, упаковка, зарядный кейс. Bluetooth, шумоподавление, прозрачность, сенсорное управление, пространственное аудио.",
-      "price": 35,
+      "price": 40,
       "category": "Наушники",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -1126,14 +1126,14 @@
         "images/earpods_type_c_1.jpg",
         "images/earpods_type_c_2.jpg"
       ],
-      "inStock": false
+      "inStock": true
     },
 
      {
       "id": 51,
       "name": "Наушники EarPods (Lightning)",
       "description": "Состояние новое. Полная комплектация. Качество 1:1.",
-      "price": 20,
+      "price": 25,
       "category": "Наушники",
       "brand": "Apple (1:1)",
       "condition": "Новое",
@@ -1146,7 +1146,7 @@
         "images/earpods_Lightning_1.jpg",
         "images/earpods_Lightning_2.jpg"
       ],
-      "inStock": false
+      "inStock": true
     },
 
     {
@@ -1166,14 +1166,14 @@
         "images/airpods_max_budget_2.jpg"
         
       ],
-      "inStock": true
+      "inStock": false
     },
 
     {
       "id": 33,
       "name": "Геймпад SONY DUALLSHOCK 4",
       "description": "Состояние новое. Полная комплектация. Качество 1:1. Доступны расцветки: белый, черный, зеленый, прозрачно-серый.",
-      "price": 35,
+      "price": 40,
       "category": "Геймпады",
       "brand": "Sony (1:1)",
       "condition": "Новое",
@@ -1282,7 +1282,7 @@
         "images/creed_aventus_1.jpg"
         
       ],
-      "inStock": true
+      "inStock": false
     },
     {
       "id": 59,
