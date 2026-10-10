@@ -57,11 +57,16 @@ function toast(msg) {
     setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 2000);
 }
 
+// ===== Показ экрана + управление кнопкой "Назад" =====
 function showView(name) {
     document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
     const view = document.getElementById('view-' + name); if (view) view.style.display = 'block';
     state.currentView = name;
-    document.getElementById('backBtn').style.visibility = name === 'categories' ? 'hidden' : 'visible';
+
+    // Стрелка "Назад" видна везде, кроме главного экрана категорий
+    const isRoot = (name === 'categories') && (state.currentCategory !== 'clothes');
+    document.getElementById('backBtn').style.visibility = isRoot ? 'hidden' : 'visible';
+
     switch (name) {
         case 'categories':
             if (state.currentCategory === 'clothes') document.getElementById('headerTitle').textContent = 'Одежда';
@@ -82,30 +87,40 @@ function showView(name) {
     window.scrollTo(0, 0);
 }
 
+// ===== Кнопка "Назад" =====
 function goBack() {
     state.viewHistory.pop();
     const prev = state.viewHistory[state.viewHistory.length - 1] || 'categories';
     switch (prev) {
         case 'categories':
-            if (state.currentCategory === 'clothes' && state.viewHistory.includes('clothes-subcategories')) {
-                showClothesSubcategories();
-            } else {
-                showCategories();
-            }
+            showCategories();
             break;
-        case 'clothes-subcategories': showClothesSubcategories(); break;
-        case 'products': showProducts(state.currentCategory, state.currentSubcategory); break;
-        case 'product': if (state.currentProduct) showProductDetail(state.currentProduct.id); break;
-        case 'cart': showCart(); break;
-        case 'wheel': showCategories(); break;
+        case 'clothes-subcategories':
+            showClothesSubcategories();
+            break;
+        case 'products':
+            showProducts(state.currentCategory, state.currentSubcategory);
+            break;
+        case 'product':
+            if (state.currentProduct) showProductDetail(state.currentProduct.id);
+            break;
+        case 'cart':
+            showCart();
+            break;
+        case 'wheel':
+            showCategories();
+            break;
+        default:
+            showCategories();
     }
 }
 
+// ===== Главный экран =====
 function showCategories() {
     state.currentCategory = null;
     state.currentSubcategory = null;
-    showView('categories');
     state.viewHistory = ['categories'];
+    showView('categories');
     document.getElementById('view-categories').innerHTML = `
         <div class="categories-grid">
             <div class="category-card" onclick="showWheel()">
@@ -136,14 +151,13 @@ function showCategories() {
         </div>`;
 }
 
+// ===== Подкатегории одежды =====
 function showClothesSubcategories() {
     state.currentCategory = 'clothes';
     state.currentSubcategory = null;
+    state.viewHistory = ['categories', 'clothes-subcategories'];
     showView('categories');
     document.getElementById('headerTitle').textContent = 'Одежда';
-    if (!state.viewHistory.includes('clothes-subcategories')) {
-        state.viewHistory.push('clothes-subcategories');
-    }
     document.getElementById('view-categories').innerHTML = `
         <div class="categories-grid">
             <div class="category-card" onclick="showProducts('clothes', 't-shirts')">
