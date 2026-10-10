@@ -29,18 +29,168 @@ app.post('/webhook', (req, res) => { bot.processUpdate(req.body); res.sendStatus
 
 function escapeHTML(text) { if (!text) return ''; return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
-app.get('/api/products/:category', (req, res) => { const { category } = req.params; const { sort, order, size, brand, minPrice, maxPrice } = req.query; let items = products[category] ? [...products[category]] : []; if (size && category === 'shoes') items = items.filter(item => item.size && item.size.includes(size)); if (brand) items = items.filter(item => item.brand && item.brand.toLowerCase().includes(brand.toLowerCase())); if (minPrice) items = items.filter(item => item.price >= parseInt(minPrice)); if (maxPrice) items = items.filter(item => item.price <= parseInt(maxPrice)); if (sort === 'price') items.sort((a, b) => order === 'desc' ? b.price - a.price : a.price - b.price); else if (sort === 'name') items.sort((a, b) => order === 'desc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name)); res.json(items); });
-app.get('/api/product/:id', (req, res) => { const { id } = req.params; let product = null; for (let cat in products) { if (cat !== 'promocodes' && cat !== 'currency_rates') { product = products[cat].find(item => item.id === parseInt(id)); if (product) break; } } if (product) res.json(product); else res.status(404).json({ error: 'not found' }); });
-app.post('/api/validate-promocode', (req, res) => { const { code } = req.body; const discount = products.promocodes[code.toUpperCase()]; res.json(discount ? { valid: true, discount } : { valid: false }); });
+// ===== API: список товаров по категории (обновлено: поддержка subcategory) =====
+app.get('/api/products/:category', (req, res) => {
+    const { category } = req.params;
+    const { sort, order, size, brand, minPrice, maxPrice, subcategory } = req.query;
+    let items = products[category] ? [...products[category]] : [];
+
+    if (subcategory) items = items.filter(item => item.subcategory === subcategory);
+    if (size && (category === 'shoes' || category === 'clothes')) {
+        items = items.filter(item => item.size && item.size.includes(parseInt(size)));
+    }
+    if (brand) items = items.filter(item => item.brand && item.brand.toLowerCase().includes(brand.toLowerCase()));
+    if (minPrice) items = items.filter(item => item.price >= parseInt(minPrice));
+    if (maxPrice) items = items.filter(item => item.price <= parseInt(maxPrice));
+
+    if (sort === 'price') items.sort((a, b) => order === 'desc' ? b.price - a.price : a.price - b.price);
+    else if (sort === 'name') items.sort((a, b) => order === 'desc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name));
+
+    res.json(items);
+});
+
+// ===== API: один товар по id =====
+app.get('/api/product/:id', (req, res) => {
+    const { id } = req.params;
+    let product = null;
+    for (let cat in products) {
+        if (cat !== 'promocodes' && cat !== 'currency_rates') {
+            product = products[cat].find(item => item.id === parseInt(id));
+            if (product) break;
+        }
+    }
+    if (product) res.json(product);
+    else res.status(404).json({ error: 'not found' });
+});
+
+// ===== API: промокоды =====
+app.post('/api/validate-promocode', (req, res) => {
+    const { code } = req.body;
+    const discount = products.promocodes[code.toUpperCase()];
+    res.json(discount ? { valid: true, discount } : { valid: false });
+});
+
+// ===== API: курсы валют =====
 app.get('/api/currency-rates', (req, res) => res.json(products.currency_rates));
-app.post('/api/checkout', async (req, res) => { const order = req.body; console.log('🆕 Заказ:', order.telegramUsername); const ordersFile = path.join(__dirname, 'data', 'orders.json'); let orders = []; try { orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')); } catch (e) {} orders.push({ ...order, date: new Date().toISOString(), orderId: Date.now() }); fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2)); if (adminChatId) { try { await bot.sendMessage(adminChatId, formatAdminMessage(order), { parse_mode: 'HTML' }); console.log('✅ Админу отправлено'); } catch (e) { console.error('❌ Ошибка админу:', e.message); } } res.json({ success: true }); });
 
-function formatAdminMessage(order) { const items = order.items.map((item, i) => (i + 1) + '. ' + escapeHTML(item.name) + (item.size ? ' | Размер: ' + escapeHTML(String(item.size)) : '') + (item.color ? ' | Цвет: ' + escapeHTML(item.color) : '') + ' | Цена: ' + item.price + ' BYN').join('\n'); const disc = order.discount > 0 ? '\n💰 Скидка: -' + order.discount + '%' : ''; const del = order.delivery === 'pickup' ? '\n🚶 Самовывоз (Гомель)' : '\n🚚 Доставка'; let info = '\n💬 @' + escapeHTML(order.telegramUsername || '—'); if (order.delivery === 'delivery') info = '\n👤 ' + escapeHTML(order.lastName) + ' ' + escapeHTML(order.firstName) + ' ' + escapeHTML(order.middleName) + '\n📱 ' + escapeHTML(order.phone) + '\n📍 ' + escapeHTML(order.europostAddress) + info; return '🆕 <b>НОВЫЙ ЗАКАЗ #' + Date.now().toString().slice(-6) + '</b>\n\n📦 <b>Товары:</b>\n' + items + '\n' + disc + del + info + '\n\n💵 <b>Итого: ' + order.total + ' BYN</b>'; }
-function formatUserMessage(order) { const items = order.items.map((item, i) => (i + 1) + '. ' + escapeHTML(item.name) + ' — ' + item.price + ' BYN').join('\n'); const disc = order.discount > 0 ? '\n💰 Скидка: -' + order.discount + '%' : ''; const del = order.delivery === 'pickup' ? '\n🚶 Самовывоз (Гомель)' : '\n🚚 Доставка почтой'; return '✅ <b>ЗАКАЗ ОФОРМЛЕН!</b>\n\n📦 <b>Товары:</b>\n' + items + '\n' + disc + del + '\n\n💵 <b>Итого: ' + order.total + ' BYN</b>\n\nСкоро с вами свяжутся!\nКонтакты: @bananchick666 / @glbklch'; }
+// ===== API: оформление заказа =====
+app.post('/api/checkout', async (req, res) => {
+    const order = req.body;
+    console.log('🆕 Заказ:', order.telegramUsername);
+    const ordersFile = path.join(__dirname, 'data', 'orders.json');
+    let orders = [];
+    try { orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')); } catch (e) {}
+    orders.push({ ...order, date: new Date().toISOString(), orderId: Date.now() });
+    fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
+    if (adminChatId) {
+        try {
+            await bot.sendMessage(adminChatId, formatAdminMessage(order), { parse_mode: 'HTML' });
+            console.log('✅ Админу отправлено');
+        } catch (e) {
+            console.error('❌ Ошибка админу:', e.message);
+        }
+    }
+    res.json({ success: true });
+});
 
+// ===== Форматирование сообщения админу =====
+function formatAdminMessage(order) {
+    const items = order.items.map((item, i) =>
+        (i + 1) + '. ' + escapeHTML(item.name) +
+        (item.size ? ' | Размер: ' + escapeHTML(String(item.size)) : '') +
+        (item.color ? ' | Цвет: ' + escapeHTML(item.color) : '') +
+        ' | Цена: ' + item.price + ' BYN'
+    ).join('\n');
+    const disc = order.discount > 0 ? '\n💰 Скидка: -' + order.discount + '%' : '';
+    const del = order.delivery === 'pickup' ? '\n🚶 Самовывоз (Гомель)' : '\n🚚 Доставка';
+    let info = '\n💬 @' + escapeHTML(order.telegramUsername || '—');
+    if (order.delivery === 'delivery') {
+        info = '\n👤 ' + escapeHTML(order.lastName) + ' ' + escapeHTML(order.firstName) + ' ' + escapeHTML(order.middleName) +
+               '\n📱 ' + escapeHTML(order.phone) +
+               '\n📍 ' + escapeHTML(order.europostAddress) + info;
+    }
+    return '🆕 <b>НОВЫЙ ЗАКАЗ #' + Date.now().toString().slice(-6) + '</b>\n\n📦 <b>Товары:</b>\n' + items + '\n' + disc + del + info + '\n\n💵 <b>Итого: ' + order.total + ' BYN</b>';
+}
+
+// ===== Форматирование сообщения пользователю =====
+function formatUserMessage(order) {
+    const items = order.items.map((item, i) => (i + 1) + '. ' + escapeHTML(item.name) + ' — ' + item.price + ' BYN').join('\n');
+    const disc = order.discount > 0 ? '\n💰 Скидка: -' + order.discount + '%' : '';
+    const del = order.delivery === 'pickup' ? '\n🚶 Самовывоз (Гомель)' : '\n🚚 Доставка почтой';
+    return '✅ <b>ЗАКАЗ ОФОРМЛЕН!</b>\n\n📦 <b>Товары:</b>\n' + items + '\n' + disc + del + '\n\n💵 <b>Итого: ' + order.total + ' BYN</b>\n\nСкоро с вами свяжутся!\nКонтакты: @bananchick666 / @glbklch';
+}
+
+// ===== Команды бота =====
 bot.setMyCommands([{ command: '/start', description: 'Главное меню' }]);
-bot.onText(/\/start/, (msg) => { bot.sendMessage(msg.chat.id, '👋 Привет, ' + escapeHTML(msg.from.first_name) + '!\n\nДобро пожаловать в наш магазин!\n\n🛍 У нас вы найдёте:\n👟 Обувь и одежда\n📱 Техника и аксессуары\n\n📍 Самовывоз: Гомель\n🚚 Доставка по Беларуси\n\nНажмите на кнопку ниже чтобы открыть каталог 👇', { reply_markup: { inline_keyboard: [[{ text: '🛍 ОТКРЫТЬ МАГАЗИН', web_app: { url: WEBAPP_URL } }], [{ text: '📞 Контакты', callback_data: 'contacts' }, { text: '📝 Как заказать', callback_data: 'howto' }]] } }); });
-bot.on('callback_query', async (query) => { if (query.data === 'contacts') await bot.sendMessage(query.message.chat.id, '📞 <b>КОНТАКТЫ</b>\n\nПо всем вопросам пишите:\n\n💬 @bananchick666\n💬 @glbklch\n\nВсегда на связи!', { parse_mode: 'HTML' }); else if (query.data === 'howto') await bot.sendMessage(query.message.chat.id, '📝 <b>КАК ЗАКАЗАТЬ</b>\n\n1️⃣ Откройте магазин\n2️⃣ Выберите товары\n3️⃣ Добавьте в корзину\n4️⃣ Введите промокод\n5️⃣ Выберите способ получения\n6️⃣ Заполните данные\n7️⃣ Ожидайте подтверждения\n\nПосле оформления с вами свяжутся!', { parse_mode: 'HTML' }); await bot.answerCallbackQuery(query.id); });
-bot.on('message', async (msg) => { if (msg.web_app_data) { try { const data = JSON.parse(msg.web_app_data.data); if (data.action === 'order') { const order = data.order; console.log('📱 WebApp заказ:', order.telegramUsername); await bot.sendMessage(msg.chat.id, formatUserMessage(order), { parse_mode: 'HTML', reply_markup: { inline_keyboard: [[{ text: '🛍 Продолжить покупки', web_app: { url: WEBAPP_URL } }]] } }); const ordersFile = path.join(__dirname, 'data', 'orders.json'); let orders = []; try { orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')); } catch (e) {} orders.push({ ...order, date: new Date().toISOString(), orderId: Date.now() }); fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2)); if (adminChatId) { try { await bot.sendMessage(adminChatId, formatAdminMessage(order), { parse_mode: 'HTML' }); console.log('✅ Админу отправлено'); } catch (e) { console.error('❌ Ошибка админу:', e.message); } } } } catch (e) { console.error('❌ WebApp error:', e.message); } } });
+
+bot.onText(/\/start/, (msg) => {
+    bot.sendMessage(msg.chat.id,
+        '👋 Привет, ' + escapeHTML(msg.from.first_name) + '!\n\n' +
+        'Добро пожаловать в наш магазин!\n\n' +
+        '🛍 У нас вы найдёте:\n👟 Обувь\n👕 Одежда\n📱 Техника и аксессуары\n🧴 Духи\n\n' +
+        '📍 Самовывоз: Гомель\n🚚 Доставка по Беларуси\n\n' +
+        'Нажмите на кнопку ниже чтобы открыть каталог 👇',
+        {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: '🛍 ОТКРЫТЬ МАГАЗИН', web_app: { url: WEBAPP_URL } }],
+                    [{ text: '📞 Контакты', callback_data: 'contacts' }, { text: '📝 Как заказать', callback_data: 'howto' }]
+                ]
+            }
+        }
+    );
+});
+
+bot.on('callback_query', async (query) => {
+    if (query.data === 'contacts') {
+        await bot.sendMessage(query.message.chat.id,
+            '📞 <b>КОНТАКТЫ</b>\n\nПо всем вопросам пишите:\n\n💬 @bananchick666\n💬 @glbklch\n\nВсегда на связи!',
+            { parse_mode: 'HTML' }
+        );
+    } else if (query.data === 'howto') {
+        await bot.sendMessage(query.message.chat.id,
+            '📝 <b>КАК ЗАКАЗАТЬ</b>\n\n1️⃣ Откройте магазин\n2️⃣ Выберите товары\n3️⃣ Добавьте в корзину\n4️⃣ Введите промокод\n5️⃣ Выберите способ получения\n6️⃣ Заполните данные\n7️⃣ Ожидайте подтверждения\n\nПосле оформления с вами свяжутся!',
+            { parse_mode: 'HTML' }
+        );
+    }
+    await bot.answerCallbackQuery(query.id);
+});
+
+// ===== Обработка данных из WebApp =====
+bot.on('message', async (msg) => {
+    if (msg.web_app_data) {
+        try {
+            const data = JSON.parse(msg.web_app_data.data);
+            if (data.action === 'order') {
+                const order = data.order;
+                console.log('📱 WebApp заказ:', order.telegramUsername);
+
+                await bot.sendMessage(msg.chat.id, formatUserMessage(order), {
+                    parse_mode: 'HTML',
+                    reply_markup: {
+                        inline_keyboard: [[{ text: '🛍 Продолжить покупки', web_app: { url: WEBAPP_URL } }]]
+                    }
+                });
+
+                const ordersFile = path.join(__dirname, 'data', 'orders.json');
+                let orders = [];
+                try { orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')); } catch (e) {}
+                orders.push({ ...order, date: new Date().toISOString(), orderId: Date.now() });
+                fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
+
+                if (adminChatId) {
+                    try {
+                        await bot.sendMessage(adminChatId, formatAdminMessage(order), { parse_mode: 'HTML' });
+                        console.log('✅ Админу отправлено');
+                    } catch (e) {
+                        console.error('❌ Ошибка админу:', e.message);
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('❌ WebApp error:', e.message);
+        }
+    }
+});
 
 app.listen(PORT, () => console.log('✅ Сервер запущен на порту ' + PORT));

@@ -6,6 +6,7 @@ tg.ready();
 const state = {
     currentView: 'categories',
     currentCategory: null,
+    currentSubcategory: null,
     currentProduct: null,
     selectedPerfumeType: null,
     cart: JSON.parse(localStorage.getItem('cart') || '[]'),
@@ -62,9 +63,13 @@ function showView(name) {
     state.currentView = name;
     document.getElementById('backBtn').style.visibility = name === 'categories' ? 'hidden' : 'visible';
     switch (name) {
-        case 'categories': document.getElementById('headerTitle').textContent = 'Shop'; break;
+        case 'categories':
+            if (state.currentCategory === 'clothes') document.getElementById('headerTitle').textContent = 'Одежда';
+            else document.getElementById('headerTitle').textContent = 'Shop';
+            break;
         case 'products':
-            if (state.currentCategory === 'shoes') document.getElementById('headerTitle').textContent = 'Обувь и одежда';
+            if (state.currentCategory === 'shoes') document.getElementById('headerTitle').textContent = 'Обувь';
+            else if (state.currentCategory === 'clothes') document.getElementById('headerTitle').textContent = 'Одежда';
             else if (state.currentCategory === 'perfume') document.getElementById('headerTitle').textContent = 'Духи';
             else document.getElementById('headerTitle').textContent = 'Техника и аксессуары';
             break;
@@ -81,8 +86,15 @@ function goBack() {
     state.viewHistory.pop();
     const prev = state.viewHistory[state.viewHistory.length - 1] || 'categories';
     switch (prev) {
-        case 'categories': showCategories(); break;
-        case 'products': showProducts(state.currentCategory); break;
+        case 'categories':
+            if (state.currentCategory === 'clothes' && state.viewHistory.includes('clothes-subcategories')) {
+                showClothesSubcategories();
+            } else {
+                showCategories();
+            }
+            break;
+        case 'clothes-subcategories': showClothesSubcategories(); break;
+        case 'products': showProducts(state.currentCategory, state.currentSubcategory); break;
         case 'product': if (state.currentProduct) showProductDetail(state.currentProduct.id); break;
         case 'cart': showCart(); break;
         case 'wheel': showCategories(); break;
@@ -90,8 +102,10 @@ function goBack() {
 }
 
 function showCategories() {
+    state.currentCategory = null;
+    state.currentSubcategory = null;
     showView('categories');
-    state.currentCategory = null; state.viewHistory = ['categories'];
+    state.viewHistory = ['categories'];
     document.getElementById('view-categories').innerHTML = `
         <div class="categories-grid">
             <div class="category-card" onclick="showWheel()">
@@ -101,7 +115,12 @@ function showCategories() {
             </div>
             <div class="category-card" onclick="showProducts('shoes')">
                 <div class="category-icon">👟</div>
-                <div class="category-info"><div class="category-name">Обувь и одежда</div><div class="category-desc">Кроссовки, кеды, бутсы и другое</div></div>
+                <div class="category-info"><div class="category-name">Обувь</div><div class="category-desc">Кроссовки, кеды, бутсы и другое</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showClothesSubcategories()">
+                <div class="category-icon">👕</div>
+                <div class="category-info"><div class="category-name">Одежда</div><div class="category-desc">Футболки, кофты, куртки, штаны</div></div>
                 <div class="category-arrow">›</div>
             </div>
             <div class="category-card" onclick="showProducts('tech')">
@@ -117,8 +136,67 @@ function showCategories() {
         </div>`;
 }
 
-async function showProducts(cat) {
+function showClothesSubcategories() {
+    state.currentCategory = 'clothes';
+    state.currentSubcategory = null;
+    showView('categories');
+    document.getElementById('headerTitle').textContent = 'Одежда';
+    if (!state.viewHistory.includes('clothes-subcategories')) {
+        state.viewHistory.push('clothes-subcategories');
+    }
+    document.getElementById('view-categories').innerHTML = `
+        <div class="categories-grid">
+            <div class="category-card" onclick="showProducts('clothes', 't-shirts')">
+                <div class="category-icon">👕</div>
+                <div class="category-info"><div class="category-name">Футболки и майки</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'longsleeves')">
+                <div class="category-icon">👔</div>
+                <div class="category-info"><div class="category-name">Лонгсливы</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'hoodies')">
+                <div class="category-icon">🧥</div>
+                <div class="category-info"><div class="category-name">Кофты и свитшоты</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'sweaters')">
+                <div class="category-icon">🧶</div>
+                <div class="category-info"><div class="category-name">Свитера</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'jackets')">
+                <div class="category-icon">🧥</div>
+                <div class="category-info"><div class="category-name">Куртки и пуховики</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'vests')">
+                <div class="category-icon">🦺</div>
+                <div class="category-info"><div class="category-name">Жилетки</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'pants')">
+                <div class="category-icon">👖</div>
+                <div class="category-info"><div class="category-name">Штаны и джинсы</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'shorts')">
+                <div class="category-icon">🩳</div>
+                <div class="category-info"><div class="category-name">Шорты</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+            <div class="category-card" onclick="showProducts('clothes', 'shirts')">
+                <div class="category-icon">👔</div>
+                <div class="category-info"><div class="category-name">Рубашки</div></div>
+                <div class="category-arrow">›</div>
+            </div>
+        </div>`;
+}
+
+async function showProducts(cat, subcategory = null) {
     state.currentCategory = cat;
+    state.currentSubcategory = subcategory;
     state.allFilters = {};
     showView('products');
     await loadProducts();
@@ -126,7 +204,9 @@ async function showProducts(cat) {
 
 async function loadProducts() {
     try {
-        const products = await API.getProducts(state.currentCategory, {});
+        const params = {};
+        if (state.currentSubcategory) params.subcategory = state.currentSubcategory;
+        const products = await API.getProducts(state.currentCategory, params);
         state.allProducts = products;
         renderGrid(products);
     } catch (e) {
@@ -140,6 +220,7 @@ function applyFiltersAndRender() {
     if (f.sort === 'price_asc') products.sort((a, b) => getPrice(a) - getPrice(b));
     if (f.sort === 'price_desc') products.sort((a, b) => getPrice(b) - getPrice(a));
     if (f.brand) products = products.filter(p => p.brand === f.brand);
+    if (f.subcategory) products = products.filter(p => p.subcategory === f.subcategory);
     if (f.size) products = products.filter(p => p.size && String(p.size).includes(f.size));
     if (f.condition) {
         products = products.filter(p => {
@@ -157,6 +238,7 @@ function applyFiltersAndRender() {
 
 function renderGrid(products) {
     const isShoes = state.currentCategory === 'shoes';
+    const isClothes = state.currentCategory === 'clothes';
     const brands = [...new Set(state.allProducts.map(p => p.brand).filter(Boolean))];
     const f = state.allFilters;
 
@@ -181,6 +263,19 @@ function renderGrid(products) {
                 <option value="new" ${f.condition==='new'?'selected':''}>Новое</option>
                 <option value="excellent" ${f.condition==='excellent'?'selected':''}>Отличное</option>
                 <option value="good" ${f.condition==='good'?'selected':''}>Хорошее</option>
+            </select>` : ''}
+            ${isClothes && !state.currentSubcategory ? `
+            <select class="filter-select" id="filterSubcat" onchange="setFilter('subcategory', this.value)">
+                <option value="">Категория</option>
+                <option value="t-shirts" ${f.subcategory==='t-shirts'?'selected':''}>Футболки</option>
+                <option value="longsleeves" ${f.subcategory==='longsleeves'?'selected':''}>Лонгсливы</option>
+                <option value="hoodies" ${f.subcategory==='hoodies'?'selected':''}>Кофты</option>
+                <option value="sweaters" ${f.subcategory==='sweaters'?'selected':''}>Свитера</option>
+                <option value="jackets" ${f.subcategory==='jackets'?'selected':''}>Куртки</option>
+                <option value="vests" ${f.subcategory==='vests'?'selected':''}>Жилетки</option>
+                <option value="pants" ${f.subcategory==='pants'?'selected':''}>Штаны</option>
+                <option value="shorts" ${f.subcategory==='shorts'?'selected':''}>Шорты</option>
+                <option value="shirts" ${f.subcategory==='shirts'?'selected':''}>Рубашки</option>
             </select>` : ''}
             <select class="filter-select" id="filterPrice" onchange="handlePriceFilter(this.value)">
                 <option value="">Цена</option>

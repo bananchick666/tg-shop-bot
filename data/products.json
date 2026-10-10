@@ -1,7 +1,5 @@
 {
   "shoes": [
-    
-   
     {
       "id": 3,
       "name": "Nike Shox TL Chili Pepper",
@@ -19,7 +17,6 @@
         "images/nike_shox_chili_4.jpg",
         "images/nike_shox_chili_5.jpg",
         "images/nike_shox_chili_6.jpg"
-        
       ],
       "inStock": true
     },
@@ -76,11 +73,6 @@
       ],
       "inStock": true
     },
-    
-    
-    
-   
-    
     {
       "id": 12,
       "name": "Nike Air Max 1 Aure Blue Midnight-Navy",
@@ -93,12 +85,9 @@
       "condition": "10/10 (новые)",
       "images": [
         "images/nike_am1_blue_1.jpg"
-        
       ],
       "inStock": true
     },
-   
-    
     {
       "id": 15,
       "name": "Nike Air Max TN Triple Black",
@@ -155,7 +144,6 @@
       ],
       "inStock": true
     },
-     
     {
       "id": 19,
       "name": "Nike React Element",
@@ -190,7 +178,6 @@
         "images/nike_air_jordan11_2.jpg",
         "images/nike_air_jordan11_3.jpg",
         "images/nike_air_jordan11_4.jpg"
-        
       ],
       "inStock": true
     },
@@ -209,13 +196,10 @@
         "images/timberland_boots_2.jpg",
         "images/timberland_boots_3.jpg",
         "images/timberland_boots_4.jpg"
-        
       ],
       "inStock": true
     },
-    
-    
-     {
+    {
       "id": 24,
       "name": "Nike Air Max 95 Premium Volt Glow",
       "description": "Состояние отличное. Размер 42,5.",
@@ -231,28 +215,9 @@
         "images/nike_air_max95_ptemium_volt_glow425_3.jpg",
         "images/nike_air_max95_ptemium_volt_glow425_4.jpg",
         "images/nike_air_max95_ptemium_volt_glow425_5.jpg"
-        
-        
       ],
       "inStock": true
     },
-     
-    {
-      "id": 26,
-      "name": "Шорты nike loose fit ",
-      "description": "Состояние 8,5/10. Размер L",
-      "price": 20,
-      "brand": "Nike",
-      "condition": "8,5/10",
-      "size": [48],
-      "sizeNote": "L",
-      "color": "В ассортименте",
-      "images": [
-        "images/nike_loose_fit_1.jpg"
-      ],
-      "inStock": true
-    },
-
     {
       "id": 34,
       "name": "Adidas Court Star slim",
@@ -272,67 +237,7 @@
       ],
       "inStock": true
     },
-
-
     {
-      "id": 39,
-      "name": "Carhartt Hoodie Green",
-      "description": "Состояние 8,5/10. Размер S/M.",
-      "price": 55,
-      "size": [44],
-      "sizeNote": "S/M",
-      "color": "В ассортименте",
-      "brand": "Carhartt",
-      "condition": "8,5/10",
-      "images": [
-        "images/carhartt_hoodie_green_1.jpg"
-        
-        
-        
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 40,
-      "name": "2 Pac vintage tee big logo",
-      "description": "Состояние хорошее. Размер M/L.",
-      "price": 50,
-      "size": [46],
-      "sizeNote": "M/L",
-      "color": "В ассортименте",
-      "brand": "2 Pac",
-      "condition": "хорошее",
-      "images": [
-        "images/2pac_vintage_tee_biglogo_1.jpg"
-
-        
-        
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 41,
-      "name": "2 Pac vintage tee box logo",
-      "description": "Состояние хорошее. Размер M/L.",
-      "price": 50,
-      "size": [46],
-      "sizeNote": "M/L",
-      "color": "В ассортименте",
-      "brand": "2 Pac",
-      "condition": "хорошее",
-      "images": [
-        "images/2pac_vintage_tee_boxlogo_1.jpg",
-        "images/2pac_vintage_tee_boxlogo_2.jpg"
-  
-        
-      ],
-      "inStock": true
-    },
-
-
-     {
       "id": 46,
       "name": "Nike Zoom Pegasus 32",
       "description": "Состояние хорошее. Размер 40-41.",
@@ -348,11 +253,9 @@
         "images/nike_air_zoom_pegasus32_3.jpg",
         "images/nike_air_zoom_pegasus32_4.jpg",
         "images/nike_air_zoom_pegasus32_5.jpg"
-
       ],
       "inStock": true
     },
-
     {
       "id": 47,
       "name": "Adidas Nizza Platform",
@@ -370,11 +273,9 @@
         "images/adidas_nizza_platform_4.jpg",
         "images/adidas_nizza_platform_5.jpg",
         "images/adidas_nizza_platform_6.jpg"
-    
       ],
       "inStock": true
     },
-
     {
       "id": 48,
       "name": "Adidas neo",
@@ -392,12 +293,10 @@
         "images/adidas_neo_4.jpg",
         "images/adidas_neo_5.jpg",
         "images/adidas_neo_6.jpg"
-  
       ],
       "inStock": true
     },
-
-     {
+    {
       "id": 49,
       "name": "Nike React Vision",
       "description": "Состояние хорошее. Размер 44(28 см).",
@@ -414,12 +313,9 @@
         "images/nike_react_vision_4.jpg",
         "images/nike_react_vision_5.jpg",
         "images/nike_react_vision_6.jpg"
-    
       ],
       "inStock": true
     },
-      
-
     {
       "id": 64,
       "name": "Avangard Boots",
@@ -436,15 +332,9 @@
         "images/avangard_boots_3.jpg",
         "images/avangard_boots_4.jpg",
         "images/avangard_boots_5.jpg"
-        
-        
-      
       ],
       "inStock": true
     },
-
-   
-
     {
       "id": 66,
       "name": "Nike DN",
@@ -461,17 +351,9 @@
         "images/nike_dn_3.jpg",
         "images/nike_dn_4.jpg",
         "images/nike_dn_5.jpg"
-        
-        
-        
-        
-      
       ],
       "inStock": true
     },
-
-    
-
     {
       "id": 68,
       "name": "Nike Air Force 1",
@@ -488,18 +370,9 @@
         "images/nike_force_3.jpg",
         "images/nike_force_4.jpg",
         "images/nike_force_5.jpg"
-        
-        
-        
-        
-        
-        
-      
       ],
       "inStock": true
     },
-
-    
     {
       "id": 70,
       "name": "Nike Air Force 1",
@@ -516,12 +389,10 @@
         "images/nikeforce_3.jpg",
         "images/nikeforce_4.jpg",
         "images/nikeforce_5.jpg"
-   
       ],
       "inStock": true
     },
-
-     {
+    {
       "id": 71,
       "name": "Nike Air Max 95 Have a Nike Day",
       "description": "состояние хорошее. Размер 40-41.",
@@ -533,214 +404,9 @@
       "condition": "состоянее хорошее",
       "images": [
         "images/nikeairmax95_1.jpg"
-        
-       
-   
       ],
       "inStock": true
     },
-
-     {
-      "id": 72,
-      "name": "Vintage Marlboro jacket",
-      "description": "состояние 8/10. Размер L-XL. Настоящая пацанская куртка, шляпа с вб даже близко не стоит. Все её потертости скажут только об одном - у неё есть история.  Отличный вариант на прохладную осень, плотный материал с наполнителем.",
-      "price": 250,
-      "size": [50],
-      "sizeNote": "L-XL",
-      "color": "В ассортименте",
-      "brand": "Marlboro",
-      "condition": "состоянее 8/10.",
-      "images": [
-        "images/vintage_marlboro_1.jpg",
-        "images/vintage_marlboro_2.jpg",
-        "images/vintage_marlboro_3.jpg",
-        "images/vintage_marlboro_4.jpg",
-        "images/vintage_marlboro_5.jpg"
-        
-       
-   
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 73,
-      "name": "Джинсы Питерский Щит",
-      "description": "состояние отличное. Размер XL. Замеры: Длина - 106 см, Выход - 25 см, Бедро - 36 см, Пояс - 46 см",
-      "price": 250,
-      "size": [52],
-      "sizeNote": "XL",
-      "color": "В ассортименте",
-      "brand": "Питерский Щит",
-      "condition": "состоянее отличное.",
-      "images": [
-        "images/pitershitjeans_1.jpg",
-        "images/pitershitjeans_2.jpg",
-        "images/pitershitjeans_3.jpg",
-        "images/pitershitjeans_4.jpg",
-        "images/pitershitjeans_5.jpg"
-       
-        
-       
-   
-      ],
-      "inStock": true
-    },
-
-     {
-      "id": 74,
-      "name": "Жилетка Stussy",
-      "description": "состояние отличное. Размер XL.",
-      "price": 320,
-      "size": [52],
-      "sizeNote": "XL",
-      "color": "В ассортименте",
-      "brand": "Stussy",
-      "condition": "состоянее отличное.",
-      "images": [
-        "images/stussyjaket_1.jpg",
-        "images/stussyjaket_2.jpg",
-        "images/stussyjaket_3.jpg"
-       
-       
-        
-       
-   
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 75,
-      "name": "Джерси Stussy",
-      "description": "состояние new. Размер XL.",
-      "price": 200,
-      "size": [52],
-      "sizeNote": "XL",
-      "color": "В ассортименте",
-      "brand": "Stussy",
-      "condition": "состоянее new.",
-      "images": [
-        "images/stussyjercy_1.jpg",
-        "images/stussyjercy_2.jpg",
-        "images/stussyjercy_3.jpg",
-        "images/stussyjercy_4.jpg"
-        
-       
-       
-        
-       
-   
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 76,
-      "name": "Пуховик Nike Storm-Fit",
-      "description": "good condition. Размер L/XL.",
-      "price": 250,
-      "size": [50],
-      "sizeNote": "L/XL",
-      "color": "В ассортименте",
-      "brand": "Nike",
-      "condition": "good condition.",
-      "images": [
-        "images/nikestormfit_1.jpg"
-       
-        
-       
-       
-        
-       
-   
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 77,
-      "name": "Alpha industries B-15 (black)",
-      "description": "good condition(мех есть). Размер L/XL.",
-      "price": 360,
-      "size": [50],
-      "sizeNote": "L/XL",
-      "color": "В ассортименте",
-      "brand": "Alpha",
-      "condition": "good condition(мех есть).",
-      "images": [
-        "images/alphab-15_1.jpg",
-        "images/alphab-15_2.jpg",
-        "images/alphab-15_3.jpg",
-        "images/alphab-15_4.jpg",
-        "images/alphab-15_5.jpg"
-      ],
-      "inStock": true
-    },
-
-     {
-      "id": 78,
-      "name": "Alpha industries B-15 (green)",
-      "description": "good condition(мех есть, ленты нет). Размер XL.",
-      "price": 300,
-      "size": [52],
-      "sizeNote": "XL",
-      "color": "В ассортименте",
-      "brand": "Alpha",
-      "condition": "good condition(мех есть, ленты нет).",
-      "images": [
-        "images/alphab-15green_1.jpg",
-        "images/alphab-15green_2.jpg",
-        "images/alphab-15green_3.jpg",
-        "images/alphab-15green_4.jpg"
-       
-        
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 79,
-      "name": "Базовая жилетка",
-      "description": "good condition. Размер XL.",
-      "price": 80,
-      "size": [52],
-      "sizeNote": "XL",
-      "color": "В ассортименте",
-      "brand": "nn",
-      "condition": "good condition.",
-      "images": [
-        "images/jacket_1.jpg"
-       
-       
-        
-      ],
-      "inStock": true
-    },
-
-    {
-      "id": 80,
-      "name": "Пуховик guess",
-      "description": "good condition. Размер M/L.",
-      "price": 280,
-      "size": [48],
-      "sizeNote": "M/L",
-      "color": "В ассортименте",
-      "brand": "guess",
-      "condition": "good condition.",
-      "images": [
-        "images/guesspux_1.jpg",
-        "images/guesspux_2.jpg",
-        "images/guesspux_3.jpg",
-        "images/guesspux_4.jpg",
-        "images/guesspux_5.jpg"
-       
-       
-        
-      ],
-      "inStock": true
-    },
-
     {
       "id": 81,
       "name": "Vans SK-8 HI",
@@ -753,36 +419,9 @@
       "condition": "good condition.",
       "images": [
         "images/vanssk-8HI_1.jpg"
-        
-       
-       
-       
-        
       ],
       "inStock": true
     },
-
-     {
-      "id": 82,
-      "name": "Микропуховик Adidas TERREX",
-      "description": "good condition. Размер XL.",
-      "price": 180,
-      "size": [52],
-      "sizeNote": "XL",
-      "color": "В ассортименте",
-      "brand": "Adidas",
-      "condition": "good condition.",
-      "images": [
-        "images/adidasterrex_1.jpg"
-        
-       
-       
-       
-        
-      ],
-      "inStock": true
-    },
-
     {
       "id": 83,
       "name": "Винтажные челси",
@@ -798,15 +437,9 @@
         "images/vintagchelsy_2.jpg",
         "images/vintagchelsy_3.jpg",
         "images/vintagchelsy_4.jpg"
-        
-       
-       
-       
-        
       ],
       "inStock": true
     },
-
     {
       "id": 84,
       "name": "Adidas NIZZA HI",
@@ -823,36 +456,268 @@
         "images/adidasnizzaHI_3.jpg",
         "images/adidasnizzaHI_4.jpg",
         "images/adidasnizzaHI_5.jpg"
-        
-        
-       
-       
-       
-        
+      ],
+      "inStock": true
+    }
+  ],
+
+  "clothes": [
+    {
+      "id": 26,
+      "name": "Шорты nike loose fit",
+      "description": "Состояние 8,5/10. Размер L",
+      "price": 20,
+      "brand": "Nike",
+      "condition": "8,5/10",
+      "size": [48],
+      "sizeNote": "L",
+      "color": "В ассортименте",
+      "subcategory": "shorts",
+      "images": ["images/nike_loose_fit_1.jpg"],
+      "inStock": true
+    },
+    {
+      "id": 39,
+      "name": "Carhartt Hoodie Green",
+      "description": "Состояние 8,5/10. Размер S/M.",
+      "price": 55,
+      "size": [44],
+      "sizeNote": "S/M",
+      "color": "В ассортименте",
+      "brand": "carhartt",
+      "condition": "8,5/10",
+      "subcategory": "hoodies",
+      "images": ["images/carhartt_hoodie_green_1.jpg"],
+      "inStock": true
+    },
+    {
+      "id": 40,
+      "name": "2 Pac vintage tee big logo",
+      "description": "Состояние хорошее. Размер M/L.",
+      "price": 50,
+      "size": [48],
+      "sizeNote": "M/L",
+      "color": "В ассортименте",
+      "brand": "2 Pac",
+      "condition": "хорошее",
+      "subcategory": "t-shirts",
+      "images": ["images/2pac_vintage_tee_biglogo_1.jpg"],
+      "inStock": true
+    },
+    {
+      "id": 41,
+      "name": "2 Pac vintage tee box logo",
+      "description": "Состояние хорошее. Размер M/L.",
+      "price": 50,
+      "size": [48],
+      "sizeNote": "M/L",
+      "color": "В ассортименте",
+      "brand": "2 Pac",
+      "condition": "хорошее",
+      "subcategory": "t-shirts",
+      "images": [
+        "images/2pac_vintage_tee_boxlogo_1.jpg",
+        "images/2pac_vintage_tee_boxlogo_2.jpg"
       ],
       "inStock": true
     },
-
+    {
+      "id": 72,
+      "name": "Vintage Marlboro jacket",
+      "description": "состояние 8/10. Размер L-XL. Настоящая пацанская куртка, шляпа с вб даже близко не стоит. Все её потертости скажут только об одном - у неё есть история. Отличный вариант на прохладную осень, плотный материал с наполнителем.",
+      "price": 250,
+      "size": [50],
+      "sizeNote": "L-XL",
+      "color": "В ассортименте",
+      "brand": "Marlboro",
+      "condition": "состоянее 8/10.",
+      "subcategory": "jackets",
+      "images": [
+        "images/vintage_marlboro_1.jpg",
+        "images/vintage_marlboro_2.jpg",
+        "images/vintage_marlboro_3.jpg",
+        "images/vintage_marlboro_4.jpg",
+        "images/vintage_marlboro_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 73,
+      "name": "Джинсы Питерский Щит",
+      "description": "состояние отличное. Размер XL. Замеры: Длина - 106 см, Выход - 25 см, Бедро - 36 см, Пояс - 46 см",
+      "price": 250,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "Питерский Щит",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/pitershitjeans_1.jpg",
+        "images/pitershitjeans_2.jpg",
+        "images/pitershitjeans_3.jpg",
+        "images/pitershitjeans_4.jpg",
+        "images/pitershitjeans_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 74,
+      "name": "Жилетка Stussy",
+      "description": "состояние отличное. Размер XL.",
+      "price": 320,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "Stussy",
+      "condition": "состоянее отличное.",
+      "subcategory": "vests",
+      "images": [
+        "images/stussyjaket_1.jpg",
+        "images/stussyjaket_2.jpg",
+        "images/stussyjaket_3.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 75,
+      "name": "Джерси Stussy",
+      "description": "состояние new. Размер XL.",
+      "price": 200,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "Stussy",
+      "condition": "состоянее new.",
+      "subcategory": "t-shirts",
+      "images": [
+        "images/stussyjercy_1.jpg",
+        "images/stussyjercy_2.jpg",
+        "images/stussyjercy_3.jpg",
+        "images/stussyjercy_4.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 76,
+      "name": "Пуховик Nike Storm-Fit",
+      "description": "good condition. Размер L/XL.",
+      "price": 250,
+      "size": [50],
+      "sizeNote": "L/XL",
+      "color": "В ассортименте",
+      "brand": "Nike",
+      "condition": "good condition.",
+      "subcategory": "jackets",
+      "images": ["images/nikestormfit_1.jpg"],
+      "inStock": true
+    },
+    {
+      "id": 77,
+      "name": "Alpha industries B-15 (black)",
+      "description": "good condition(мех есть). Размер L/XL.",
+      "price": 360,
+      "size": [50],
+      "sizeNote": "L/XL",
+      "color": "В ассортименте",
+      "brand": "Alpha",
+      "condition": "good condition(мех есть).",
+      "subcategory": "jackets",
+      "images": [
+        "images/alphab-15_1.jpg",
+        "images/alphab-15_2.jpg",
+        "images/alphab-15_3.jpg",
+        "images/alphab-15_4.jpg",
+        "images/alphab-15_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 78,
+      "name": "Alpha industries B-15 (green)",
+      "description": "good condition(мех есть, ленты нет). Размер XL.",
+      "price": 300,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "Alpha",
+      "condition": "good condition(мех есть, ленты нет).",
+      "subcategory": "jackets",
+      "images": [
+        "images/alphab-15green_1.jpg",
+        "images/alphab-15green_2.jpg",
+        "images/alphab-15green_3.jpg",
+        "images/alphab-15green_4.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 79,
+      "name": "Базовая жилетка",
+      "description": "good condition. Размер XL.",
+      "price": 80,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "nn",
+      "condition": "good condition.",
+      "subcategory": "vests",
+      "images": ["images/jacket_1.jpg"],
+      "inStock": true
+    },
+    {
+      "id": 80,
+      "name": "Пуховик guess",
+      "description": "good condition. Размер M/L.",
+      "price": 280,
+      "size": [48],
+      "sizeNote": "M/L",
+      "color": "В ассортименте",
+      "brand": "guess",
+      "condition": "good condition.",
+      "subcategory": "jackets",
+      "images": [
+        "images/guesspux_1.jpg",
+        "images/guesspux_2.jpg",
+        "images/guesspux_3.jpg",
+        "images/guesspux_4.jpg",
+        "images/guesspux_5.jpg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": 82,
+      "name": "Микропуховик Adidas TERREX",
+      "description": "good condition. Размер XL.",
+      "price": 180,
+      "size": [52],
+      "sizeNote": "XL",
+      "color": "В ассортименте",
+      "brand": "Adidas",
+      "condition": "good condition.",
+      "subcategory": "jackets",
+      "images": ["images/adidasterrex_1.jpg"],
+      "inStock": true
+    },
     {
       "id": 85,
-      "name": "Свитшот  the notorious  B.I.G",
+      "name": "Свитшот the notorious B.I.G",
       "description": "good condition. Размер M.",
       "price": 50,
       "size": [48],
       "sizeNote": "M",
       "color": "В ассортименте",
-      "brand": "the notorious  B.I.G",
+      "brand": "the notorious B.I.G",
       "condition": "good condition.",
+      "subcategory": "hoodies",
       "images": [
         "images/BIG_1.jpg",
         "images/BIG_2.jpg",
         "images/BIG_3.jpg"
-
       ],
       "inStock": true
     },
-
-      {
+    {
       "id": 86,
       "name": "Лонгслив carhartt",
       "description": "good condition. Размер XL.",
@@ -862,15 +727,13 @@
       "color": "В ассортименте",
       "brand": "carhartt",
       "condition": "good condition.",
+      "subcategory": "longsleeves",
       "images": [
         "images/longcarhartt_1.jpg",
         "images/longcarhartt_2.jpg"
-       
-
       ],
       "inStock": true
     },
-
     {
       "id": 87,
       "name": "Лонгслив RipnDip",
@@ -881,17 +744,14 @@
       "color": "В ассортименте",
       "brand": "RipnDip",
       "condition": "good condition.",
+      "subcategory": "longsleeves",
       "images": [
         "images/longripndip_1.jpg",
         "images/longripndip_2.jpg",
         "images/longripndip_3.jpg"
-        
-       
-
       ],
       "inStock": true
     },
-
     {
       "id": 88,
       "name": "Футболка AAPER",
@@ -902,18 +762,14 @@
       "color": "В ассортименте",
       "brand": "AAPER",
       "condition": "good condition.",
+      "subcategory": "t-shirts",
       "images": [
         "images/tshirtaaper_1.jpg",
         "images/tshirtaaper_2.jpg",
         "images/tshirtaaper_3.jpg"
-        
-        
-       
-
       ],
       "inStock": true
     },
-
     {
       "id": 89,
       "name": "Футболка CARHARTT",
@@ -924,19 +780,14 @@
       "color": "В ассортименте",
       "brand": "carhartt",
       "condition": "good condition.",
+      "subcategory": "t-shirts",
       "images": [
         "images/tshirtcarhartt_1.jpg",
         "images/tshirtcarhartt_2.jpg",
         "images/tshirtcarhartt_3.jpg"
-        
-        
-        
-       
-
       ],
       "inStock": true
     },
-
     {
       "id": 90,
       "name": "Свитер Polo Ralph Lauren",
@@ -947,19 +798,13 @@
       "color": "В ассортименте",
       "brand": "Polo Ralph Lauren",
       "condition": "good condition.",
+      "subcategory": "sweaters",
       "images": [
         "images/switerpolo_1.jpg",
         "images/switerpolo_2.jpg"
-        
-        
-        
-        
-       
-
       ],
       "inStock": true
     },
-
     {
       "id": 91,
       "name": "Vintage shirt",
@@ -970,27 +815,16 @@
       "color": "В ассортименте",
       "brand": "nn",
       "condition": "good condition.",
+      "subcategory": "shirts",
       "images": [
         "images/vintageshirt_1.jpg",
         "images/vintageshirt_2.jpg"
-        
-        
-        
-        
-       
-
       ],
       "inStock": true
     }
-
-     
-
   ],
 
   "tech": [
-    
-    
-    
     {
       "id": 30,
       "name": "MagSafe Battery Pack",
@@ -1008,7 +842,7 @@
       "images": [
         "images/magsafe_battery_1.jpg",
         "images/magsafe_battery_2.jpg",
-         "images/magsafe_battery_3.jpg"
+        "images/magsafe_battery_3.jpg"
       ],
       "inStock": true
     },
@@ -1035,9 +869,7 @@
       ],
       "inStock": true
     },
-    
-
-     {
+    {
       "id": 51,
       "name": "Наушники EarPods (Lightning)",
       "description": "Состояние новое. Полная комплектация. Качество 1:1.",
@@ -1056,9 +888,6 @@
       ],
       "inStock": true
     },
-
-    
-
     {
       "id": 33,
       "name": "Геймпад SONY DUALLSHOCK 4",
@@ -1080,6 +909,36 @@
         "images/dualshock4_transparent_1.jpg"
       ],
       "inStock": true
+    },
+    {
+      "id": 92,
+      "name": "провод tpc на tpc",
+      "description": "Состояние новое. Полная комплектация. Качество 1:1.",
+      "price": 10,
+      "category": "Провода",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "Качество": "1:1",
+        "Комплектация": "Полная"
+      },
+      "images": ["images/provod.jpg"],
+      "inStock": true
+    },
+    {
+      "id": 93,
+      "name": "провод tpc на lightning",
+      "description": "Состояние новое. Полная комплектация. Качество 1:1.",
+      "price": 10,
+      "category": "Провода",
+      "brand": "Apple (1:1)",
+      "condition": "Новое",
+      "specs": {
+        "Качество": "1:1",
+        "Комплектация": "Полная"
+      },
+      "images": ["images/provod.jpg"],
+      "inStock": true
     }
   ],
 
@@ -1093,10 +952,7 @@
       "size": "100 мл / 10 мл",
       "brand": "Paco Rabanne",
       "condition": "Новое",
-      "images": [
-        "images/invictus_1.jpg"
-        
-      ],
+      "images": ["images/invictus_1.jpg"],
       "inStock": true
     },
     {
@@ -1108,14 +964,9 @@
       "size": "4 × 30 мл / 10 мл",
       "brand": "Le Labo",
       "condition": "Новое",
-      "images": [
-        "images/lelabo_1.jpg"
-        
-      ],
+      "images": ["images/lelabo_1.jpg"],
       "inStock": true
     },
-   
-    
     {
       "id": 57,
       "name": "Versace Eros Parfum 100 ml",
@@ -1125,13 +976,9 @@
       "size": "100 мл / 10 мл",
       "brand": "Versace",
       "condition": "Новое",
-      "images": [
-        "images/versace_eros_1.jpg"
-        
-      ],
+      "images": ["images/versace_eros_1.jpg"],
       "inStock": true
     },
-    
     {
       "id": 59,
       "name": "Versace Pour Homme EDT 100 ml",
@@ -1141,13 +988,9 @@
       "size": "100 мл / 10 мл",
       "brand": "Versace",
       "condition": "Новое",
-      "images": [
-        "images/versace_pour_homme_1.jpg"
-        
-      ],
+      "images": ["images/versace_pour_homme_1.jpg"],
       "inStock": true
     },
-    
     {
       "id": 61,
       "name": "Montale Chocolate Greedy 100 ml",
@@ -1157,10 +1000,7 @@
       "size": "100 мл / 10 мл",
       "brand": "Montale",
       "condition": "Новое",
-      "images": [
-        "images/montale_chocolate_1.jpg"
-        
-      ],
+      "images": ["images/montale_chocolate_1.jpg"],
       "inStock": true
     },
     {
@@ -1172,14 +1012,11 @@
       "size": "100 мл / 10 мл",
       "brand": "Dior",
       "condition": "Новое",
-      "images": [
-        "images/dior_sauvage_1.jpg"
-      ],
+      "images": ["images/dior_sauvage_1.jpg"],
       "inStock": true
     }
-    
   ],
-   
+
   "promocodes": {
     "WHEEL10": 10,
     "WHEEL5": 5
