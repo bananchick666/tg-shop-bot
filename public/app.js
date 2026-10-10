@@ -15,13 +15,11 @@ const state = {
     currencyRates: { USD: 3.25, RUB: 28.5 },
     deliveryType: null,
     selectedColor: null,
-    viewHistory: ['categories'],
     detailImageIndex: 0,
     allProducts: [],
     allFilters: {}
 };
 
-// Получить цену товара (учитывает духи)
 function getPrice(p) {
     if (p.price_full) {
         return state.selectedPerfumeType === 'sample' ? p.price_sample : p.price_full;
@@ -57,70 +55,29 @@ function toast(msg) {
     setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 2000);
 }
 
-// ===== Показ экрана + управление кнопкой "Назад" =====
+// Просто показать экран (БЕЗ управления историей)
 function showView(name) {
     document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
     const view = document.getElementById('view-' + name); if (view) view.style.display = 'block';
     state.currentView = name;
-
-    // Стрелка "Назад" видна везде, кроме главного экрана категорий
-    const isRoot = (name === 'categories') && (state.currentCategory !== 'clothes');
-    document.getElementById('backBtn').style.visibility = isRoot ? 'hidden' : 'visible';
-
-    switch (name) {
-        case 'categories':
-            if (state.currentCategory === 'clothes') document.getElementById('headerTitle').textContent = 'Одежда';
-            else document.getElementById('headerTitle').textContent = 'Shop';
-            break;
-        case 'products':
-            if (state.currentCategory === 'shoes') document.getElementById('headerTitle').textContent = 'Обувь';
-            else if (state.currentCategory === 'clothes') document.getElementById('headerTitle').textContent = 'Одежда';
-            else if (state.currentCategory === 'perfume') document.getElementById('headerTitle').textContent = 'Духи';
-            else document.getElementById('headerTitle').textContent = 'Техника и аксессуары';
-            break;
-        case 'product': document.getElementById('headerTitle').textContent = state.currentProduct ? (state.currentProduct.brand || 'Товар') : 'Товар'; break;
-        case 'cart': document.getElementById('headerTitle').textContent = 'Корзина'; break;
-        case 'checkout': document.getElementById('headerTitle').textContent = 'Оформление'; break;
-        case 'wheel': document.getElementById('headerTitle').textContent = 'Колесо фортуны'; break;
-    }
-    if (state.viewHistory[state.viewHistory.length - 1] !== name) state.viewHistory.push(name);
     window.scrollTo(0, 0);
 }
 
-// ===== Кнопка "Назад" =====
-function goBack() {
-    state.viewHistory.pop();
-    const prev = state.viewHistory[state.viewHistory.length - 1] || 'categories';
-    switch (prev) {
-        case 'categories':
-            showCategories();
-            break;
-        case 'clothes-subcategories':
-            showClothesSubcategories();
-            break;
-        case 'products':
-            showProducts(state.currentCategory, state.currentSubcategory);
-            break;
-        case 'product':
-            if (state.currentProduct) showProductDetail(state.currentProduct.id);
-            break;
-        case 'cart':
-            showCart();
-            break;
-        case 'wheel':
-            showCategories();
-            break;
-        default:
-            showCategories();
-    }
+function updateBackBtn() {
+    // Стрелка скрыта только на главном экране категорий (state.currentCategory === null)
+    const isRoot = state.currentView === 'categories' && !state.currentCategory;
+    document.getElementById('backBtn').style.visibility = isRoot ? 'hidden' : 'visible';
 }
 
-// ===== Главный экран =====
+// ===== Навигация: каждый переход управляет историей явно =====
+
 function showCategories() {
     state.currentCategory = null;
     state.currentSubcategory = null;
-    state.viewHistory = ['categories'];
+    state.history = ['categories'];
     showView('categories');
+    document.getElementById('headerTitle').textContent = 'Shop';
+    updateBackBtn();
     document.getElementById('view-categories').innerHTML = `
         <div class="categories-grid">
             <div class="category-card" onclick="showWheel()">
@@ -151,13 +108,13 @@ function showCategories() {
         </div>`;
 }
 
-// ===== Подкатегории одежды =====
 function showClothesSubcategories() {
     state.currentCategory = 'clothes';
     state.currentSubcategory = null;
-    state.viewHistory = ['categories', 'clothes-subcategories'];
+    state.history = ['categories', 'clothes-subcategories'];
     showView('categories');
     document.getElementById('headerTitle').textContent = 'Одежда';
+    updateBackBtn();
     document.getElementById('view-categories').innerHTML = `
         <div class="categories-grid">
             <div class="category-card" onclick="showProducts('clothes', 't-shirts')">
@@ -212,10 +169,62 @@ async function showProducts(cat, subcategory = null) {
     state.currentCategory = cat;
     state.currentSubcategory = subcategory;
     state.allFilters = {};
+    // история: главная → (подкатегории одежды, если есть) → список
+    if (cat === 'clothes') {
+        state.history = ['categories', 'clothes-subcategories', 'products'];
+    } else {
+        state.history = ['categories', 'products'];
+    }
     showView('products');
+    if (cat === 'shoes') document.getElementById('headerTitle').textContent = 'Обувь';
+    else if (cat === 'clothes') document.getElementById('headerTitle').textContent = 'Одежда';
+    else if (cat === 'perfume') document.getElementById('headerTitle').textContent = 'Духи';
+    else document.getElementById('headerTitle').textContent = 'Техника и аксессуары';
+    updateBackBtn();
     await loadProducts();
 }
 
+function showWheel() {
+    state.currentCategory = null;
+    state.currentSubcategory = null;
+    state.history = ['categories', 'wheel'];
+    showView('wheel');
+    document.getElementById('headerTitle').textContent = 'Колесо фортуны';
+    updateBackBtn();
+    renderWheel();
+}
+
+// ===== Кнопка "Назад" =====
+function goBack() {
+    if (!state.history || state.history.length <= 1) {
+        showCategories();
+        return;
+    }
+    state.history.pop();
+    const prev = state.history[state.history.length - 1];
+
+    if (prev === 'categories') {
+        // Возврат на ГЛАВНЫЙ экран
+        state.currentCategory = null;
+        state.currentSubcategory = null;
+        showCategories();
+    } else if (prev === 'clothes-subcategories') {
+        showClothesSubcategories();
+    } else if (prev === 'products') {
+        showProducts(state.currentCategory, state.currentSubcategory);
+    } else if (prev === 'product') {
+        if (state.currentProduct) showProductDetail(state.currentProduct.id, true);
+        else showCategories();
+    } else if (prev === 'cart') {
+        showCart(true);
+    } else if (prev === 'wheel') {
+        showWheel();
+    } else {
+        showCategories();
+    }
+}
+
+// ===== Товары =====
 async function loadProducts() {
     try {
         const params = {};
@@ -258,28 +267,28 @@ function renderGrid(products) {
 
     document.getElementById('view-products').innerHTML = `
         <div class="filters-bar">
-            <select class="filter-select" id="filterSort" onchange="setFilter('sort', this.value)">
+            <select class="filter-select" onchange="setFilter('sort', this.value)">
                 <option value="">Сортировка</option>
                 <option value="price_asc" ${f.sort==='price_asc'?'selected':''}>Цена: возр.</option>
                 <option value="price_desc" ${f.sort==='price_desc'?'selected':''}>Цена: убыв.</option>
             </select>
-            <select class="filter-select" id="filterBrand" onchange="setFilter('brand', this.value)">
+            <select class="filter-select" onchange="setFilter('brand', this.value)">
                 <option value="">Бренд</option>
                 ${brands.map(b => `<option value="${b}" ${f.brand===b?'selected':''}>${b}</option>`).join('')}
             </select>
             ${isShoes ? `
-            <select class="filter-select" id="filterSize" onchange="setFilter('size', this.value)">
+            <select class="filter-select" onchange="setFilter('size', this.value)">
                 <option value="">Размер</option>
                 ${['38','39','40','41','42','43','44','45','46'].map(s => `<option value="${s}" ${f.size===s?'selected':''}>${s}</option>`).join('')}
             </select>
-            <select class="filter-select" id="filterCondition" onchange="setFilter('condition', this.value)">
+            <select class="filter-select" onchange="setFilter('condition', this.value)">
                 <option value="">Состояние</option>
                 <option value="new" ${f.condition==='new'?'selected':''}>Новое</option>
                 <option value="excellent" ${f.condition==='excellent'?'selected':''}>Отличное</option>
                 <option value="good" ${f.condition==='good'?'selected':''}>Хорошее</option>
             </select>` : ''}
             ${isClothes && !state.currentSubcategory ? `
-            <select class="filter-select" id="filterSubcat" onchange="setFilter('subcategory', this.value)">
+            <select class="filter-select" onchange="setFilter('subcategory', this.value)">
                 <option value="">Категория</option>
                 <option value="t-shirts" ${f.subcategory==='t-shirts'?'selected':''}>Футболки</option>
                 <option value="longsleeves" ${f.subcategory==='longsleeves'?'selected':''}>Лонгсливы</option>
@@ -291,7 +300,7 @@ function renderGrid(products) {
                 <option value="shorts" ${f.subcategory==='shorts'?'selected':''}>Шорты</option>
                 <option value="shirts" ${f.subcategory==='shirts'?'selected':''}>Рубашки</option>
             </select>` : ''}
-            <select class="filter-select" id="filterPrice" onchange="handlePriceFilter(this.value)">
+            <select class="filter-select" onchange="handlePriceFilter(this.value)">
                 <option value="">Цена</option>
                 <option value="0-50" ${f.priceMin==='0'&&f.priceMax==='50'?'selected':''}>До 50 BYN</option>
                 <option value="50-100" ${f.priceMin==='50'&&f.priceMax==='100'?'selected':''}>50-100 BYN</option>
@@ -340,7 +349,8 @@ function handlePriceFilter(value) {
 }
 function resetAllFilters() { state.allFilters = {}; applyFiltersAndRender(); }
 
-async function showProductDetail(id) {
+// ===== Карточка товара =====
+async function showProductDetail(id, fromBack = false) {
     try {
         const p = await API.getProduct(id);
         if (!p) return;
@@ -348,7 +358,14 @@ async function showProductDetail(id) {
         state.detailImageIndex = 0;
         state.selectedColor = p.colors ? p.colors[0] : null;
         state.selectedPerfumeType = p.price_full ? 'full' : null;
+        if (!fromBack) {
+            // История: ... → product
+            if (!state.history) state.history = ['categories'];
+            state.history.push('product');
+        }
         showView('product');
+        document.getElementById('headerTitle').textContent = p.brand || 'Товар';
+        updateBackBtn();
         renderDetail();
     } catch (e) { toast('Ошибка загрузки'); }
 }
@@ -389,10 +406,7 @@ function renderDetail() {
     document.getElementById('view-product').innerHTML = html;
 }
 
-function selPerfumeType(type) {
-    state.selectedPerfumeType = type;
-    renderDetail();
-}
+function selPerfumeType(type) { state.selectedPerfumeType = type; renderDetail(); }
 function dPrev() { const p = state.currentProduct; state.detailImageIndex = (state.detailImageIndex - 1 + p.images.length) % p.images.length; updateDImg(); }
 function dNext() { const p = state.currentProduct; state.detailImageIndex = (state.detailImageIndex + 1) % p.images.length; updateDImg(); }
 function dSet(i) { state.detailImageIndex = i; updateDImg(); }
@@ -413,12 +427,22 @@ function addToCart(p, size, color) {
     if (!state.cart.find(i => i.id === item.id && i.size === item.size && i.color === item.color)) { state.cart.push(item); saveCart(); updateBadge(); toast('Добавлено в корзину'); }
     else toast('Уже в корзине');
 }
-function removeFromCart(i) { state.cart.splice(i, 1); saveCart(); updateBadge(); showCart(); }
+function removeFromCart(i) { state.cart.splice(i, 1); saveCart(); updateBadge(); showCart(true); }
 function saveCart() { localStorage.setItem('cart', JSON.stringify(state.cart)); }
 function updateBadge() { const b = document.getElementById('cartBadge'); const n = state.cart.length; b.style.display = n ? 'flex' : 'none'; if (n) b.textContent = n; }
 function getTotal() { const sub = state.cart.reduce((a, i) => a + i.price, 0); return state.promocodeDiscount ? Math.round(sub * (1 - state.promocodeDiscount / 100)) : sub; }
 
-function showCart() { showView('cart'); renderCart(); }
+// ===== Корзина =====
+function showCart(fromBack = false) {
+    if (!fromBack) {
+        if (!state.history) state.history = ['categories'];
+        state.history.push('cart');
+    }
+    showView('cart');
+    document.getElementById('headerTitle').textContent = 'Корзина';
+    updateBackBtn();
+    renderCart();
+}
 function renderCart() {
     const ct = document.getElementById('view-cart');
     if (!state.cart.length) { ct.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div class="cart-empty-text">Корзина пуста</div></div>'; return; }
@@ -430,7 +454,16 @@ function renderCart() {
 }
 async function applyPromo() { const input = document.getElementById('pi'), msg = document.getElementById('pm'), code = input.value.trim().toUpperCase(); if (!code) { msg.className = 'promo-message error'; msg.textContent = 'Введите промокод'; return; } const r = await API.validatePromo(code); if (r.valid) { state.promocodeDiscount = r.discount; state.promocodeCode = code; msg.className = 'promo-message success'; msg.textContent = 'Скидка ' + r.discount + '%'; renderCart(); } else { state.promocodeDiscount = 0; state.promocodeCode = ''; msg.className = 'promo-message error'; msg.textContent = 'Недействителен'; } }
 
-function startCheckout() { if (!state.cart.length) { toast('Корзина пуста'); return; } showView('checkout'); state.deliveryType = null; renderCheckout(); }
+// ===== Оформление =====
+function startCheckout() {
+    if (!state.cart.length) { toast('Корзина пуста'); return; }
+    state.history.push('checkout');
+    showView('checkout');
+    document.getElementById('headerTitle').textContent = 'Оформление';
+    updateBackBtn();
+    state.deliveryType = null;
+    renderCheckout();
+}
 function renderCheckout() {
     document.getElementById('view-checkout').innerHTML = `<div class="checkout-form"><div class="checkout-title">Оформление</div><div class="checkout-subtitle">Сумма: <strong>${formatPrice(getTotal())}</strong></div>
     <div class="delivery-options"><div class="delivery-option${state.deliveryType==='pickup'?' selected':''}" onclick="selDel('pickup')"><div class="delivery-option-icon">🚶</div><div class="delivery-option-name">Самовывоз</div></div>
@@ -462,8 +495,7 @@ async function submitOrder() {
     setTimeout(() => tg.close(), 2500);
 }
 
-// Колесо
-function showWheel() { showView('wheel'); renderWheel(); }
+// ===== Колесо =====
 function getWheelSpinDate() { return localStorage.getItem('wheel_spin_date'); }
 function setWheelSpinDate() { localStorage.setItem('wheel_spin_date', new Date().toDateString()); }
 function canSpinWheel() { return getWheelSpinDate() !== new Date().toDateString(); }
@@ -477,5 +509,12 @@ function renderWheel() {
 function drawWheel() { const cv = document.getElementById('wheelCanvas'); if (!cv) return; const ctx = cv.getContext('2d'), cx=150, cy=150, r=140; const sec = [{l:'5%',c:'#e8f5e9',t:'#2e7d32'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'10%',c:'#c8e6c9',t:'#1b5e20'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'5%',c:'#e8f5e9',t:'#2e7d32'},{l:'😔',c:'#f5f5f5',t:'#999'},{l:'10%',c:'#c8e6c9',t:'#1b5e20'},{l:'😔',c:'#f5f5f5',t:'#999'}]; const a = 2*Math.PI/sec.length; sec.forEach((s,i)=>{const sa=i*a-Math.PI/2,ea=(i+1)*a-Math.PI/2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath(); ctx.fillStyle=s.c; ctx.fill(); ctx.strokeStyle='#e0e0e0'; ctx.lineWidth=2; ctx.stroke(); ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+a/2); ctx.textAlign='right'; ctx.fillStyle=s.t; ctx.font='bold 16px sans-serif'; ctx.fillText(s.l,r-20,6); ctx.restore(); }); }
 function spinWheel() { const btn=document.getElementById('spinBtn'),rd=document.getElementById('wheelResult'); if(!canSpinWheel()){rd.style.display='block';rd.className='wheel-result lose';rd.textContent='Уже крутили';return;} btn.disabled=true;rd.style.display='none';setWheelSpinDate(); const results = [{d:5,l:'5%',p:'WHEEL5'},{d:0,l:'Пусто',p:null},{d:10,l:'10%',p:'WHEEL10'},{d:0,l:'Пусто',p:null},{d:5,l:'5%',p:'WHEEL5'},{d:0,l:'Пусто',p:null},{d:10,l:'10%',p:'WHEEL10'},{d:0,l:'Пусто',p:null}]; const idx=Math.floor(Math.random()*8),re=results[idx],sa=360/8,ta=360*5+(360-idx*sa-sa/2); const cv=document.getElementById('wheelCanvas'); cv.style.transition='transform 4s cubic-bezier(0.17,0.67,0.12,0.99)'; cv.style.transform=`rotate(${ta}deg)`; setTimeout(()=>{rd.style.display='block'; if(re.d>0){rd.className='wheel-result win';rd.innerHTML=`🎉 Скидка <b>${re.d}%</b>!<br>Промокод: <b>${re.p}</b><br><small>Применён к корзине</small>`; state.promocodeDiscount=re.d; state.promocodeCode=re.p; saveCart(); toast('🎉 Промокод '+re.p+' на '+re.d+'%');} else {rd.className='wheel-result lose';rd.textContent='😔 Не повезло. Завтра!';} btn.textContent='Готово';},4200); }
 
-async function init() { try { state.currencyRates = await API.getRates(); } catch (e) {} updateBadge(); showCategories(); document.getElementById('backBtn').addEventListener('click', goBack); document.getElementById('cartBtn').addEventListener('click', () => { state.viewHistory.push(state.currentView); showCart(); }); }
+// ===== Инициализация =====
+async function init() {
+    try { state.currencyRates = await API.getRates(); } catch (e) {}
+    updateBadge();
+    showCategories();
+    document.getElementById('backBtn').addEventListener('click', goBack);
+    document.getElementById('cartBtn').addEventListener('click', () => showCart());
+}
 document.addEventListener('DOMContentLoaded', init);

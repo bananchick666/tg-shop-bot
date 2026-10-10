@@ -237,85 +237,10 @@
       ],
       "inStock": true
     },
-    {
-      "id": 46,
-      "name": "Nike Zoom Pegasus 32",
-      "description": "Состояние хорошее. Размер 40-41.",
-      "price": 150,
-      "size": [40, 41],
-      "sizeNote": "40-41",
-      "color": "В ассортименте",
-      "brand": "Nike",
-      "condition": "хорошее",
-      "images": [
-        "images/nike_air_zoom_pegasus32_1.jpg",
-        "images/nike_air_zoom_pegasus32_2.jpg",
-        "images/nike_air_zoom_pegasus32_3.jpg",
-        "images/nike_air_zoom_pegasus32_4.jpg",
-        "images/nike_air_zoom_pegasus32_5.jpg"
-      ],
-      "inStock": true
-    },
-    {
-      "id": 47,
-      "name": "Adidas Nizza Platform",
-      "description": "Состояние 8,5/10. Размер 40.",
-      "price": 140,
-      "size": [40],
-      "sizeNote": "40",
-      "color": "В ассортименте",
-      "brand": "Adidas",
-      "condition": "8,5/10",
-      "images": [
-        "images/adidas_nizza_platform_1.jpg",
-        "images/adidas_nizza_platform_2.jpg",
-        "images/adidas_nizza_platform_3.jpg",
-        "images/adidas_nizza_platform_4.jpg",
-        "images/adidas_nizza_platform_5.jpg",
-        "images/adidas_nizza_platform_6.jpg"
-      ],
-      "inStock": true
-    },
-    {
-      "id": 48,
-      "name": "Adidas neo",
-      "description": "Состояние 8,5/10. Размер 39-40.",
-      "price": 130,
-      "size": [39, 40],
-      "sizeNote": "39-40",
-      "color": "В ассортименте",
-      "brand": "Adidas",
-      "condition": "8,5/10",
-      "images": [
-        "images/adidas_neo_1.jpg",
-        "images/adidas_neo_2.jpg",
-        "images/adidas_neo_3.jpg",
-        "images/adidas_neo_4.jpg",
-        "images/adidas_neo_5.jpg",
-        "images/adidas_neo_6.jpg"
-      ],
-      "inStock": true
-    },
-    {
-      "id": 49,
-      "name": "Nike React Vision",
-      "description": "Состояние хорошее. Размер 44(28 см).",
-      "price": 160,
-      "size": [44],
-      "sizeNote": "44(28 см)",
-      "color": "В ассортименте",
-      "brand": "Nike",
-      "condition": "хорошее",
-      "images": [
-        "images/nike_react_vision_1.jpg",
-        "images/nike_react_vision_2.jpg",
-        "images/nike_react_vision_3.jpg",
-        "images/nike_react_vision_4.jpg",
-        "images/nike_react_vision_5.jpg",
-        "images/nike_react_vision_6.jpg"
-      ],
-      "inStock": true
-    },
+    
+   
+   
+ 
     {
       "id": 64,
       "name": "Avangard Boots",
