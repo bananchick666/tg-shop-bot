@@ -17,7 +17,8 @@ const state = {
     selectedColor: null,
     detailImageIndex: 0,
     allProducts: [],
-    allFilters: {}
+    allFilters: {},
+    history: ['categories']
 };
 
 function getPrice(p) {
@@ -55,7 +56,7 @@ function toast(msg) {
     setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 2000);
 }
 
-// Просто показать экран (БЕЗ управления историей)
+// ===== Показ экрана (без управления историей) =====
 function showView(name) {
     document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
     const view = document.getElementById('view-' + name); if (view) view.style.display = 'block';
@@ -64,13 +65,11 @@ function showView(name) {
 }
 
 function updateBackBtn() {
-    // Стрелка скрыта только на главном экране категорий (state.currentCategory === null)
     const isRoot = state.currentView === 'categories' && !state.currentCategory;
     document.getElementById('backBtn').style.visibility = isRoot ? 'hidden' : 'visible';
 }
 
-// ===== Навигация: каждый переход управляет историей явно =====
-
+// ===== Навигация =====
 function showCategories() {
     state.currentCategory = null;
     state.currentSubcategory = null;
@@ -169,7 +168,6 @@ async function showProducts(cat, subcategory = null) {
     state.currentCategory = cat;
     state.currentSubcategory = subcategory;
     state.allFilters = {};
-    // история: главная → (подкатегории одежды, если есть) → список
     if (cat === 'clothes') {
         state.history = ['categories', 'clothes-subcategories', 'products'];
     } else {
@@ -204,7 +202,6 @@ function goBack() {
     const prev = state.history[state.history.length - 1];
 
     if (prev === 'categories') {
-        // Возврат на ГЛАВНЫЙ экран
         state.currentCategory = null;
         state.currentSubcategory = null;
         showCategories();
@@ -244,7 +241,16 @@ function applyFiltersAndRender() {
     if (f.sort === 'price_desc') products.sort((a, b) => getPrice(b) - getPrice(a));
     if (f.brand) products = products.filter(p => p.brand === f.brand);
     if (f.subcategory) products = products.filter(p => p.subcategory === f.subcategory);
-    if (f.size) products = products.filter(p => p.size && String(p.size).includes(f.size));
+    if (f.size) {
+        if (state.currentCategory === 'shoes') {
+            products = products.filter(p => p.size && String(p.size).includes(f.size));
+        } else if (state.currentCategory === 'clothes') {
+            products = products.filter(p => {
+                const note = (p.sizeNote || '').toUpperCase();
+                return note.split(/[\/\-\s]+/).includes(f.size);
+            });
+        }
+    }
     if (f.condition) {
         products = products.filter(p => {
             const c = (p.condition || '').toLowerCase();
@@ -265,6 +271,9 @@ function renderGrid(products) {
     const brands = [...new Set(state.allProducts.map(p => p.brand).filter(Boolean))];
     const f = state.allFilters;
 
+    const shoeSizes = ['38','39','40','41','42','43','44','45','46'];
+    const clothesSizes = ['XS','S','M','L','XL','XXL'];
+
     document.getElementById('view-products').innerHTML = `
         <div class="filters-bar">
             <select class="filter-select" onchange="setFilter('sort', this.value)">
@@ -279,8 +288,14 @@ function renderGrid(products) {
             ${isShoes ? `
             <select class="filter-select" onchange="setFilter('size', this.value)">
                 <option value="">Размер</option>
-                ${['38','39','40','41','42','43','44','45','46'].map(s => `<option value="${s}" ${f.size===s?'selected':''}>${s}</option>`).join('')}
-            </select>
+                ${shoeSizes.map(s => `<option value="${s}" ${f.size===s?'selected':''}>${s}</option>`).join('')}
+            </select>` : ''}
+            ${isClothes ? `
+            <select class="filter-select" onchange="setFilter('size', this.value)">
+                <option value="">Размер</option>
+                ${clothesSizes.map(s => `<option value="${s}" ${f.size===s?'selected':''}>${s}</option>`).join('')}
+            </select>` : ''}
+            ${(isShoes || isClothes) ? `
             <select class="filter-select" onchange="setFilter('condition', this.value)">
                 <option value="">Состояние</option>
                 <option value="new" ${f.condition==='new'?'selected':''}>Новое</option>
@@ -359,7 +374,6 @@ async function showProductDetail(id, fromBack = false) {
         state.selectedColor = p.colors ? p.colors[0] : null;
         state.selectedPerfumeType = p.price_full ? 'full' : null;
         if (!fromBack) {
-            // История: ... → product
             if (!state.history) state.history = ['categories'];
             state.history.push('product');
         }
