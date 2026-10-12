@@ -468,6 +468,257 @@
       ],
       "inStock": true
     },
+
+    {
+      "id": 100,
+      "name": "мужские джинсы WESTLAND CASUAL WEAR",
+      "description": "состояние отличное. Размер L-XL. Замеры: п.о. - 47 см, бедро - 32 см, длина - 114 см, выход - 23 см",
+      "price": 80,
+      "size": [50, 52],
+      "sizeNote": "L-XL",
+      "color": "В ассортименте",
+      "brand": "WESTLAND",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/westlandcasual_1.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 101,
+      "name": "мужские джинсы WESTLAND REGULAR FIT",
+      "description": "состояние отличное. Размер L-XL. Замеры: п.о. - 47 см, бедро - 33 см, длина - 120 см, выход - 25 см",
+      "price": 80,
+      "size": [50, 52],
+      "sizeNote": "L-XL",
+      "color": "В ассортименте",
+      "brand": "WESTLAND",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/westlandregular_1.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 102,
+      "name": "женские джинсы LEVIS BOOT CUT 572",
+      "description": "состояние отличное. Размер S-M. Замеры: п.о. - 40 см, бедро - 27 см, длина - 102 см, выход - 24 см",
+      "price": 80,
+      "size": [46, 48],
+      "sizeNote": "S-M",
+      "color": "В ассортименте",
+      "brand": "LEVIS",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/levisbootcut_1.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 103,
+      "name": "мужские джинсы WORKER",
+      "description": "состояние хорошее. Размер M-L. Замеры: п.о. - 41-45 см, бедро - 33 см, длина - 102 см, выход - 28 см",
+      "price": 60,
+      "size": [48, 50],
+      "sizeNote": "M-L",
+      "color": "В ассортименте",
+      "brand": "nn",
+      "condition": "состоянее хорошее.",
+      "subcategory": "pants",
+      "images": [
+        "images/worker.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 104,
+      "name": "мужские джинсы TOMMY HILFIGER SKINNY FIT",
+      "description": "состояние хорошее. Размер S-M. Замеры: п.о. - 42 см, бедро - 25 см, длина - 103 см, выход - 15 см",
+      "price": 40,
+      "size": [46, 48],
+      "sizeNote": "S-M",
+      "color": "В ассортименте",
+      "brand": "TOMMY HILFIGER",
+      "condition": "состоянее хорошее.",
+      "subcategory": "pants",
+      "images": [
+        "images/tommyhilfigerskinny.jpg"
+       
+      ],
+      "inStock": true
+    },
+    {
+      "id": 105,
+      "name": "мужские джинсы PULL&BEAR SKINNY FIT",
+      "description": "состояние хорошее. Размер S-M. Замеры: п.о. - 43 см, бедро - 27 см, длина - 103 см, выход - 17 см",
+      "price": 40,
+      "size": [46, 48],
+      "sizeNote": "S-M",
+      "color": "В ассортименте",
+      "brand": "PULL&BEAR",
+      "condition": "состоянее хорошее.",
+      "subcategory": "pants",
+      "images": [
+        "images/pull&bearskinny.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+     {
+      "id": 106,
+      "name": "мужские джинсы TOMMY HILFIGER SKINNY FIT",
+      "description": "состояние хорошее. Размер S-M. Замеры: п.о. - 43 см, бедро - 29 см, длина - 106 см, выход - 16 см",
+      "price": 40,
+      "size": [46, 48],
+      "sizeNote": "S-M",
+      "color": "В ассортименте",
+      "brand": "TOMMY HILFIGER",
+      "condition": "состоянее хорошее.",
+      "subcategory": "pants",
+      "images": [
+        "images/tommyhilfigerskinny2.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 107,
+      "name": "мужские джинсы WESTLAND SLIME FIT",
+      "description": "состояние отличное. Размер L-XL. Замеры: п.о. - 49 см, бедро - 31 см, длина - 118 см, выход - 20 см",
+      "price": 80,
+      "size": [50, 52],
+      "sizeNote": "L-XL",
+      "color": "В ассортименте",
+      "brand": "WESTLAND",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/westlendslime.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+     {
+      "id": 108,
+      "name": "мужские джинсы MOONINTROLL прямые",
+      "description": "состояние отличное. Размер S-M. Замеры: п.о. - 41 см, бедро - 31 см, длина - 98 см, выход - 23 см",
+      "price": 80,
+      "size": [46, 48],
+      "sizeNote": "S-M",
+      "color": "В ассортименте",
+      "brand": "MOONINTROLL",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/moonintroll.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 109,
+      "name": "женские джинсы R.marks клеш",
+    "description": "состояние хорошее. Размер XS-S. Замеры: п.о. - 35 см, бедро - 22 см, длина - 99 см, выход - 21 см",
+      "price": 80,
+      "size": [44, 46],
+      "sizeNote": "XS-S",
+      "color": "В ассортименте",
+      "brand": "R.marks",
+      "condition": "состоянее хорошее.",
+      "subcategory": "pants",
+      "images": [
+        "images/r_marks.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 110,
+      "name": "женские джинсы клеш",
+    "description": "состояние отличное. Размер XS-S. Замеры: п.о. - 35 см, бедро - 32 см, длина - 109 см, выход - 22 см",
+      "price": 80,
+      "size": [44, 46],
+      "sizeNote": "XS-S",
+      "color": "В ассортименте",
+      "brand": "nn",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/klesh.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 111,
+      "name": "мужские джинсы HOLLISTER SKINNY FIT",
+    "description": "состояние хорошее. Размер S-M. Замеры: п.о. - 43 см, бедро - 27 см, длина - 104 см, выход - 17 см",
+      "price": 40,
+      "size": [46, 48],
+      "sizeNote": "S-M",
+      "color": "В ассортименте",
+      "brand": "HOLLISTER",
+      "condition": "состоянее хорошее.",
+      "subcategory": "pants",
+      "images": [
+        "images/hollisterskinny.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+     {
+      "id": 112,
+      "name": "женские джинсы прямые укороченные",
+    "description": "состояние отличное. Размер XS-S. Замеры: п.о. - 35 см, бедро - 24 см, длина - 93 см, выход - 29 см",
+      "price": 80,
+      "size": [44, 46],
+      "sizeNote": "XS-S",
+      "color": "В ассортименте",
+      "brand": "nn",
+      "condition": "состоянее отличное.",
+      "subcategory": "pants",
+      "images": [
+        "images/woomen.jpg"
+       
+      ],
+      "inStock": true
+    },
+
+    {
+      "id": 113,
+      "name": "женские джинсы BLIND DATE клеш",
+    "description": "состояние хорошее. Размер XS-S. Замеры: п.о. - 38 см, бедро - 23 см, длина - 97 см, выход - 16 см",
+      "price": 80,
+      "size": [44, 46],
+      "sizeNote": "XS-S",
+      "color": "В ассортименте",
+      "brand": "BLIND DATE",
+      "condition": "состоянее хорошее.",
+      "subcategory": "pants",
+      "images": [
+        "images/blinddate.jpg"
+       
+      ],
+      "inStock": true
+    },
     {
       "id": 74,
       "name": "Жилетка Stussy",
